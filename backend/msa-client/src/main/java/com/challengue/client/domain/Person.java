@@ -17,7 +17,7 @@ public class Person {
   Integer personId;
   String identification;
   String name;
-  Gender gender;
+  String gender;
   Integer age;
   String address;
   String phone;

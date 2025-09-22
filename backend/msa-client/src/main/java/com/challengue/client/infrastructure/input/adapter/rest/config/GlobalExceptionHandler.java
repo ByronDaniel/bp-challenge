@@ -46,6 +46,15 @@ public class GlobalExceptionHandler {
     return buildResponseEntity(CONFLICT, ex.getMessage(), HttpStatus.CONFLICT);
   }
 
+  @ExceptionHandler(IllegalArgumentException.class)
+  public ResponseEntity<ErrorsDto> handleIllegalArgumentException(IllegalArgumentException ex) {
+    List<ErrorDto> errorDtos = List.of(
+        buildErrorDto(FIELDS_ARE_NOT_CORRECT, ex.getMessage())
+    );
+    ErrorsDto errorsDto = buildErrorsDto(BAD_REQUEST, FIELDS_ARE_NOT_CORRECT, errorDtos);
+    return ResponseEntity.badRequest().body(errorsDto);
+  }
+
   @ExceptionHandler(Exception.class)
   public ResponseEntity<ErrorsDto> handleGenericException(Exception ex) {
     log.error(UNEXPECTED_ERROR, ex.getMessage(), ex);

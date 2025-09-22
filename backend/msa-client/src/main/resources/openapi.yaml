@@ -227,6 +227,10 @@ components:
           type: string
           description: Gender
           nullable: false
+          enum:
+            - Masculino
+            - Femenino
+            - Otro
           example: "Masculino"
         age:
           type: integer
