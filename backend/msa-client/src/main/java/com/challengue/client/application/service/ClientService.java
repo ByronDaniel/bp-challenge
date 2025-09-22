@@ -1,7 +1,7 @@
 package com.challengue.client.application.service;
 
-import static com.challengue.client.application.utils.Constants.CLIENT_ALREADY_EXISTS;
-import static com.challengue.client.application.utils.Constants.CLIENT_NOT_FOUND;
+import static com.challengue.client.application.service.utils.Constants.CLIENT_ALREADY_EXISTS;
+import static com.challengue.client.application.service.utils.Constants.CLIENT_NOT_FOUND;
 
 import com.challengue.client.application.input.port.ClientInputPort;
 import com.challengue.client.application.output.port.ClientOutputPort;

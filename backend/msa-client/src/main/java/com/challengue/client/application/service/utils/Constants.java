@@ -1,4 +1,4 @@
-package com.challengue.client.application.utils;
+package com.challengue.client.application.service.utils;
 
 public final class Constants {
 
