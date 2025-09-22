@@ -1,0 +1,344 @@
+openapi: 3.0.0
+info:
+  version: 1.0.1
+  title: Client Management Service
+  description: Service that performs client CRUD
+  contact:
+    name: Byron Delgado
+    email: bydelgad@pichincha.com
+servers:
+  - url: http://localhost:8090
+    description: Localhost
+
+paths:
+  /clientes:
+    get:
+      tags:
+        - Client Management
+      summary: Obtain the list of clients
+      description: Returns the list of clients.
+      operationId: getAll
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ClientResponseDto'
+        "500":
+          $ref: "#/components/responses/500"
+        "504":
+          $ref: "#/components/responses/504"
+    post:
+      tags:
+        - Client Management
+      summary: Create a new client
+      description: Returns the new client.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClientRequestDto'
+      operationId: Save
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClientResponseDto'
+        "400":
+          $ref: "#/components/responses/400"
+        "500":
+          $ref: "#/components/responses/500"
+        "504":
+          $ref: "#/components/responses/504"
+  /clientes/{id}:
+    put:
+      tags:
+        - Client Management
+      summary: Update a client
+      description: Returns the updated client.
+      parameters:
+        - name: id
+          in: path
+          description: Client Id
+          required: true
+          schema:
+            type: integer
+            example: 1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClientRequestDto'
+      operationId: updateById
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClientResponseDto'
+        "400":
+          $ref: "#/components/responses/400"
+        "404":
+          $ref: "#/components/responses/404"
+        "500":
+          $ref: "#/components/responses/500"
+        "504":
+          $ref: "#/components/responses/504"
+    get:
+      tags:
+        - Client Management
+      summary: Obtain a client by Id
+      description: Returns a client.
+      parameters:
+        - name: id
+          in: path
+          description: Client Identification
+          required: true
+          schema:
+            type: integer
+            example: 1
+      operationId: getById
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClientResponseDto'
+        "404":
+          $ref: "#/components/responses/404"
+        "500":
+          $ref: "#/components/responses/500"
+        "504":
+          $ref: "#/components/responses/504"
+    delete:
+      tags:
+        - Client Management
+      summary: Delete a client by Id
+      description: Returns a void
+      parameters:
+        - name: id
+          in: path
+          description: Client Id
+          required: true
+          schema:
+            type: integer
+            example: 1
+      operationId: DeleteById
+      responses:
+        "204":
+          description: No Content
+        "400":
+          $ref: "#/components/responses/400"
+        "404":
+          $ref: "#/components/responses/404"
+        "500":
+          $ref: "#/components/responses/500"
+        "504":
+          $ref: "#/components/responses/504"
+components:
+  responses:
+    "400":
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorsDto"
+          example:
+            title: Missing mandatory fields.
+            detail: The input fields are not correct
+            errors:
+              - message: Bad Request
+                businessMessage: The xyz field is mandatory
+            instance: "022"
+            type: /v1/name/pathSuffix
+    "404":
+      description: Not Found
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorsDto"
+          example:
+            title: Not Found
+            detail: Path not found
+            instance: "404"
+            type: /v1/name/pathSuffix
+    "500":
+      description: Internal Server ErrorDto
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorsDto"
+          example:
+            title: Internal Server
+            detail: An internal error occurred, we are reviewing it.
+            instance: "0000"
+            type: /v1/name/pathSuffix
+            #resource: /xx/v1/yyy
+    "504":
+      description: Gateway Timeout
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorsDto"
+          example:
+            title: Gateway Timeout. Request timeout exceeded. If it happens repeatedly, consider reducing the request complexity.
+            detail: Gateway connection problems.
+            instance: "504"
+            type: /v1/name/pathSuffix
+  schemas:
+    ClientResponseDto:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Client Id
+          nullable: false
+          example: 1
+        password:
+          type: string
+          description: Password
+          nullable: false
+          example: helloworld123*
+        status:
+          type: boolean
+          description: Status
+          nullable: false
+          example: true
+        identification:
+          type: string
+          description: Identification number
+          nullable: false
+          example: "1751592013"
+        name:
+          type: string
+          description: Name
+          nullable: false
+          example: "Byron Delgado"
+        gender:
+          type: string
+          description: Gender
+          nullable: false
+          example: "Masculino"
+        age:
+          type: integer
+          description: Age
+          minimum: 0
+          nullable: false
+          example: 29
+        address:
+          type: string
+          description: Address
+          nullable: false
+          example: "E11A y S81"
+        phone:
+          type: string
+          description: Phone
+          nullable: false
+          example: "0985350314"
+    ClientRequestDto:
+      type: object
+      properties:
+        identification:
+          type: string
+          description: Identification number
+          pattern: '^\d{10}$'
+          nullable: false
+          example: "1751592013"
+        name:
+          type: string
+          description: Name
+          minLength: 1
+          maxLength: 50
+          nullable: false
+          example: "Byron Delgado"
+        gender:
+          type: string
+          description: Gender
+          minLength: 1
+          maxLength: 10
+          nullable: false
+          example: "Masculino"
+        age:
+          type: integer
+          description: Age
+          minimum: 18
+          nullable: false
+          example: 29
+        address:
+          type: string
+          description: Address
+          minLength: 1
+          nullable: false
+          example: "E11A y S81"
+        phone:
+          type: string
+          description: Phone
+          pattern: '^\d{10}$'
+          nullable: false
+          example: "0985350314"
+        password:
+          type: string
+          description: Password
+          minLength: 6
+          maxLength: 20
+          nullable: false
+          example: helloworld123*
+        status:
+          type: boolean
+          description: Status
+          nullable: false
+          example: true
+      required:
+        - identification
+        - name
+        - gender
+        - age
+        - address
+        - phone
+        - password
+        - status
+    ErrorDto:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Detail message
+          nullable: false
+        businessMessage:
+          type: string
+          description: Business error message
+          nullable: false
+    ErrorsDto:
+      type: object
+      properties:
+        title:
+          type: string
+          description: Technical error message
+          nullable: false
+          example: Missing mandatory fields.
+        detail:
+          type: string
+          description: Message to display to the client
+          nullable: false
+          example: The input fields are not correct
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorDto'
+          nullable: true
+        instance:
+          type: string
+          description: ErrorDto catalog code
+          nullable: false
+          example: "022"
+        type:
+          type: string

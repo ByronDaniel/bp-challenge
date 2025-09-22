@@ -1,0 +1,185 @@
+openapi: 3.0.0
+info:
+  version: 1.0.1
+  title: Report Service
+  description: Service that performs report of movements
+  contact:
+    name: Byron Delgado
+    email: bydelgad@pichincha.com
+servers:
+  - url: http://localhost:8080
+    description: Localhost
+
+paths:
+  /reporte:
+    get:
+      tags:
+        - Reports
+      summary: Obtain a report of movements filter by date and client id
+      description: Returns the list of movements filter by date and client id.
+      parameters:
+        - in: query
+          name: fecha
+          required: true
+          description: "format date yyyy-MM-dd,yyyy-MM-dd"
+          schema:
+            type: string
+        - in: query
+          name: clientId
+          required: true
+          description: client Id
+          schema:
+            type: integer
+      operationId: getReportByFilter
+      responses:
+        "200":
+          description: Get movements for a specific identification and date range
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/MovementReportResponseDto'
+        "404":
+          $ref: "#/components/responses/404"
+        "500":
+          $ref: "#/components/responses/500"
+        "504":
+          $ref: "#/components/responses/504"
+components:
+  responses:
+    "400":
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorsDto"
+          example:
+            title: Missing mandatory fields.
+            detail: The input fields are not correct
+            errors:
+              - message: Bad Request
+                businessMessage: The xyz field is mandatory
+            instance: "022"
+            type: /v1/name/pathSuffix
+    "404":
+      description: Not Found
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorsDto"
+          example:
+            title: Not Found
+            detail: Path not found
+            instance: "404"
+            type: /v1/name/pathSuffix
+    "500":
+      description: Internal Server Error
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorsDto"
+          example:
+            title: Internal Server
+            detail: An internal error occurred, we are reviewing it.
+            instance: "0000"
+            type: /v1/name/pathSuffix
+            #resource: /xx/v1/yyy
+    "504":
+      description: Gateway Timeout
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorsDto"
+          example:
+            title: Gateway Timeout. Request timeout exceeded. If it happens repeatedly, consider reducing the request complexity.
+            detail: Gateway connection problems.
+            instance: "504"
+            type: /v1/name/pathSuffix
+  schemas:
+    MovementReportResponseDto:
+      type: object
+      properties:
+        date:
+          type: string
+          description: Date
+          nullable: false
+          example: "12/03/2024"
+        name:
+          type: string
+          description: customer Name
+          nullable: false
+          example: "Byron Delgado"
+        numberAccount:
+          type: string
+          description: NumberAccount
+          nullable: false
+          example: "8292338924"
+        typeAccount:
+          type: string
+          description: Type Account
+          nullable: false
+          example: Ahorros
+        movementType:
+          type: string
+          description: Movement Type
+          nullable: false
+          example: Deposito
+        initialBalance:
+          type: number
+          format: double
+          description: Value
+          nullable: false
+          example: 0
+        value:
+          type: number
+          format: double
+          description: Value
+          nullable: false
+          example: 150.35
+        balance:
+          type: number
+          format: double
+          description: Balance
+          nullable: false
+          example: 350.35
+        status:
+          type: boolean
+          description: Account Status
+          nullable: false
+          example: true
+    ErrorDto:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Detail message
+          nullable: false
+        businessMessage:
+          type: string
+          description: Business error message
+          nullable: false
+    ErrorsDto:
+      type: object
+      properties:
+        title:
+          type: string
+          description: Technical error message
+          nullable: false
+          example: Missing mandatory fields.
+        detail:
+          type: string
+          description: Message to display to the client
+          nullable: false
+          example: The input fields are not correct
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorDto'
+        instance:
+          type: string
+          description: Error catalog code
+          nullable: false
+          example: "022"
+        type:
+          type: string
