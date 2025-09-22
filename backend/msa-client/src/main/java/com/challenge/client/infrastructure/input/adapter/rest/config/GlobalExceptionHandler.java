@@ -6,6 +6,9 @@ import static com.challenge.client.infrastructure.exception.utils.Constants.FIEL
 import static com.challenge.client.infrastructure.exception.utils.Constants.INTERNAL_SERVER_ERROR_AN_UNEXPECTED_ERROR_OCCURRED;
 import static com.challenge.client.infrastructure.exception.utils.Constants.NOT_FOUND;
 import static com.challenge.client.infrastructure.exception.utils.Constants.UNEXPECTED_ERROR;
+import static com.challenge.client.infrastructure.exception.utils.ExceptionUtils.buildErrorDto;
+import static com.challenge.client.infrastructure.exception.utils.ExceptionUtils.buildErrorsDto;
+import static com.challenge.client.infrastructure.exception.utils.ExceptionUtils.buildResponseEntity;
 
 import com.challenge.client.infrastructure.exception.ConflictException;
 import com.challenge.client.infrastructure.exception.NotFoundException;
@@ -71,26 +74,5 @@ public class GlobalExceptionHandler {
     return buildResponseEntity(INTERNAL_SERVER_ERROR_AN_UNEXPECTED_ERROR_OCCURRED,
         ex.getMessage(),
         HttpStatus.INTERNAL_SERVER_ERROR);
-  }
-
-  private ResponseEntity<ErrorsDto> buildResponseEntity(String title, String detail,
-      HttpStatus status) {
-    ErrorsDto errorsDto = buildErrorsDto(title, detail, null);
-    return new ResponseEntity<>(errorsDto, status);
-  }
-
-  private ErrorsDto buildErrorsDto(String title, String detail, List<ErrorDto> errors) {
-    ErrorsDto dto = new ErrorsDto();
-    dto.setTitle(title);
-    dto.setDetail(detail);
-    dto.setErrors(errors);
-    return dto;
-  }
-
-  private ErrorDto buildErrorDto(String message, String businessMessage) {
-    ErrorDto errorDto = new ErrorDto();
-    errorDto.setMessage(message);
-    errorDto.setBusinessMessage(businessMessage);
-    return errorDto;
   }
 }
