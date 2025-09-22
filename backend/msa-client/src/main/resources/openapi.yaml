@@ -267,9 +267,11 @@ components:
         gender:
           type: string
           description: Gender
-          minLength: 1
-          maxLength: 10
           nullable: false
+          enum:
+            - Masculino
+            - Femenino
+            - Otro
           example: "Masculino"
         age:
           type: integer

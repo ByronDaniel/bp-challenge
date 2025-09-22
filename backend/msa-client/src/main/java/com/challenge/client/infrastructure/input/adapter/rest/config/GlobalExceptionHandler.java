@@ -18,10 +18,20 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.support.WebExchangeBindException;
+import org.springframework.web.server.ServerWebInputException;
 
 @ControllerAdvice
 @Slf4j
 public class GlobalExceptionHandler {
+
+  @ExceptionHandler(ServerWebInputException.class)
+  public ResponseEntity<ErrorsDto> handleServerWebInputException(ServerWebInputException ex) {
+    List<ErrorDto> errorDtos = List.of(
+        buildErrorDto(FIELDS_ARE_NOT_CORRECT, ex.getCause().getMessage())
+    );
+    ErrorsDto errorsDto = buildErrorsDto(BAD_REQUEST, FIELDS_ARE_NOT_CORRECT, errorDtos);
+    return ResponseEntity.badRequest().body(errorsDto);
+  }
 
   @ExceptionHandler(WebExchangeBindException.class)
   public ResponseEntity<ErrorsDto> handleWebExchangeBindException(WebExchangeBindException ex) {

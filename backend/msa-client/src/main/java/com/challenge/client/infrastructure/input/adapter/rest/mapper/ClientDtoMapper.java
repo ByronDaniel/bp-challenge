@@ -17,11 +17,17 @@ public interface ClientDtoMapper {
 
   @Mapping(target = "clientId", ignore = true)
   @Mapping(target = "personId", ignore = true)
+  @Mapping(target = "gender", source = "gender", qualifiedByName = "mapGender")
   Client toClient(ClientRequestDto clientRequestDto);
 
 
   @Named("mapGenderEnum")
   default GenderEnum mapGenderEnum(String gender) {
     return GenderEnum.fromValue(gender);
+  }
+
+  @Named("mapGender")
+  default String mapGender(ClientRequestDto.GenderEnum gender) {
+    return gender.getValue();
   }
 }

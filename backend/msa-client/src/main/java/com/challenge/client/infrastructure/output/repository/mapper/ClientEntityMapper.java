@@ -21,13 +21,12 @@ public interface ClientEntityMapper {
 
   ClientEntity toClientEntity(Client client);
 
-  @Mapping(target = "id", source = "personId")
   PersonEntity toPersonEntity(Person person);
 
   @InheritInverseConfiguration
   Person toPerson(PersonEntity personEntity);
 
   @Mapping(target = "clientId", source = "clientEntity.clientId")
-  @Mapping(target = "personId", source = "personEntity.id")
+  @Mapping(target = "personId", source = "personEntity.personId")
   Client toClient(ClientEntity clientEntity, PersonEntity personEntity);
 }

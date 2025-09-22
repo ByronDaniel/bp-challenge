@@ -18,11 +18,11 @@ import reactor.util.function.Tuples;
 public class ClientPersonRepositoryImpl implements ClientPersonRepository {
 
   private static final String BASE_SELECT = """
-      SELECT c.id, c.password, c.status,
-             p.id AS personId, p.name, p.gender, p.age,
+      SELECT c.client_id, c.password, c.status,
+             p.person_id, p.name, p.gender, p.age,
              p.identification, p.address, p.phone
       FROM clients c
-      JOIN persons p ON c.personId = p.id
+      JOIN persons p ON c.person_id = p.person_id
       """;
 
   private final DatabaseClient client;
@@ -36,7 +36,7 @@ public class ClientPersonRepositoryImpl implements ClientPersonRepository {
 
   @Override
   public Mono<Tuple2<ClientEntity, PersonEntity>> findByIdWithPerson(Integer id) {
-    return client.sql(BASE_SELECT + " WHERE c.id = :id")
+    return client.sql(BASE_SELECT + " WHERE c.client_id = :id")
         .bind("id", id)
         .map(this::mapRow)
         .one();
@@ -44,13 +44,13 @@ public class ClientPersonRepositoryImpl implements ClientPersonRepository {
 
   private Tuple2<ClientEntity, PersonEntity> mapRow(Row row, RowMetadata meta) {
     ClientEntity clientEntity = new ClientEntity();
-    clientEntity.setClientId(row.get("id", Integer.class));
+    clientEntity.setClientId(row.get("client_id", Integer.class));
     clientEntity.setPassword(row.get("password", String.class));
     clientEntity.setStatus(row.get("status", Boolean.class));
-    clientEntity.setPersonId(row.get("personId", Integer.class));
+    clientEntity.setPersonId(row.get("person_id", Integer.class));
 
     PersonEntity personEntity = new PersonEntity();
-    personEntity.setId(row.get("personId", Integer.class));
+    personEntity.setPersonId(row.get("person_id", Integer.class));
     personEntity.setName(row.get("name", String.class));
     personEntity.setGender(row.get("gender", String.class));
     personEntity.setAge(row.get("age", Integer.class));
