@@ -53,7 +53,7 @@ public class MovementService implements MovementInputPort {
 
     return movementOutputPort.save(movement)
         .flatMap(savedMovement ->
-            accountOutputPort.updateById(account.getId(), account)
+            accountOutputPort.updateById(account.getAccountId(), account)
                 .thenReturn(savedMovement)
         );
   }

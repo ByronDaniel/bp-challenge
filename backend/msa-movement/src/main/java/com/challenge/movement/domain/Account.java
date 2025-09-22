@@ -15,9 +15,9 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = lombok.AccessLevel.PRIVATE)
 public class Account {
 
-  Integer id;
-  String numberAccount;
-  String accountType;
+  Integer accountId;
+  String number;
+  String type;
   BigDecimal balance;
   Boolean status;
   Integer clientId;
