@@ -1,0 +1,18 @@
+server:
+  port: 8080
+
+logging:
+  level:
+    org.springframework.data.r2dbc: DEBUG
+
+spring:
+  application:
+    name: msa-client
+
+  jackson:
+    default-property-inclusion: non_null
+    
+  r2dbc:
+    url: r2dbc:pool:mssql://sqlserver:1433/challengue
+    username: sa
+    password: Holamundo11*
