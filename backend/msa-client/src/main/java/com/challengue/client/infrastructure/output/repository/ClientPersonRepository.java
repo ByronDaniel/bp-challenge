@@ -1,0 +1,14 @@
+package com.challengue.client.infrastructure.output.repository;
+
+import com.challengue.client.infrastructure.output.repository.entity.ClientEntity;
+import com.challengue.client.infrastructure.output.repository.entity.PersonEntity;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+import reactor.util.function.Tuple2;
+
+public interface ClientPersonRepository {
+
+  Flux<Tuple2<ClientEntity, PersonEntity>> findAllWithPerson();
+
+  Mono<Tuple2<ClientEntity, PersonEntity>> findByIdWithPerson(Integer id);
+}
