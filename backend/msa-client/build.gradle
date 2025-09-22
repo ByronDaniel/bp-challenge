@@ -17,7 +17,7 @@ plugins {
 
 apply plugin: "org.openapi.generator"
 
-group = 'com.challengue'
+group = 'com.challenge'
 version = '0.0.1-SNAPSHOT'
 description = 'Client Management'
 
@@ -59,8 +59,8 @@ task buildSpringServer(type: org.openapitools.generator.gradle.plugin.tasks.Gene
     templateDir = "$rootDir/src/main/resources/openapi-templates"
     inputSpec = "$rootDir/src/main/resources/openapi.yaml".toString()
     outputDir = "$buildDir/generated".toString()
-    apiPackage = "com.challengue.services.server"
-    modelPackage = "com.challengue.services.server.models"
+    apiPackage = "com.challenge.services.server"
+    modelPackage = "com.challenge.services.server.models"
     library = "spring-boot"
     configOptions = [
             skipDefaultInterface                    : "true",
@@ -72,9 +72,9 @@ task buildSpringServer(type: org.openapitools.generator.gradle.plugin.tasks.Gene
             reactive                                : "true",
             apiFirst                                : "false",
             delegatePattern                         : "false",
-            configPackage                           : "com.challengue.services.config",
+            configPackage                           : "com.challenge.services.config",
             sourceFolder                            : "src/main/java",
-            basePackage                             : "com.challengue",
+            basePackage                             : "com.challenge",
             disallowAdditionalPropertiesIfNotPresent: "true",
             interfaceOnly                           : "true"
     ]

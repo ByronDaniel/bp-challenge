@@ -2,8 +2,8 @@ FROM eclipse-temurin:21-jdk
 
 WORKDIR /opt/app
 
-COPY build/libs/*.jar msa-client.jar
+COPY build/libs/*.jar app.jar
 
 EXPOSE 8080
 
-ENTRYPOINT ["java", "-jar", "msa-client.jar"]
+ENTRYPOINT ["java", "-jar", "app.jar"]
