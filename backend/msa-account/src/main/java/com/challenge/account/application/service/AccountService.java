@@ -8,15 +8,17 @@ import com.challenge.account.application.output.port.AccountOutputPort;
 import com.challenge.account.domain.Account;
 import com.challenge.account.infrastructure.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Service
 @RequiredArgsConstructor
+@FieldDefaults(level = lombok.AccessLevel.PRIVATE, makeFinal = true)
 public class AccountService implements AccountInputPort {
 
-  private final AccountOutputPort accountOutputPort;
+  AccountOutputPort accountOutputPort;
 
   @Override
   public Flux<Account> getAll() {
