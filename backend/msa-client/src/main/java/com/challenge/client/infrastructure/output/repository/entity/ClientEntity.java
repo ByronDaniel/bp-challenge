@@ -13,11 +13,8 @@ import org.springframework.data.relational.core.mapping.Table;
 public class ClientEntity {
 
   @Id
-  @Column("id")
   private Integer clientId;
+  private Integer personId;
   private String password;
   private Boolean status;
-
-  @Column("personId")
-  private Integer personId;
 }
