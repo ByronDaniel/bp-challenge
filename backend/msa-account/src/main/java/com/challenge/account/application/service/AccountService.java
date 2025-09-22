@@ -41,17 +41,17 @@ public class AccountService implements AccountInputPort {
   public Mono<Account> updateById(Integer id, Account account) {
     return accountOutputPort.findById(id)
         .switchIfEmpty(Mono.error(new NotFoundException(ACCOUNT_NOT_FOUND)))
-        .flatMap(existingAccount -> {
+        .flatMap(existingAccount -> Mono.defer(() -> {
           existingAccount.setBalance(account.getBalance());
           existingAccount.setStatus(account.getStatus());
           return accountOutputPort.save(existingAccount);
-        });
+        }));
   }
 
   @Override
   public Mono<Void> deleteById(Integer id) {
     return accountOutputPort.findById(id)
         .switchIfEmpty(Mono.error(new NotFoundException(ACCOUNT_NOT_FOUND)))
-        .flatMap(account -> accountOutputPort.deleteById(id));
+        .flatMap(account -> Mono.defer(() -> accountOutputPort.deleteById(id)));
   }
 }
