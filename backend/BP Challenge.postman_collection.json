@@ -257,6 +257,65 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "movimientos",
+			"item": [
+				{
+					"name": "getAll",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8082/movimientos",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8082",
+							"path": [
+								"movimientos"
+							],
+							"query": [
+								{
+									"key": "accountId",
+									"value": "5",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": " {\r\n    \"type\": \"Credito\",\r\n    \"value\": 1.2,\r\n    \"accountId\": 5\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8082/movimientos",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8082",
+							"path": [
+								"movimientos"
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		}
 	]
 }
