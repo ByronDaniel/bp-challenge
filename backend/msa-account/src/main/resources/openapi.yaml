@@ -198,20 +198,23 @@ components:
     AccountResponseDto:
       type: object
       properties:
-        id:
+        accountId:
           type: integer
           description: Account Id
           nullable: false
           example: 1
-        numberAccount:
+        number:
           type: string
           description: Number Account
           nullable: false
           example: 11111111111
-        accountType:
+        type:
           type: string
           description: Account Type
           nullable: false
+          enum:
+            - Ahorros
+            - Corriente
           example: Ahorros
         balance:
           type: number
@@ -233,10 +236,13 @@ components:
     AccountRequestDto:
       type: object
       properties:
-        accountType:
+        type:
           type: string
           description: AccountType
           nullable: false
+          enum:
+            - Ahorros
+            - Corriente
           example: "Ahorros"
         balance:
           type: number
@@ -255,7 +261,7 @@ components:
           nullable: false
           example: 1
       required:
-        - accountType
+        - type
         - balance
         - status
         - clientId
