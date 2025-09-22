@@ -4,4 +4,6 @@ public final class Constants {
 
   public static final String ACCOUNT_NOT_FOUND = "Account not found";
 
+  private Constants() {
+  }
 }
