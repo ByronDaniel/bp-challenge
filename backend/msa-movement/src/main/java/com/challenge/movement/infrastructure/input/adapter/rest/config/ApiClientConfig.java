@@ -1,6 +1,7 @@
 package com.challenge.movement.infrastructure.input.adapter.rest.config;
 
 import jakarta.validation.constraints.NotNull;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import task___buildSpringClient0__property__packageName_.clients0.client.AccountManagementApi;
@@ -8,12 +9,15 @@ import task___buildSpringClient0__property__packageName_.clients0.client.Account
 @Configuration
 public class ApiClientConfig {
 
+  @Value("${spring.services.msa-account.url}")
+  private String msaAccountUrl;
+
   @NotNull
   @Bean
   public AccountManagementApi accountManagementApi() {
     final var accountManagementApi = new AccountManagementApi();
     accountManagementApi.getApiClient()
-        .setBasePath("http://localhost:8081");
+        .setBasePath(msaAccountUrl);
     return accountManagementApi;
   }
 }

@@ -16,3 +16,7 @@ spring:
     url: r2dbc:pool:mssql://sqlserver:1433/challenge
     username: sa
     password: Holamundo11*
+
+  services:
+    msa-account:
+      url: http://msa-account:8081
