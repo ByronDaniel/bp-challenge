@@ -7,6 +7,7 @@ import com.challenge.account.application.input.port.AccountInputPort;
 import com.challenge.account.application.output.port.AccountOutputPort;
 import com.challenge.account.domain.Account;
 import com.challenge.account.infrastructure.exception.NotFoundException;
+import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
@@ -21,7 +22,10 @@ public class AccountService implements AccountInputPort {
   AccountOutputPort accountOutputPort;
 
   @Override
-  public Flux<Account> getAll() {
+  public Flux<Account> getAll(Integer clientId) {
+    if (!Objects.isNull(clientId)) {
+      return accountOutputPort.findByClientId(clientId);
+    }
     return accountOutputPort.findAll();
   }
 

@@ -23,8 +23,9 @@ public class AccountController implements CuentasApi {
   AccountDtoMapper accountDtoMapper;
 
   @Override
-  public Mono<ResponseEntity<Flux<AccountResponseDto>>> getAll(ServerWebExchange exchange) {
-    return Mono.just(ResponseEntity.ok(accountInputPort.getAll()
+  public Mono<ResponseEntity<Flux<AccountResponseDto>>> getAll(Integer clientId,
+      ServerWebExchange exchange) {
+    return Mono.just(ResponseEntity.ok(accountInputPort.getAll(clientId)
         .map(accountDtoMapper::toAccountResponseDto)));
   }
 

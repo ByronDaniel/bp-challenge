@@ -8,6 +8,8 @@ public interface AccountOutputPort {
 
   Flux<Account> findAll();
 
+  Flux<Account> findByClientId(Integer clientId);
+
   Mono<Account> findById(Integer id);
 
   Mono<Account> save(Account account);

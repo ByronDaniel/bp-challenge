@@ -6,7 +6,7 @@ import reactor.core.publisher.Mono;
 
 public interface AccountInputPort {
 
-  Flux<Account> getAll();
+  Flux<Account> getAll(Integer clientId);
 
   Mono<Account> getById(Integer id);
 

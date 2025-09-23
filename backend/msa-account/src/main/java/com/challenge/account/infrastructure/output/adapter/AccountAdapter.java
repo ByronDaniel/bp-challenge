@@ -25,6 +25,12 @@ public class AccountAdapter implements AccountOutputPort {
   }
 
   @Override
+  public Flux<Account> findByClientId(Integer clientId) {
+    return accountRepository.findByClientId(clientId)
+        .map(accountEntityMapper::toAccount);
+  }
+
+  @Override
   public Mono<Account> findById(Integer id) {
     return accountRepository.findById(id)
         .map(accountEntityMapper::toAccount);

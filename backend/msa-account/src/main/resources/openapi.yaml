@@ -17,6 +17,13 @@ paths:
         - Account Management
       summary: Obtain the list of accounts
       description: Returns the list of accounts.
+      parameters:
+        - in: query
+          name: clientId
+          required: false
+          description: client Id
+          schema:
+            type: integer
       operationId: getAll
       responses:
         "200":
