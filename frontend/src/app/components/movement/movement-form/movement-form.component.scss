@@ -1,22 +1,28 @@
+@import "../../../styles/mixins";
+
 .form {
+  background: color(white);
+  border-radius: radius(lg);
+  padding: spacing(xxl);
+  box-shadow: shadow(md);
+  border: 1px solid color(gray-200);
   max-width: 600px;
   margin: 0 auto;
-  padding: 24px;
-  background: #fff;
-  border-radius: 8px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 
   &__grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 16px;
-    margin-bottom: 24px;
+    gap: spacing(lg);
+    margin-bottom: spacing(xxl);
+
+    @media (max-width: 768px) {
+      grid-template-columns: 1fr;
+      gap: spacing(md);
+    }
   }
 
   &__field {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
+    @include form-field;
 
     &--full {
       grid-column: 1 / -1;
@@ -24,92 +30,75 @@
   }
 
   &__label {
-    font-size: 14px;
-    color: #374151;
-    font-weight: 500;
+    font-weight: font-weight(medium);
+    color: color(gray-700);
+    font-size: font-size(sm);
   }
 
   &__input {
-    padding: 12px;
-    border: 1px solid #d1d5db;
-    border-radius: 6px;
-    font-size: 16px;
-    transition: border-color 0.2s;
+    padding: spacing(md);
+    border: 1px solid color(gray-300);
+    border-radius: radius(md);
+    font-size: font-size(sm);
+    transition: all 0.2s ease;
+    background: color(white);
 
     &:focus {
-      border-color: #3b82f6;
       outline: none;
+      border-color: color(primary);
       box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
     }
 
-    &:disabled {
-      background: #f9fafb;
-      color: #6b7280;
+    &::placeholder {
+      color: color(gray-400);
     }
 
-    &.ng-invalid.ng-touched {
-      border-color: #ef4444;
+    &:disabled {
+      background: color(gray-50);
+      color: color(gray-500);
+      cursor: not-allowed;
+    }
+
+    &--error {
+      border-color: color(danger);
+
+      &:focus {
+        box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+      }
     }
   }
 
   &__error {
-    font-size: 12px;
-    color: #ef4444;
-  }
-
-  &__checkbox {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 14px;
-    color: #374151;
-
-    input {
-      width: 16px;
-      height: 16px;
-      accent-color: #3b82f6;
-    }
+    color: color(danger);
+    font-size: font-size(xs);
+    margin-top: spacing(xs);
   }
 
   &__actions {
     display: flex;
-    gap: 12px;
+    gap: spacing(lg);
     justify-content: flex-end;
-    border-top: 1px solid #e5e7eb;
-    padding-top: 20px;
+    padding-top: spacing(xl);
+    border-top: 1px solid color(gray-200);
+    margin-top: spacing(xl);
+
+    @media (max-width: 768px) {
+      flex-direction: column;
+      gap: spacing(sm);
+
+      .btn {
+        width: 100%;
+      }
+    }
+  }
+}
+
+.btn {
+  &--cancel {
+    @include btn(secondary);
   }
 
-  &__btn {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 6px;
-    font-size: 14px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.2s;
-
-    &--cancel {
-      background: #f3f4f6;
-      color: #374151;
-      border: 1px solid #d1d5db;
-
-      &:hover {
-        background: #e5e7eb;
-      }
-    }
-
-    &--save {
-      background: #3b82f6;
-      color: #fff;
-
-      &:hover:not(:disabled) {
-        background: #2563eb;
-      }
-
-      &:disabled {
-        background: #9ca3af;
-        cursor: not-allowed;
-      }
-    }
+  &--save {
+    @include btn(primary);
   }
 }

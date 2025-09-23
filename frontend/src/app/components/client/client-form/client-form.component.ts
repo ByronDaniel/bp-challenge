@@ -1,22 +1,12 @@
-import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {
-  ReactiveFormsModule,
-  FormBuilder,
-  FormGroup,
-  Validators,
-  AbstractControl
-} from '@angular/forms';
-import { Router, ActivatedRoute } from '@angular/router';
-import { Subject, takeUntil } from 'rxjs';
+import { ReactiveFormsModule, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
+import { takeUntil } from 'rxjs';
+
+import { BaseFormComponent } from '../../base/base-form.component';
 import { Client } from '../../../types/client.type';
 import { ClientService } from '../../../services/client.service';
-import { AlertService } from '../../../services/alert.service';
-
-interface ValidationError {
-  type: 'required' | 'minlength' | 'min' | 'max';
-  message: string;
-}
 
 @Component({
   selector: 'app-client-form',
@@ -24,71 +14,60 @@ interface ValidationError {
   imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './client-form.component.html',
   styleUrl: './client-form.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ClientFormComponent implements OnInit, OnDestroy {
-  private readonly fb = inject(FormBuilder);
-  private readonly router = inject(Router);
+export class ClientFormComponent extends BaseFormComponent implements OnInit {
   private readonly route = inject(ActivatedRoute);
   private readonly clientService = inject(ClientService);
-  private readonly alertService = inject(AlertService);
-  private readonly destroy$ = new Subject<void>();
 
-  protected readonly clientForm = this.initForm();
+  protected form = this.createForm();
   protected isEditing = false;
-  protected clientId: string | null = null;
-
-  private readonly validationMessages: Record<string, ValidationError[]> = {
-    identification: [{ type: 'required', message: 'La identificación es requerida' }],
-    name: [{ type: 'required', message: 'El nombre es requerido' }],
-    gender: [{ type: 'required', message: 'El género es requerido' }],
-    age: [
-      { type: 'required', message: 'La edad es requerida' },
-      { type: 'min', message: 'La edad debe ser mayor a 18 años' },
-      { type: 'max', message: 'La edad debe ser menor a 100 años' }
-    ],
-    phone: [{ type: 'required', message: 'El teléfono es requerido' }],
-    address: [{ type: 'required', message: 'La dirección es requerida' }],
-    password: [
-      { type: 'required', message: 'La contraseña es requerida' },
-      { type: 'minlength', message: 'La contraseña debe tener al menos 6 caracteres' }
-    ]
-  };
+  private clientId: string | null = null;
 
   ngOnInit(): void {
-    this.setupEditMode();
+    this.clientId = this.route.snapshot.paramMap.get('id');
+    this.isEditing = Boolean(this.clientId);
+    
+    if (this.isEditing) this.loadClient();
   }
 
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
-  }
-
-  protected onSave(): void {
-    if (this.clientForm.invalid) {
-      this.handleInvalidForm();
+  onSubmit(): void {
+    if (this.form.invalid) {
+      this.markTouched();
       return;
     }
 
-    this.saveClient();
+    const client = this.form.getRawValue();
+    const request = this.isEditing 
+      ? this.clientService.update(Number(this.clientId), client)
+      : this.clientService.create(client);
+
+    request.pipe(takeUntil(this.destroy$)).subscribe({
+      next: () => this.handleSuccess(
+        `Cliente ${this.isEditing ? 'actualizado' : 'creado'} exitosamente`,
+        '/clientes'
+      ),
+      error: (error) => this.handleError(error)
+    });
   }
 
-  protected onCancel(): void {
+  onCancel(): void {
     this.router.navigate(['/clientes']);
   }
 
   protected getFieldError(fieldName: string): string {
-    const control = this.clientForm.get(fieldName);
+    const control = this.form.get(fieldName);
     if (!control?.touched || !control?.errors) return '';
-
-    const error = this.validationMessages[fieldName]?.find(
-      msg => control.errors?.[msg.type]
-    );
     
-    return error?.message || '';
+    const errors = control.errors;
+    if (errors['required']) return 'Este campo es requerido';
+    if (errors['min']) return 'Valor muy pequeño';
+    if (errors['max']) return 'Valor muy grande';
+    if (errors['minlength']) return 'Demasiado corto';
+    return 'Campo inválido';
   }
 
-  private initForm(): FormGroup {
+  private createForm(): FormGroup {
     return this.fb.group({
       identification: ['', Validators.required],
       name: ['', Validators.required],
@@ -101,70 +80,19 @@ export class ClientFormComponent implements OnInit, OnDestroy {
     });
   }
 
-  private setupEditMode(): void {
-    this.clientId = this.route.snapshot.paramMap.get('id');
-    this.isEditing = Boolean(this.clientId);
-
-    if (this.isEditing) {
-      this.handleEditMode();
-    }
-  }
-
-  private handleEditMode(): void {
-    const clientFromState = history.state?.client as Client;
-    if (!clientFromState) {
-      this.alertService.error('Error', 'No se recibieron datos del cliente');
+  private loadClient(): void {
+    const client = history.state?.client as Client;
+    if (!client) {
+      this.alert.toast('No se encontraron datos del cliente', 'error');
       this.router.navigate(['/clientes']);
       return;
     }
 
-    this.populateForm(clientFromState);
-  }
-
-  private populateForm(client: Client): void {
-    this.clientForm.patchValue({
+    this.form.patchValue({
       ...client,
-      gender: this.capitalizeFirst(client.gender)
+      gender: client.gender.charAt(0).toUpperCase() + client.gender.slice(1).toLowerCase()
     });
 
-    if (this.isEditing) {
-      this.clientForm.get('identification')?.disable();
-    }
+    this.form.get('identification')?.disable();
   }
-
-  private capitalizeFirst(text: string): string {
-    return text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
-  }
-
-  private handleInvalidForm(): void {
-    this.markFormGroupTouched(this.clientForm);
-    this.alertService.warning('Formulario inválido', 'Completa todos los campos requeridos');
-  }
-
-  private markFormGroupTouched(formGroup: FormGroup): void {
-    Object.values(formGroup.controls).forEach(
-      (control: AbstractControl) => control.markAsTouched()
-    );
-  }
-
-  private saveClient(): void {
-    const clientData = this.clientForm.getRawValue();
-    const operation = this.isEditing
-      ? this.clientService.update(Number(this.clientId), clientData)
-      : this.clientService.create(clientData);
-
-    operation.pipe(
-      takeUntil(this.destroy$)
-    ).subscribe({
-      next: () => this.handleSaveSuccess(),
-      error: (error) => this.alertService.error('Error', `${error.error.detail}`)
-    });
-  }
-
-  private handleSaveSuccess(): void {
-    const action = this.isEditing ? 'actualizado' : 'creado';
-    this.alertService.success('Éxito', `Cliente ${action}`);
-    this.router.navigate(['/clientes']);
-  }
-
 }

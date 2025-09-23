@@ -1,0 +1,82 @@
+$colors: (
+  primary: #3b82f6,
+  primary-dark: #2563eb,
+  secondary: #6c757d,
+  secondary-dark: #545b62,
+  success: #10b981,
+  danger: #ef4444,
+  danger-dark: #b91c1c,
+  white: #ffffff,
+  gray-50: #f9fafb,
+  gray-100: #f3f4f6,
+  gray-200: #e5e7eb,
+  gray-300: #d1d5db,
+  gray-400: #9ca3af,
+  gray-500: #6b7280,
+  gray-700: #374151,
+  gray-800: #1f2937,
+);
+
+$spacing: (
+  xs: 4px,
+  sm: 8px,
+  md: 12px,
+  lg: 16px,
+  xl: 20px,
+  xxl: 24px,
+  xxxl: 32px,
+  xxxxl: 48px,
+);
+
+$font-sizes: (
+  xs: 12px,
+  sm: 14px,
+  base: 16px,
+  lg: 18px,
+  xl: 20px,
+  xxl: 24px,
+);
+
+$font-weights: (
+  normal: 400,
+  medium: 500,
+  semibold: 600,
+  bold: 700,
+);
+
+$radius: (
+  sm: 4px,
+  md: 6px,
+  lg: 8px,
+  xl: 12px,
+);
+
+$shadows: (
+  sm: 0 1px 2px rgba(0, 0, 0, 0.05),
+  md: 0 1px 3px rgba(0, 0, 0, 0.1),
+  lg: 0 4px 6px rgba(0, 0, 0, 0.1),
+);
+
+@function color($key) {
+  @return map-get($colors, $key);
+}
+
+@function spacing($key) {
+  @return map-get($spacing, $key);
+}
+
+@function font-size($key) {
+  @return map-get($font-sizes, $key);
+}
+
+@function font-weight($key) {
+  @return map-get($font-weights, $key);
+}
+
+@function radius($key) {
+  @return map-get($radius, $key);
+}
+
+@function shadow($key) {
+  @return map-get($shadows, $key);
+}

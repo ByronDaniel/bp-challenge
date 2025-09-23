@@ -1,4 +1,4 @@
-<form class="form" [formGroup]="clientForm" (ngSubmit)="onSave()">
+<form class="form" [formGroup]="form" (ngSubmit)="onSubmit()">
   <div class="form__grid">
     <div class="form__field">
       <label class="form__label">Identificación *</label>
@@ -101,18 +101,10 @@
   </div>
 
   <div class="form__actions">
-    <button
-      class="form__btn form__btn--cancel"
-      type="button"
-      (click)="onCancel()"
-    >
+    <button class="btn btn--cancel" type="button" (click)="onCancel()">
       Cancelar
     </button>
-    <button
-      class="form__btn form__btn--save"
-      type="submit"
-      [disabled]="clientForm.invalid"
-    >
+    <button class="btn btn--save" type="submit" [disabled]="form.invalid">
       {{ isEditing ? "Actualizar" : "Crear" }}
     </button>
   </div>

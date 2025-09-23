@@ -15,14 +15,10 @@ import {
 } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
+
 import { Account } from '../../../types/account.type';
 import { AccountService } from '../../../services/account.service';
 import { AlertService } from '../../../services/alert.service';
-
-interface ValidationError {
-  type: 'required' | 'min';
-  message: string;
-}
 
 @Component({
   selector: 'app-account-form',
@@ -43,18 +39,6 @@ export class AccountFormComponent implements OnInit, OnDestroy {
   protected readonly accountForm = this.initForm();
   protected isEditing = false;
   protected accountId: string | null = null;
-
-  private readonly validationMessages: Record<string, ValidationError[]> = {
-    type: [{ type: 'required', message: 'El tipo de cuenta es requerido' }],
-    balance: [
-      { type: 'required', message: 'El saldo inicial es requerido' },
-      { type: 'min', message: 'El saldo debe ser mayor o igual a 0' },
-    ],
-    clientId: [
-      { type: 'required', message: 'El ID del cliente es requerido' },
-      { type: 'min', message: 'El ID del cliente debe ser mayor a 0' },
-    ],
-  };
 
   ngOnInit(): void {
     this.setupEditMode();
@@ -81,12 +65,11 @@ export class AccountFormComponent implements OnInit, OnDestroy {
   protected getFieldError(fieldName: string): string {
     const control = this.accountForm.get(fieldName);
     if (!control?.touched || !control?.errors) return '';
-
-    const error = this.validationMessages[fieldName]?.find(
-      (msg) => control.errors?.[msg.type],
-    );
-
-    return error?.message || '';
+    
+    const errors = control.errors;
+    if (errors['required']) return 'Este campo es requerido';
+    if (errors['min']) return 'Valor demasiado pequeño';
+    return 'Campo inválido';
   }
 
   private initForm(): FormGroup {

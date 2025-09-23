@@ -1,20 +1,22 @@
+@import "../../styles/variables";
+
 .header {
-  background: #fff;
-  border-bottom: 1px solid #e5e7eb;
-  padding: 16px 24px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  background: color(white);
+  border-bottom: 1px solid color(gray-200);
+  padding: spacing(lg) spacing(xxl);
+  box-shadow: shadow(sm);
 
   &__title {
     margin: 0;
-    font-size: 20px;
-    font-weight: 600;
-    color: #1f2937;
+    font-size: font-size(xl);
+    font-weight: font-weight(semibold);
+    color: color(gray-800);
     text-align: center;
     letter-spacing: 1px;
   }
 
   &__icon {
-    margin-right: 8px;
-    color: #3b82f6;
+    margin-right: spacing(sm);
+    color: color(primary);
   }
 }

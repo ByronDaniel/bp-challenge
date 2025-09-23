@@ -1,8 +1,16 @@
-import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
+
+import { BaseComponent } from '../../base/base.component';
 import { Account } from '../../../types/account.type';
-import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
+
+import {
+  debounceTime,
+  distinctUntilChanged,
+  map,
+  takeUntil,
+} from 'rxjs/operators';
 
 @Component({
   selector: 'app-account-search',
@@ -11,7 +19,7 @@ import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
   templateUrl: './account-search.component.html',
   styleUrl: './account-search.component.scss',
 })
-export class AccountSearchComponent implements OnInit {
+export class AccountSearchComponent extends BaseComponent implements OnInit {
   @Input() accounts: Account[] = [];
   @Output() filteredAccountsChange = new EventEmitter<Account[]>();
 
@@ -31,6 +39,7 @@ export class AccountSearchComponent implements OnInit {
         debounceTime(300),
         distinctUntilChanged(),
         map((term) => this.filterAccounts(term || '')),
+        takeUntil(this.destroy$),
       )
       .subscribe((filtered) => this.filteredAccountsChange.emit(filtered));
   }

@@ -1,8 +1,8 @@
-<div class="report-form-container">
+<form [formGroup]="reportForm" (ngSubmit)="onSubmit()" class="report-form">
   <h3>Generar Reporte</h3>
 
-  <form [formGroup]="reportForm" (ngSubmit)="onSubmit()" class="report-form">
-    <div class="form-group">
+  <div class="report-form__fields">
+    <div class="report-form__field">
       <label for="clientId">ID del Cliente:</label>
       <input
         type="number"
@@ -22,7 +22,7 @@
       </small>
     </div>
 
-    <div class="form-group">
+    <div class="report-form__field">
       <label for="startDate">Fecha de Inicio:</label>
       <input type="date" id="startDate" formControlName="startDate" />
       <small
@@ -36,7 +36,7 @@
       </small>
     </div>
 
-    <div class="form-group">
+    <div class="report-form__field">
       <label for="endDate">Fecha de Fin:</label>
       <input type="date" id="endDate" formControlName="endDate" />
       <small
@@ -49,18 +49,18 @@
         La fecha de fin es requerida
       </small>
     </div>
+  </div>
 
-    <div class="form-actions">
-      <button
-        type="submit"
-        [disabled]="reportForm.invalid"
-        class="btn btn-primary"
-      >
-        Generar Reporte
-      </button>
-      <button type="button" (click)="onReset()" class="btn btn-secondary">
-        Limpiar
-      </button>
-    </div>
-  </form>
-</div>
+  <div class="report-form__actions">
+    <button
+      type="submit"
+      [disabled]="reportForm.invalid"
+      class="btn btn--primary"
+    >
+      Generar Reporte
+    </button>
+    <button type="button" (click)="onReset()" class="btn btn--secondary">
+      Limpiar
+    </button>
+  </div>
+</form>

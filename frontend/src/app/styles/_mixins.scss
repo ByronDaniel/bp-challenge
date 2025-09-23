@@ -1,0 +1,213 @@
+@import "variables";
+
+// Button mixin
+@mixin btn($variant: primary) {
+  display: inline-flex;
+  align-items: center;
+  gap: spacing(sm);
+  padding: spacing(md) spacing(xl);
+  border: none;
+  border-radius: radius(md);
+  font-size: font-size(sm);
+  font-weight: font-weight(medium);
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  color: color(white);
+
+  @if $variant == primary {
+    background: color(primary);
+    &:hover:not(:disabled) {
+      background: color(primary-dark);
+    }
+  } @else if $variant == secondary {
+    background: color(secondary);
+    &:hover:not(:disabled) {
+      background: color(secondary-dark);
+    }
+  } @else if $variant == danger {
+    background: color(danger);
+    &:hover:not(:disabled) {
+      background: color(danger-dark);
+    }
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+// Search input mixin
+@mixin search-input {
+  position: relative;
+  max-width: 300px;
+
+  &__icon {
+    position: absolute;
+    left: spacing(md);
+    top: 50%;
+    transform: translateY(-50%);
+    color: color(gray-500);
+  }
+
+  &__input {
+    width: 100%;
+    padding: spacing(md) spacing(md) spacing(md) spacing(xxxl);
+    border: 1px solid color(gray-300);
+    border-radius: radius(md);
+    font-size: font-size(sm);
+    transition: all 0.2s ease;
+
+    &:focus {
+      border-color: color(primary);
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+    }
+
+    &::placeholder {
+      color: color(gray-400);
+    }
+  }
+
+  &__clear {
+    position: absolute;
+    right: spacing(sm);
+    top: 50%;
+    transform: translateY(-50%);
+    padding: spacing(xs);
+    border: none;
+    background: none;
+    color: color(gray-500);
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:hover {
+      color: color(danger);
+    }
+  }
+}
+
+// Form field mixin
+@mixin form-field {
+  display: flex;
+  flex-direction: column;
+  gap: spacing(sm);
+
+  label {
+    font-weight: font-weight(medium);
+    color: color(gray-700);
+    font-size: font-size(sm);
+  }
+
+  input,
+  textarea,
+  select {
+    padding: spacing(md);
+    border: 1px solid color(gray-300);
+    border-radius: radius(md);
+    font-size: font-size(sm);
+    transition: all 0.2s ease;
+    background: color(white);
+
+    &:focus {
+      outline: none;
+      border-color: color(primary);
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    }
+
+    &::placeholder {
+      color: color(gray-400);
+    }
+
+    &:disabled {
+      background: color(gray-50);
+      color: color(gray-500);
+      cursor: not-allowed;
+    }
+
+    &.ng-invalid.ng-touched {
+      border-color: color(danger);
+      &:focus {
+        box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+      }
+    }
+  }
+
+  textarea {
+    resize: vertical;
+    min-height: 96px;
+  }
+
+  .error-message {
+    color: color(danger);
+    font-size: font-size(xs);
+    margin-top: spacing(xs);
+  }
+}
+
+// Data table mixin
+@mixin data-table($columns) {
+  background: color(white);
+  border: 1px solid color(gray-200);
+  border-radius: radius(lg);
+  overflow: hidden;
+  box-shadow: shadow(sm);
+
+  &__header,
+  &__row {
+    display: grid;
+    grid-template-columns: #{$columns};
+    gap: spacing(md);
+    align-items: center;
+    padding: spacing(md) spacing(lg);
+  }
+
+  &__header {
+    background: color(gray-50);
+    font-weight: font-weight(semibold);
+    font-size: font-size(sm);
+    color: color(gray-700);
+    border-bottom: 1px solid color(gray-200);
+  }
+
+  &__row {
+    border-bottom: 1px solid color(gray-100);
+    transition: all 0.2s ease;
+    font-size: font-size(sm);
+
+    &:hover {
+      background: color(gray-50);
+    }
+
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+}
+
+// View layout mixin
+@mixin view-layout {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: spacing(xl);
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: spacing(xxxl);
+    gap: spacing(lg);
+
+    @media (max-width: 768px) {
+      flex-direction: column;
+      align-items: stretch;
+    }
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    gap: spacing(xxxl);
+  }
+}

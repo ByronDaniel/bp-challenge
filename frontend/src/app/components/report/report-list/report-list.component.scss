@@ -1,80 +1,76 @@
+@import "../../../styles/mixins";
+
 .report-list {
-  background: #fff;
-  border: 1px solid #e5e7eb;
-  border-radius: 8px;
-  overflow: hidden;
-
-  &__header,
-  &__row {
-    display: grid;
-    grid-template-columns: 1.5fr 1.5fr 1.2fr 1fr 0.8fr 1fr 1fr 1fr 1fr;
-    gap: 12px;
-    align-items: center;
-  }
-
-  &__header {
-    background: #f9fafb;
-    font-weight: 600;
-    font-size: 14px;
-    color: #374151;
-    border-bottom: 1px solid #e5e7eb;
-  }
-
-  &__row {
-    border-bottom: 1px solid #f3f4f6;
-    transition: background-color 0.2s;
-
-    &:hover {
-      background: #f9fafb;
-    }
-    &:last-child {
-      border-bottom: none;
-    }
-  }
+  @include data-table(1.5fr 1.5fr 1.2fr 1fr 0.8fr 1fr 1fr 1fr 1fr);
 
   &__col {
-    padding: 12px 8px;
-    font-size: 14px;
+    padding: spacing(md) spacing(sm);
+    font-size: font-size(sm);
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-  }
-}
 
-.status-badge {
-  display: inline-block;
-  padding: 4px 8px;
-  border-radius: 12px;
-  font-size: 12px;
-  font-weight: 500;
-  text-align: center;
+    @media (max-width: 768px) {
+      padding: spacing(sm);
+      display: block;
 
-  &.status-active {
-    background-color: #d1fae5;
-    color: #065f46;
-  }
-
-  &.status-inactive {
-    background-color: #fee2e2;
-    color: #991b1b;
-  }
-}
-
-.movement-type {
-  display: inline-block;
-  padding: 4px 8px;
-  border-radius: 4px;
-  font-size: 12px;
-  font-weight: 500;
-  text-align: center;
-
-  &.credit {
-    background-color: #dcfce7;
-    color: #166534;
+      &::before {
+        content: attr(data-label);
+        font-weight: font-weight(semibold);
+        display: block;
+        margin-bottom: spacing(xs);
+        color: color(gray-600);
+      }
+    }
   }
 
-  &.debit {
-    background-color: #fef2f2;
-    color: #991b1b;
+  &__status {
+    padding: spacing(xs) spacing(sm);
+    border-radius: radius(sm);
+    font-size: font-size(xs);
+    font-weight: font-weight(medium);
+
+    &--active {
+      background: color(success);
+      color: color(white);
+    }
+
+    &--inactive {
+      background: color(danger);
+      color: color(white);
+    }
+  }
+
+  &__type {
+    padding: spacing(xs) spacing(sm);
+    border-radius: radius(sm);
+    font-size: font-size(xs);
+    font-weight: font-weight(medium);
+
+    &--credit {
+      background: color(success);
+      color: color(white);
+    }
+
+    &--debit {
+      background: color(danger);
+      color: color(white);
+    }
+  }
+
+  @media (max-width: 768px) {
+    &__header {
+      display: none;
+    }
+
+    &__row {
+      display: block;
+      padding: spacing(lg);
+      border-bottom: 2px solid color(gray-200);
+
+      &:hover {
+        background: color(white);
+      }
+    }
   }
 }

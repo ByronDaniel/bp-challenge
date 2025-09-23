@@ -1,6 +1,8 @@
+@import "../../styles/variables";
+
 .sidebar {
-  background: #fff;
-  border-right: 1px solid #e5e7eb;
+  background: color(white);
+  border-right: 1px solid color(gray-200);
   height: 100%;
 
   &__menu {
@@ -10,7 +12,7 @@
   }
 
   &__item {
-    border-bottom: 1px solid #f3f4f6;
+    border-bottom: 1px solid color(gray-100);
 
     &:last-child {
       border-bottom: none;
@@ -20,34 +22,34 @@
   &__link {
     display: flex;
     align-items: center;
-    gap: 12px;
-    padding: 16px 20px;
-    font-size: 14px;
-    color: #6b7280;
+    gap: spacing(md);
+    padding: spacing(lg) spacing(xl);
+    font-size: font-size(sm);
+    color: color(gray-500);
     text-decoration: none;
-    transition: 0.2s;
+    transition: all 0.2s ease;
 
     &:hover {
-      background: #f9fafb;
-      color: #374151;
+      background: color(gray-50);
+      color: color(gray-700);
     }
 
     &--active {
       background: #eff6ff;
-      color: #3b82f6;
-      border-right: 3px solid #3b82f6;
-      font-weight: 500;
+      color: color(primary);
+      border-right: 3px solid color(primary);
+      font-weight: font-weight(medium);
     }
   }
 
   &__icon {
     width: 20px;
-    font-size: 16px;
+    font-size: spacing(lg);
     text-align: center;
     flex-shrink: 0;
   }
 
   &__text {
-    font-weight: 500;
+    font-weight: font-weight(medium);
   }
 }

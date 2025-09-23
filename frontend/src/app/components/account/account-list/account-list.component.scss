@@ -1,100 +1,20 @@
+@import "../../../styles/mixins";
+
 .account-list {
-  background: #fff;
-  border: 1px solid #e5e7eb;
-  border-radius: 8px;
-  overflow: hidden;
-
-  &__header,
-  &__row {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 120px;
-    gap: 12px;
-    align-items: center;
-  }
-
-  &__header {
-    background: #f9fafb;
-    font-weight: 600;
-    font-size: 14px;
-    color: #374151;
-    border-bottom: 1px solid #e5e7eb;
-  }
-
-  &__row {
-    border-bottom: 1px solid #f3f4f6;
-    transition: background-color 0.2s;
-
-    &:hover {
-      background: #f9fafb;
-    }
-    &:last-child {
-      border-bottom: none;
-    }
-  }
-
-  &__col {
-    padding: 12px 8px;
-    font-size: 14px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-
-    &:last-child {
-      display: flex;
-      justify-content: center;
-      gap: 4px;
-    }
-  }
-
-  &__status {
-    padding: 4px 8px;
-    border-radius: 4px;
-    font-size: 12px;
-    font-weight: 500;
-    background: #f3f4f6;
-    color: #6b7280;
-
-    &--active {
-      background: #dcfce7;
-      color: #166534;
-    }
-  }
+  @include data-table(1fr 1fr 1fr 1fr 1fr 120px);
 
   &__btn {
-    width: 28px;
-    height: 28px;
-    padding: 6px;
-    border: 1px solid #d1d5db;
-    border-radius: 4px;
-    background: #fff;
-    color: #6b7280;
-    cursor: pointer;
-    transition: all 0.2s;
-    text-decoration: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    &:hover {
-      background: #f3f4f6;
-    }
+    @include btn(primary);
+    font-size: font-size(xs);
+    padding: spacing(xs) spacing(sm);
+    margin: 0 spacing(xs);
 
     &--edit {
-      color: #3b82f6;
-
-      &:hover {
-        color: #2563eb;
-        border-color: #3b82f6;
-      }
+      @include btn(secondary);
     }
 
     &--delete {
-      color: #ef4444;
-
-      &:hover {
-        color: #dc2626;
-        border-color: #ef4444;
-      }
+      @include btn(danger);
     }
   }
 }

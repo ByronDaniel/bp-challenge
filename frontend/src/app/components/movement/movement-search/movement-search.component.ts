@@ -1,20 +1,17 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  Output,
-  OnInit,
-  inject,
-} from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Component, EventEmitter, inject, OnInit, Output } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
+
+import { BaseComponent } from '../../base/base.component';
 import { Movement } from '../../../types/movement.type';
 import { MovementService } from '../../../services/movement.service';
+
 import {
+  catchError,
   debounceTime,
   distinctUntilChanged,
   switchMap,
-  catchError,
+  takeUntil,
 } from 'rxjs/operators';
 import { of } from 'rxjs';
 
@@ -25,7 +22,7 @@ import { of } from 'rxjs';
   templateUrl: './movement-search.component.html',
   styleUrl: './movement-search.component.scss',
 })
-export class MovementSearchComponent implements OnInit {
+export class MovementSearchComponent extends BaseComponent implements OnInit {
   @Output() filteredMovementsChange = new EventEmitter<Movement[]>();
   @Output() searchError = new EventEmitter<string>();
 
@@ -66,6 +63,7 @@ export class MovementSearchComponent implements OnInit {
           this.searchError.emit('Error al buscar movimientos');
           return of([]);
         }),
+        takeUntil(this.destroy$),
       )
       .subscribe((movements) => this.filteredMovementsChange.emit(movements));
   }

@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
+
 import { Report } from '../../../types/report.type';
 
 @Component({
@@ -13,8 +14,9 @@ import { Report } from '../../../types/report.type';
 export class ReportListComponent {
   @Input() reports: Report[] = [];
 
-  protected readonly trackById = (_: number, report: Report): string =>
-    `${report.date}-${report.number}-${report.value}`;
+  protected trackById(_: number, report: Report): string {
+    return `${report.date}-${report.number}-${report.value}`;
+  }
 
   protected formatDate(dateString: string): string {
     const date = new Date(dateString);

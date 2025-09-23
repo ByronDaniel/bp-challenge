@@ -1,18 +1,14 @@
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  OnDestroy,
-  inject,
-} from '@angular/core';
-import { Subject, finalize, takeUntil } from 'rxjs';
+import { CommonModule } from '@angular/common';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 
+import { BaseComponent } from '../../components/base/base.component';
 import { Report, ReportFilter } from '../../types/report.type';
 import { ReportListComponent } from '../../components/report/report-list/report-list.component';
 import { ReportFormComponent } from '../../components/report/report-form/report-form.component';
 import { ReportService } from '../../services/report.service';
 import { AlertService } from '../../services/alert.service';
-import { CommonModule } from '@angular/common';
+
+import { finalize, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-reports-view',
@@ -22,39 +18,27 @@ import { CommonModule } from '@angular/common';
   styleUrl: './reports-view.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ReportsViewComponent implements OnDestroy {
+export class ReportsViewComponent extends BaseComponent {
   private readonly reportService = inject(ReportService);
   private readonly alertService = inject(AlertService);
-  private readonly cdr = inject(ChangeDetectorRef);
-  private readonly destroy$ = new Subject<void>();
 
   protected reports: Report[] = [];
-  protected isLoading = false;
-
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
-  }
 
   protected onGenerateReport(filter: ReportFilter): void {
-    this.isLoading = true;
-    this.cdr.markForCheck();
+    this.setLoading(true);
 
     this.reportService
       .generateReport(filter)
       .pipe(
         takeUntil(this.destroy$),
-        finalize(() => {
-          this.isLoading = false;
-          this.cdr.markForCheck();
-        }),
+        finalize(() => this.setLoading(false)),
       )
       .subscribe({
-        next: (reports) => {
+        next: (reports: Report[]) => {
           this.reports = reports;
           this.alertService.toast('Reporte generado exitosamente');
         },
-        error: (error) =>
+        error: (error: any) =>
           this.alertService.toast(
             error?.message || 'Error al generar reporte',
             'error',

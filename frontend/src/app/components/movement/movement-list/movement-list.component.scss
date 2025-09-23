@@ -1,40 +1,11 @@
+@import "../../../styles/mixins";
+
 .movement-list {
-  background: #fff;
-  border: 1px solid #e5e7eb;
-  border-radius: 8px;
-  overflow: hidden;
-
-  &__header,
-  &__row {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-    gap: 12px;
-    align-items: center;
-  }
-
-  &__header {
-    background: #f9fafb;
-    font-weight: 600;
-    font-size: 14px;
-    color: #374151;
-    border-bottom: 1px solid #e5e7eb;
-  }
-
-  &__row {
-    border-bottom: 1px solid #f3f4f6;
-    transition: background-color 0.2s;
-
-    &:hover {
-      background: #f9fafb;
-    }
-    &:last-child {
-      border-bottom: none;
-    }
-  }
+  @include data-table(1fr 1fr 1fr 1fr 1fr);
 
   &__col {
-    padding: 12px 8px;
-    font-size: 14px;
+    padding: spacing(md) spacing(sm);
+    font-size: font-size(sm);
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -42,54 +13,69 @@
     &:last-child {
       display: flex;
       justify-content: center;
-      gap: 4px;
+      gap: spacing(xs);
+    }
+
+    @media (max-width: 768px) {
+      padding: spacing(sm);
+      display: block;
+
+      &::before {
+        content: attr(data-label);
+        font-weight: font-weight(semibold);
+        display: block;
+        margin-bottom: spacing(xs);
+        color: color(gray-600);
+      }
     }
   }
 
   &__type {
-    padding: 4px 8px;
-    border-radius: 4px;
-    font-size: 12px;
-    font-weight: 500;
-    background: #f3f4f6;
-    color: #6b7280;
+    padding: spacing(xs) spacing(sm);
+    border-radius: radius(sm);
+    font-size: font-size(xs);
+    font-weight: font-weight(medium);
+    background: color(gray-100);
+    color: color(gray-700);
 
     &--credit {
-      background: #dcfce7;
-      color: #166534;
+      background: color(success);
+      color: color(white);
     }
 
     &--debit {
-      background: #fee2e2;
-      color: #991b1b;
+      background: color(danger);
+      color: color(white);
     }
   }
 
   &__btn {
-    width: 28px;
-    height: 28px;
-    padding: 6px;
-    border: 1px solid #d1d5db;
-    border-radius: 4px;
-    background: #fff;
-    color: #6b7280;
-    cursor: pointer;
-    transition: all 0.2s;
-    text-decoration: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    &:hover {
-      background: #f3f4f6;
-    }
+    @include btn(secondary);
+    font-size: font-size(xs);
+    padding: spacing(xs) spacing(sm);
 
     &--view {
-      color: #3b82f6;
+      color: color(primary);
 
       &:hover {
-        color: #2563eb;
-        border-color: #3b82f6;
+        color: color(primary-dark);
+        border-color: color(primary);
+      }
+    }
+  }
+
+  @media (max-width: 768px) {
+    &__header {
+      display: none;
+    }
+
+    &__row {
+      display: block;
+      padding: spacing(lg);
+      border-bottom: 2px solid color(gray-200);
+
+      &:hover {
+        background: color(white);
       }
     }
   }

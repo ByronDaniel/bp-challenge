@@ -1,3 +1,5 @@
+@import "styles/variables";
+
 .app {
   min-height: 100vh;
   display: grid;
@@ -12,13 +14,13 @@
 
   &__sidebar {
     grid-area: sidebar;
-    overflow: auto;
+    overflow-y: auto;
   }
 
   &__content {
     grid-area: content;
-    overflow: auto;
-    padding: 1.5rem;
-    background-color: var(--background-color, #f8fafc);
+    overflow-y: auto;
+    padding: spacing(xxl);
+    background-color: color(gray-50);
   }
 }

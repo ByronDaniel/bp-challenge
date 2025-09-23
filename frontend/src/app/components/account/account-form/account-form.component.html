@@ -50,15 +50,11 @@
   </div>
 
   <div class="form__actions">
-    <button
-      class="form__btn form__btn--cancel"
-      type="button"
-      (click)="onCancel()"
-    >
+    <button class="btn btn--cancel" type="button" (click)="onCancel()">
       Cancelar
     </button>
     <button
-      class="form__btn form__btn--save"
+      class="btn btn--save"
       type="submit"
       [disabled]="accountForm.invalid"
     >

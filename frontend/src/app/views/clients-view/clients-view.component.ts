@@ -1,14 +1,13 @@
-import { 
-  ChangeDetectionStrategy, 
-  ChangeDetectorRef, 
-  Component, 
-  OnDestroy, 
-  OnInit, 
-  inject 
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  inject,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { Subject, finalize, takeUntil } from 'rxjs';
+import { finalize, takeUntil } from 'rxjs';
 
+import { BaseComponent } from '../../components/base/base.component';
 import { Client } from '../../types/client.type';
 import { ClientListComponent } from '../../components/client/client-list/client-list.component';
 import { ClientSearchComponent } from '../../components/client/client-search/client-search.component';
@@ -21,13 +20,11 @@ import { AlertService } from '../../services/alert.service';
   imports: [RouterLink, ClientListComponent, ClientSearchComponent],
   templateUrl: './clients-view.component.html',
   styleUrl: './clients-view.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ClientsViewComponent implements OnInit, OnDestroy {
+export class ClientsViewComponent extends BaseComponent implements OnInit {
   private readonly clientService = inject(ClientService);
   private readonly alertService = inject(AlertService);
-  private readonly cdr = inject(ChangeDetectorRef);
-  private readonly destroy$ = new Subject<void>();
 
   protected clients: Client[] = [];
   protected filteredClients: Client[] = [];
@@ -36,28 +33,26 @@ export class ClientsViewComponent implements OnInit, OnDestroy {
     this.loadClients();
   }
 
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
-  }
-
   protected async onDeleteClient(client: Client): Promise<void> {
-    if (!await this.alertService.confirmDelete(client.name)) return;
+    const confirmed = await this.alertService.confirmDelete(client.name);
+    if (!confirmed) return;
 
-    this.clientService.delete(client.id)
+    this.clientService
+      .delete(client.id)
       .pipe(
         takeUntil(this.destroy$),
-        finalize(() => this.cdr.markForCheck())
+        finalize(() => this.cdr.markForCheck()),
       )
       .subscribe({
         next: () => {
           this.alertService.toast('Cliente eliminado exitosamente');
           this.loadClients();
         },
-        error: (error) => this.alertService.toast(
-          error?.message || 'No se pudo eliminar el cliente', 
-          'error'
-        )
+        error: (error) =>
+          this.alertService.toast(
+            error?.message || 'No se pudo eliminar el cliente',
+            'error',
+          ),
       });
   }
 
@@ -67,23 +62,24 @@ export class ClientsViewComponent implements OnInit, OnDestroy {
   }
 
   private loadClients(): void {
-    this.cdr.markForCheck();
+    this.setLoading(true);
 
-    this.clientService.getAll().pipe(
-      takeUntil(this.destroy$),
-      finalize(() => {
-        this.cdr.markForCheck();
-      })
-    ).subscribe({
-      next: clients => {
-        this.clients = clients;
-        this.filteredClients = clients;
-      },
-      error: (error) => this.alertService.toast(
-        error?.message || 'Error al cargar clientes', 
-        'error'
+    this.clientService
+      .getAll()
+      .pipe(
+        takeUntil(this.destroy$),
+        finalize(() => this.setLoading(false)),
       )
-    });
+      .subscribe({
+        next: (clients) => {
+          this.clients = clients;
+          this.filteredClients = clients;
+          this.setEmpty(clients.length === 0);
+        },
+        error: (error) => {
+          this.setError(true);
+          this.alertService.toast('Error al cargar clientes', 'error');
+        },
+      });
   }
 }
-

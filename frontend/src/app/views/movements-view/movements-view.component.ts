@@ -1,19 +1,19 @@
 import {
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
-  OnDestroy,
-  OnInit,
   inject,
+  OnInit,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { Subject, finalize, takeUntil } from 'rxjs';
 
+import { BaseComponent } from '../../components/base/base.component';
 import { Movement } from '../../types/movement.type';
 import { MovementListComponent } from '../../components/movement/movement-list/movement-list.component';
 import { MovementSearchComponent } from '../../components/movement/movement-search/movement-search.component';
 import { MovementService } from '../../services/movement.service';
 import { AlertService } from '../../services/alert.service';
+
+import { finalize, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-movements-view',
@@ -23,11 +23,9 @@ import { AlertService } from '../../services/alert.service';
   styleUrl: './movements-view.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MovementsViewComponent implements OnInit, OnDestroy {
+export class MovementsViewComponent extends BaseComponent implements OnInit {
   private readonly movementService = inject(MovementService);
   private readonly alertService = inject(AlertService);
-  private readonly cdr = inject(ChangeDetectorRef);
-  private readonly destroy$ = new Subject<void>();
 
   protected movements: Movement[] = [];
   protected filteredMovements: Movement[] = [];
@@ -36,14 +34,8 @@ export class MovementsViewComponent implements OnInit, OnDestroy {
     this.loadMovements();
   }
 
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
-  }
-
   protected onFilteredMovementsChange(movements: Movement[]): void {
     this.filteredMovements = movements;
-    this.cdr.markForCheck();
   }
 
   protected onSearchError(error: string): void {
@@ -51,22 +43,20 @@ export class MovementsViewComponent implements OnInit, OnDestroy {
   }
 
   private loadMovements(): void {
-    this.cdr.markForCheck();
+    this.setLoading(true);
 
     this.movementService
       .getAll()
       .pipe(
         takeUntil(this.destroy$),
-        finalize(() => {
-          this.cdr.markForCheck();
-        }),
+        finalize(() => this.setLoading(false)),
       )
       .subscribe({
-        next: (movements) => {
+        next: (movements: Movement[]) => {
           this.movements = movements;
           this.filteredMovements = movements;
         },
-        error: (error) =>
+        error: (error: any) =>
           this.alertService.toast(
             error?.message || 'Error al cargar movimientos',
             'error',

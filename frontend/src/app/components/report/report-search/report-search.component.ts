@@ -1,8 +1,16 @@
-import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
+
+import { BaseComponent } from '../../base/base.component';
 import { Report } from '../../../types/report.type';
-import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
+
+import {
+  debounceTime,
+  distinctUntilChanged,
+  map,
+  takeUntil,
+} from 'rxjs/operators';
 
 @Component({
   selector: 'app-report-search',
@@ -11,7 +19,7 @@ import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
   templateUrl: './report-search.component.html',
   styleUrl: './report-search.component.scss',
 })
-export class ReportSearchComponent implements OnInit {
+export class ReportSearchComponent extends BaseComponent implements OnInit {
   @Input() reports: Report[] = [];
   @Output() filteredReportsChange = new EventEmitter<Report[]>();
 
@@ -31,6 +39,7 @@ export class ReportSearchComponent implements OnInit {
         debounceTime(300),
         distinctUntilChanged(),
         map((term) => this.filterReports(term || '')),
+        takeUntil(this.destroy$),
       )
       .subscribe((filtered) => this.filteredReportsChange.emit(filtered));
   }
@@ -45,7 +54,7 @@ export class ReportSearchComponent implements OnInit {
   }
 
   private matchesSearchCriteria(report: Report, term: string): boolean {
-    return [report.clientName, report.accountNumber, report.accountType]
+    return [report.name, report.number, report.typeAccount]
       .map((value) => value.toLowerCase())
       .some((value) => value.includes(term));
   }
