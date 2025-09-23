@@ -1,0 +1,26 @@
+<div class="view">
+  <header class="view__header">
+    <h2>Reportes</h2>
+  </header>
+
+  <main class="view__content">
+    <app-report-form (generateReport)="onGenerateReport($event)" />
+
+    <div class="report-actions" *ngIf="reports.length > 0">
+      <button class="btn btn--pdf" (click)="onDownloadPDF()">
+        <i class="fa-solid fa-file-pdf"></i>
+        Descargar reporte PDF
+      </button>
+    </div>
+
+    <app-report-list [reports]="reports" />
+
+    <div class="no-data" *ngIf="reports.length === 0 && !isLoading">
+      <p>Seleccione un cliente y rango de fechas para generar el reporte</p>
+    </div>
+
+    <div class="loading" *ngIf="isLoading">
+      <p>Generando reporte...</p>
+    </div>
+  </main>
+</div>

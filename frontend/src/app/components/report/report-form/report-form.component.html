@@ -1,0 +1,66 @@
+<div class="report-form-container">
+  <h3>Generar Reporte</h3>
+
+  <form [formGroup]="reportForm" (ngSubmit)="onSubmit()" class="report-form">
+    <div class="form-group">
+      <label for="clientId">ID del Cliente:</label>
+      <input
+        type="number"
+        id="clientId"
+        formControlName="clientId"
+        placeholder="Ingrese el ID del cliente"
+        min="1"
+      />
+      <small
+        *ngIf="
+          reportForm.get('clientId')?.invalid &&
+          reportForm.get('clientId')?.touched
+        "
+        class="error-message"
+      >
+        El ID del cliente es requerido y debe ser mayor a 0
+      </small>
+    </div>
+
+    <div class="form-group">
+      <label for="startDate">Fecha de Inicio:</label>
+      <input type="date" id="startDate" formControlName="startDate" />
+      <small
+        *ngIf="
+          reportForm.get('startDate')?.invalid &&
+          reportForm.get('startDate')?.touched
+        "
+        class="error-message"
+      >
+        La fecha de inicio es requerida
+      </small>
+    </div>
+
+    <div class="form-group">
+      <label for="endDate">Fecha de Fin:</label>
+      <input type="date" id="endDate" formControlName="endDate" />
+      <small
+        *ngIf="
+          reportForm.get('endDate')?.invalid &&
+          reportForm.get('endDate')?.touched
+        "
+        class="error-message"
+      >
+        La fecha de fin es requerida
+      </small>
+    </div>
+
+    <div class="form-actions">
+      <button
+        type="submit"
+        [disabled]="reportForm.invalid"
+        class="btn btn-primary"
+      >
+        Generar Reporte
+      </button>
+      <button type="button" (click)="onReset()" class="btn btn-secondary">
+        Limpiar
+      </button>
+    </div>
+  </form>
+</div>

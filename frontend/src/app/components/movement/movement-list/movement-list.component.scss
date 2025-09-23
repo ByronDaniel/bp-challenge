@@ -1,4 +1,4 @@
-.client-list {
+.movement-list {
   background: #fff;
   border: 1px solid #e5e7eb;
   border-radius: 8px;
@@ -7,7 +7,7 @@
   &__header,
   &__row {
     display: grid;
-    grid-template-columns: 1.5fr 2.5fr 1fr 1fr 1fr 2fr 2fr 1fr 120px;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
     gap: 12px;
     align-items: center;
   }
@@ -46,7 +46,7 @@
     }
   }
 
-  &__status {
+  &__type {
     padding: 4px 8px;
     border-radius: 4px;
     font-size: 12px;
@@ -54,9 +54,14 @@
     background: #f3f4f6;
     color: #6b7280;
 
-    &--active {
+    &--credit {
       background: #dcfce7;
       color: #166534;
+    }
+
+    &--debit {
+      background: #fee2e2;
+      color: #991b1b;
     }
   }
 
@@ -79,21 +84,12 @@
       background: #f3f4f6;
     }
 
-    &--edit {
+    &--view {
       color: #3b82f6;
 
       &:hover {
         color: #2563eb;
         border-color: #3b82f6;
-      }
-    }
-
-    &--delete {
-      color: #ef4444;
-
-      &:hover {
-        color: #dc2626;
-        border-color: #ef4444;
       }
     }
   }

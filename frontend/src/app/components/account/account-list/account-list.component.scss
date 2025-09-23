@@ -1,4 +1,4 @@
-.client-list {
+.account-list {
   background: #fff;
   border: 1px solid #e5e7eb;
   border-radius: 8px;
@@ -7,7 +7,7 @@
   &__header,
   &__row {
     display: grid;
-    grid-template-columns: 1.5fr 2.5fr 1fr 1fr 1fr 2fr 2fr 1fr 120px;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 120px;
     gap: 12px;
     align-items: center;
   }

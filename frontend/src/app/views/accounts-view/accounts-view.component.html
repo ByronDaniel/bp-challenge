@@ -1,0 +1,19 @@
+<div class="view">
+  <header class="view__header">
+    <app-account-search
+      [accounts]="accounts"
+      (filteredAccountsChange)="onFilteredAccountsChange($event)"
+    />
+    <a class="btn btn--primary" routerLink="/cuentas/crear">
+      <i class="fa-solid fa-plus"></i>
+      Nueva Cuenta
+    </a>
+  </header>
+
+  <main class="view__content">
+    <app-account-list
+      [accounts]="filteredAccounts"
+      (deleteAccount)="onDeleteAccount($event)"
+    />
+  </main>
+</div>

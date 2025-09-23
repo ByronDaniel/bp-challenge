@@ -39,12 +39,36 @@ export const routes: Routes = [
     title: 'Cuentas',
   },
   {
+    path: 'cuentas/crear',
+    loadComponent: () =>
+      import('./components/account/account-form/account-form.component').then(
+        (m) => m.AccountFormComponent,
+      ),
+    title: 'Crear Cuenta',
+  },
+  {
+    path: 'cuentas/editar/:id',
+    loadComponent: () =>
+      import('./components/account/account-form/account-form.component').then(
+        (m) => m.AccountFormComponent,
+      ),
+    title: 'Editar Cuenta',
+  },
+  {
     path: 'movimientos',
     loadComponent: () =>
       import('./views/movements-view/movements-view.component').then(
         (m) => m.MovementsViewComponent,
       ),
     title: 'Movimientos',
+  },
+  {
+    path: 'movimientos/crear',
+    loadComponent: () =>
+      import(
+        './components/movement/movement-form/movement-form.component'
+      ).then((m) => m.MovementFormComponent),
+    title: 'Crear Movimiento',
   },
   {
     path: 'reportes',
