@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface PdfGeneratorOutputPort {
 
-  Mono<String> generatePdfFromReports(List<ReportResponseDto> reports);
+    Mono<String> generatePdfFromReports(List<ReportResponseDto> reports);
 }

@@ -5,5 +5,5 @@ import reactor.core.publisher.Mono;
 
 public interface ReportPdfInputPort {
 
-  Mono<ReportPdfResponseDto> getReportWithPdf(String date, Integer clientId);
+    Mono<ReportPdfResponseDto> getReportWithPdf(String date, Integer clientId);
 }
