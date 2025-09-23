@@ -1,55 +1,52 @@
 @import "../../styles/variables";
 
+/* Componente Sidebar usando BEM */
 .sidebar {
-  background: color(white);
-  border-right: 1px solid color(gray-200);
+  background-color: $color-white;
+  border-right: 1px solid $color-border;
   height: 100%;
+  box-shadow: $box-shadow;
+}
 
-  &__menu {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-  }
+.sidebar__menu {
+  list-style: none;
+  margin: 0;
+  padding: $spacing-small 0;
+}
 
-  &__item {
-    border-bottom: 1px solid color(gray-100);
+.sidebar__item {
+  margin: $spacing-small;
+}
 
-    &:last-child {
-      border-bottom: none;
-    }
-  }
+.sidebar__link {
+  display: flex;
+  align-items: center;
+  gap: $spacing-medium;
+  padding: $spacing-medium;
+  font-size: $font-size-small;
+  color: $color-gray-medium;
+  text-decoration: none;
+  border-radius: $border-radius;
+  line-height: 1;
+}
 
-  &__link {
-    display: flex;
-    align-items: center;
-    gap: spacing(md);
-    padding: spacing(lg) spacing(xl);
-    font-size: font-size(sm);
-    color: color(gray-500);
-    text-decoration: none;
-    transition: all 0.2s ease;
+.sidebar__link:hover {
+  background-color: $color-gray-light;
+  color: $color-primary;
+}
 
-    &:hover {
-      background: color(gray-50);
-      color: color(gray-700);
-    }
+.sidebar__link--active {
+  background-color: $color-primary;
+  color: $color-white;
+  font-weight: $font-weight-bold;
+}
 
-    &--active {
-      background: #eff6ff;
-      color: color(primary);
-      border-right: 3px solid color(primary);
-      font-weight: font-weight(medium);
-    }
-  }
+.sidebar__icon {
+  width: 20px;
+  font-size: $font-size-medium;
+  text-align: center;
+}
 
-  &__icon {
-    width: 20px;
-    font-size: spacing(lg);
-    text-align: center;
-    flex-shrink: 0;
-  }
-
-  &__text {
-    font-weight: font-weight(medium);
-  }
+.sidebar__text {
+  font-weight: $font-weight-normal;
 }

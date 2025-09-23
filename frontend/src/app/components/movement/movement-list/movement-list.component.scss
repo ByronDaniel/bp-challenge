@@ -1,82 +1,62 @@
-@import "../../../styles/mixins";
+@import "../../../styles/variables";
 
+/* Lista de movimientos usando BEM */
 .movement-list {
-  @include data-table(1fr 1fr 1fr 1fr 1fr);
+  background-color: $color-white;
+  border: 1px solid $color-border;
+  border-radius: $border-radius;
+  box-shadow: $box-shadow;
+}
 
-  &__col {
-    padding: spacing(md) spacing(sm);
-    font-size: font-size(sm);
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+.movement-list__header {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  gap: $spacing-medium;
+  padding: $spacing-medium;
+  background-color: $color-gray-light;
+  font-weight: $font-weight-bold;
+  border-bottom: 1px solid $color-border;
+}
 
-    &:last-child {
-      display: flex;
-      justify-content: center;
-      gap: spacing(xs);
-    }
+.movement-list__row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  gap: $spacing-medium;
+  padding: $spacing-medium;
+  border-bottom: 1px solid $color-border;
+}
 
-    @media (max-width: 768px) {
-      padding: spacing(sm);
-      display: block;
+.movement-list__row:hover {
+  background-color: $color-gray-light;
+}
 
-      &::before {
-        content: attr(data-label);
-        font-weight: font-weight(semibold);
-        display: block;
-        margin-bottom: spacing(xs);
-        color: color(gray-600);
-      }
-    }
-  }
+.movement-list__type {
+  padding: 4px $spacing-small;
+  border-radius: $border-radius;
+  font-size: 12px;
+  font-weight: $font-weight-bold;
+  text-transform: uppercase;
+  background-color: $color-gray-medium;
+  color: $color-white;
+}
 
-  &__type {
-    padding: spacing(xs) spacing(sm);
-    border-radius: radius(sm);
-    font-size: font-size(xs);
-    font-weight: font-weight(medium);
-    background: color(gray-100);
-    color: color(gray-700);
+.movement-list__type--credit {
+  background-color: $color-success;
+}
 
-    &--credit {
-      background: color(success);
-      color: color(white);
-    }
+.movement-list__type--debit {
+  background-color: $color-danger;
+}
 
-    &--debit {
-      background: color(danger);
-      color: color(white);
-    }
-  }
+.movement-list__btn {
+  font-size: 12px;
+  padding: 4px $spacing-small;
+}
 
-  &__btn {
-    @include btn(secondary);
-    font-size: font-size(xs);
-    padding: spacing(xs) spacing(sm);
+.movement-list__btn--view {
+  color: $color-primary;
+}
 
-    &--view {
-      color: color(primary);
-
-      &:hover {
-        color: color(primary-dark);
-        border-color: color(primary);
-      }
-    }
-  }
-
-  @media (max-width: 768px) {
-    &__header {
-      display: none;
-    }
-
-    &__row {
-      display: block;
-      padding: spacing(lg);
-      border-bottom: 2px solid color(gray-200);
-
-      &:hover {
-        background: color(white);
-      }
-    }
-  }
+.movement-list__btn--view:hover {
+  color: $color-secondary;
 }

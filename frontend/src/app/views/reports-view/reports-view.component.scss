@@ -1,11 +1,31 @@
-@import "../../styles/mixins";
+@import "../../styles/variables";
 
+/* Vista de reportes usando BEM */
 .view {
-  @include view-layout;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: $spacing-large;
 }
 
-.btn {
-  &--pdf {
-    @include btn(danger);
-  }
+.view__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: $spacing-xlarge;
+  gap: $spacing-medium;
+}
+
+.view__content {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xlarge;
+}
+
+.btn--pdf {
+  background-color: $color-danger;
+  color: $color-white;
+}
+
+.btn--pdf:hover {
+  background-color: $color-warning;
 }

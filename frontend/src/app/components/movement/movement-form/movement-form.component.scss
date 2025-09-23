@@ -1,104 +1,47 @@
-@import "../../../styles/mixins";
+@import "../../../styles/variables";
 
+/* Formulario de movimiento usando BEM */
 .form {
-  background: color(white);
-  border-radius: radius(lg);
-  padding: spacing(xxl);
-  box-shadow: shadow(md);
-  border: 1px solid color(gray-200);
+  background-color: $color-white;
+  border-radius: $border-radius;
+  padding: $spacing-large;
+  box-shadow: $box-shadow;
+  border: 1px solid $color-border;
   max-width: 600px;
   margin: 0 auto;
-
-  &__grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: spacing(lg);
-    margin-bottom: spacing(xxl);
-
-    @media (max-width: 768px) {
-      grid-template-columns: 1fr;
-      gap: spacing(md);
-    }
-  }
-
-  &__field {
-    @include form-field;
-
-    &--full {
-      grid-column: 1 / -1;
-    }
-  }
-
-  &__label {
-    font-weight: font-weight(medium);
-    color: color(gray-700);
-    font-size: font-size(sm);
-  }
-
-  &__input {
-    padding: spacing(md);
-    border: 1px solid color(gray-300);
-    border-radius: radius(md);
-    font-size: font-size(sm);
-    transition: all 0.2s ease;
-    background: color(white);
-
-    &:focus {
-      outline: none;
-      border-color: color(primary);
-      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-    }
-
-    &::placeholder {
-      color: color(gray-400);
-    }
-
-    &:disabled {
-      background: color(gray-50);
-      color: color(gray-500);
-      cursor: not-allowed;
-    }
-
-    &--error {
-      border-color: color(danger);
-
-      &:focus {
-        box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
-      }
-    }
-  }
-
-  &__error {
-    color: color(danger);
-    font-size: font-size(xs);
-    margin-top: spacing(xs);
-  }
-
-  &__actions {
-    display: flex;
-    gap: spacing(lg);
-    justify-content: flex-end;
-    padding-top: spacing(xl);
-    border-top: 1px solid color(gray-200);
-    margin-top: spacing(xl);
-
-    @media (max-width: 768px) {
-      flex-direction: column;
-      gap: spacing(sm);
-
-      .btn {
-        width: 100%;
-      }
-    }
-  }
 }
 
-.btn {
-  &--cancel {
-    @include btn(secondary);
-  }
+.form__field {
+  margin-bottom: $spacing-medium;
+}
 
-  &--save {
-    @include btn(primary);
-  }
+.form__label {
+  display: block;
+  margin-bottom: $spacing-small;
+  font-weight: $font-weight-bold;
+  color: $color-gray-dark;
+}
+
+.form__input {
+  width: 100%;
+  padding: $spacing-small;
+  border: 1px solid $color-border;
+  border-radius: $border-radius;
+  font-size: $font-size-medium;
+  background-color: $color-white;
+  color: $color-gray-dark;
+}
+
+.form__input:focus {
+  border-color: $color-primary;
+  outline: none;
+}
+
+.form__actions {
+  display: flex;
+  gap: $spacing-medium;
+  justify-content: flex-end;
+  padding-top: $spacing-medium;
+  border-top: 1px solid $color-border;
+  margin-top: $spacing-medium;
 }

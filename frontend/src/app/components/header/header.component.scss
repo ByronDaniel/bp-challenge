@@ -1,22 +1,22 @@
 @import "../../styles/variables";
 
+/* Componente Header usando BEM */
 .header {
-  background: color(white);
-  border-bottom: 1px solid color(gray-200);
-  padding: spacing(lg) spacing(xxl);
-  box-shadow: shadow(sm);
+  background-color: $color-white;
+  border-bottom: 1px solid $color-border;
+  padding: $spacing-medium $spacing-large;
+  box-shadow: $box-shadow;
+}
 
-  &__title {
-    margin: 0;
-    font-size: font-size(xl);
-    font-weight: font-weight(semibold);
-    color: color(gray-800);
-    text-align: center;
-    letter-spacing: 1px;
-  }
+.header__title {
+  margin: 0;
+  font-size: $font-size-xlarge;
+  font-weight: $font-weight-bold;
+  color: $color-primary;
+  text-align: left;
+}
 
-  &__icon {
-    margin-right: spacing(sm);
-    color: color(primary);
-  }
+.header__icon {
+  margin-right: $spacing-small;
+  color: $color-primary;
 }

@@ -1,51 +1,70 @@
-@import "../../../styles/mixins";
+@import "../../../styles/variables";
 
+/* Formulario de reporte usando BEM */
 .report-form {
-  background: color(white);
-  border-radius: radius(lg);
-  padding: spacing(xxl);
-  box-shadow: shadow(md);
-  border: 1px solid color(gray-200);
-  margin-bottom: spacing(xxxxl);
-
-  h3 {
-    margin: 0 0 spacing(xxxl) 0;
-    color: color(gray-800);
-    font-size: font-size(xl);
-    font-weight: font-weight(semibold);
-  }
-
-  &__fields {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: spacing(lg);
-    margin-bottom: spacing(xxxl);
-
-    @media (max-width: 768px) {
-      grid-template-columns: 1fr;
-    }
-  }
-
-  &__field {
-    @include form-field;
-  }
-
-  &__actions {
-    display: flex;
-    gap: spacing(lg);
-    justify-content: flex-end;
-    padding-top: spacing(xl);
-    border-top: 1px solid color(gray-200);
-    margin-top: spacing(xl);
-  }
+  background-color: $color-white;
+  border-radius: $border-radius;
+  padding: $spacing-xlarge;
+  box-shadow: $box-shadow;
+  border: 1px solid $color-border;
+  max-width: 800px;
+  margin: 0 auto $spacing-xlarge auto;
 }
 
-.btn {
-  &--primary {
-    @include btn(primary);
-  }
+.report-form h3 {
+  margin: 0 0 $spacing-xlarge 0;
+  color: $color-primary;
+  font-size: $font-size-xlarge;
+  font-weight: $font-weight-bold;
+  text-align: center;
+  padding-bottom: $spacing-medium;
+  border-bottom: 2px solid $color-border;
+}
 
-  &--secondary {
-    @include btn(secondary);
-  }
+.report-form__fields {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: $spacing-large;
+  margin-bottom: $spacing-xlarge;
+}
+
+.report-form__field {
+  margin-bottom: $spacing-medium;
+}
+
+.report-form__field label {
+  display: block;
+  margin-bottom: $spacing-small;
+  font-weight: $font-weight-bold;
+  color: $color-gray-dark;
+}
+
+.report-form__field input {
+  width: 100%;
+  padding: $spacing-small;
+  border: 1px solid $color-border;
+  border-radius: $border-radius;
+  font-size: $font-size-medium;
+  background-color: $color-white;
+  color: $color-gray-dark;
+}
+
+.report-form__field input:focus {
+  border-color: $color-primary;
+  outline: none;
+}
+
+.report-form__actions {
+  display: flex;
+  gap: $spacing-medium;
+  justify-content: center;
+  padding-top: $spacing-large;
+  border-top: 1px solid $color-border;
+  margin-top: $spacing-large;
+}
+
+.error-message {
+  color: $color-danger;
+  font-size: $font-size-small;
+  margin-top: $spacing-small;
 }

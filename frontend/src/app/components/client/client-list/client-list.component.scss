@@ -1,20 +1,37 @@
-@import "../../../styles/mixins";
+@import "../../../styles/variables";
 
+/* Lista de clientes usando BEM */
 .client-list {
-  @include data-table(1.5fr 2.5fr 1fr 1fr 1fr 2fr 2fr 1fr 120px);
+  background-color: $color-white;
+  border: 1px solid $color-border;
+  border-radius: $border-radius;
+  box-shadow: $box-shadow;
+}
 
-  &__btn {
-    @include btn(primary);
-    font-size: font-size(xs);
-    padding: spacing(xs) spacing(sm);
-    margin: 0 spacing(xs);
+.client-list__header {
+  display: grid;
+  grid-template-columns: 1.5fr 2.5fr 1fr 1fr 1fr 2fr 2fr 1fr 120px;
+  gap: $spacing-medium;
+  padding: $spacing-medium;
+  background-color: $color-gray-light;
+  font-weight: $font-weight-bold;
+  border-bottom: 1px solid $color-border;
+}
 
-    &--edit {
-      @include btn(secondary);
-    }
+.client-list__row {
+  display: grid;
+  grid-template-columns: 1.5fr 2.5fr 1fr 1fr 1fr 2fr 2fr 1fr 120px;
+  gap: $spacing-medium;
+  padding: $spacing-medium;
+  border-bottom: 1px solid $color-border;
+}
 
-    &--delete {
-      @include btn(danger);
-    }
-  }
+.client-list__row:hover {
+  background-color: $color-gray-light;
+}
+
+.client-list__actions {
+  display: flex;
+  gap: $spacing-small;
+  justify-content: center;
 }

@@ -21,6 +21,6 @@
     grid-area: content;
     overflow-y: auto;
     padding: spacing(xxl);
-    background-color: color(gray-50);
+    background: linear-gradient(135deg, color(gray-50) 0%, color(white) 100%);
   }
 }

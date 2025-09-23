@@ -1,5 +1,22 @@
-@import "../../styles/mixins";
+@import "../../styles/variables";
 
+/* Vista de movimientos usando BEM */
 .view {
-  @include view-layout;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: $spacing-large;
+}
+
+.view__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: $spacing-xlarge;
+  gap: $spacing-medium;
+}
+
+.view__content {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xlarge;
 }
