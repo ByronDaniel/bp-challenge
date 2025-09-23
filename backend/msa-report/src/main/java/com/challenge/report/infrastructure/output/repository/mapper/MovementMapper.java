@@ -1,11 +1,11 @@
 package com.challenge.report.infrastructure.output.repository.mapper;
 
-import com.challenge.report.domain.Client;
+import com.challenge.report.domain.Movement;
 import org.mapstruct.Mapper;
-import task___buildSpringClient0__property__packageName_.clients0.client.models.ClientResponseDto;
+import task___buildSpringClient2__property__packageName_.clients2.client.models.MovementResponseDto;
 
 @Mapper
-public interface ClientMapper {
+public interface MovementMapper {
 
-  Client toClient(ClientResponseDto clientResponseDto);
+  Movement toMovement(MovementResponseDto movementResponseDto);
 }

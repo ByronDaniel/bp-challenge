@@ -1,14 +1,13 @@
 package com.challenge.report.infrastructure.output.repository.mapper;
 
-import com.challenge.report.domain.Account;
+import com.challenge.report.domain.Client;
 import org.mapstruct.Mapper;
-import task___buildSpringClient0__property__packageName_.clients0.client.models.AccountRequestDto;
-import task___buildSpringClient0__property__packageName_.clients0.client.models.AccountResponseDto;
+import org.mapstruct.Mapping;
+import task___buildSpringClient0__property__packageName_.clients0.client.models.ClientResponseDto;
 
 @Mapper
-public interface AccountMapper {
+public interface ClientMapper {
 
-  Account toAccount(AccountResponseDto accountResponseDto);
-
-  AccountRequestDto toAccountRequestDto(Account account);
+  @Mapping(target = "clientId", source = "id")
+  Client toClient(ClientResponseDto clientResponseDto);
 }
