@@ -1,0 +1,22 @@
+<div class="view">
+  <header class="view__header">
+      <app-client-search 
+        [clients]="clients" 
+        (filteredClientsChange)="onFilteredClientsChange($event)" 
+      />
+    <a 
+      class="btn btn--primary" 
+      routerLink="/clientes/crear"
+    >
+      <i class="fa-solid fa-plus"></i>
+      Nuevo Cliente
+    </a>
+  </header>
+
+  <main class="view__content">
+      <app-client-list 
+        [clients]="filteredClients" 
+        (deleteClient)="onDeleteClient($event)" 
+      />
+  </main>
+</div>

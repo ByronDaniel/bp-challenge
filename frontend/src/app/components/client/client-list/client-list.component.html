@@ -1,0 +1,49 @@
+<div class="client-list" *ngIf="clients.length > 0">
+  <div class="client-list__header">
+    <div class="client-list__col">Identificación</div>
+    <div class="client-list__col">Nombre</div>
+    <div class="client-list__col">Género</div>
+    <div class="client-list__col">Edad</div>
+    <div class="client-list__col">Télefono</div>
+    <div class="client-list__col">Dirección</div>
+    <div class="client-list__col">Contraseña</div>
+    <div class="client-list__col">Estado</div>
+    <div class="client-list__col">Acciones</div>
+  </div>
+
+  <div
+    class="client-list__row"
+    *ngFor="let client of clients; trackBy: trackById"
+  >
+    <div class="client-list__col">{{ client.identification }}</div>
+    <div class="client-list__col">{{ client.name }}</div>
+    <div class="client-list__col">{{ client.gender }}</div>
+    <div class="client-list__col">{{ client.age }}</div>
+    <div class="client-list__col">{{ client.phone }}</div>
+    <div class="client-list__col">{{ client.address }}</div>
+    <div class="client-list__col">{{ client.password }}</div>
+    <div class="client-list__col">
+      <span
+        class="client-list__status"
+        [class.client-list__status--active]="client.status"
+      >
+        {{ client.status ? "Activo" : "Inactivo" }}
+      </span>
+    </div>
+    <div class="client-list__col">
+      <a
+        class="client-list__btn client-list__btn--edit"
+        [routerLink]="['/clientes/editar', client.id]"
+        [state]="{ client: client }"
+      >
+        <i class="fa-solid fa-edit"></i>
+      </a>
+      <button
+        class="client-list__btn client-list__btn--delete"
+        (click)="deleteClient.emit(client)"
+      >
+        <i class="fa-solid fa-trash"></i>
+      </button>
+    </div>
+  </div>
+</div>
