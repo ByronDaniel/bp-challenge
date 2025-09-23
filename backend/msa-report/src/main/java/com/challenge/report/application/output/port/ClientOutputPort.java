@@ -1,11 +1,9 @@
 package com.challenge.report.application.output.port;
 
-import com.challenge.report.domain.Account;
+import com.challenge.report.domain.Client;
 import reactor.core.publisher.Mono;
 
-public interface AccountOutputPort {
+public interface ClientOutputPort {
 
-  Mono<Account> getById(Integer id);
-
-  Mono<Account> updateById(Integer id, Account account);
+  Mono<Client> getById(Integer id);
 }

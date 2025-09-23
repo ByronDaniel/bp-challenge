@@ -1,29 +1,26 @@
 package com.challenge.report.infrastructure.output.adapter;
 
-import com.challenge.report.application.output.port.AccountOutputPort;
-import com.challenge.report.domain.Account;
-import com.challenge.report.infrastructure.output.repository.mapper.AccountMapper;
+import com.challenge.report.application.output.port.ClientOutputPort;
+import com.challenge.report.domain.Client;
+import com.challenge.report.infrastructure.output.repository.mapper.ClientMapper;
+import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
-import task___buildSpringClient0__property__packageName_.clients0.client.AccountManagementApi;
+import task___buildSpringClient0__property__packageName_.clients0.client.ClientManagementApi;
 
 @Component
 @RequiredArgsConstructor
-public class AccountAdapter implements AccountOutputPort {
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
+public class ClientAdapter implements ClientOutputPort {
 
-  private final AccountManagementApi accountManagementApi;
-  private final AccountMapper accountMapper;
-
-  @Override
-  public Mono<Account> getById(Integer id) {
-    return accountManagementApi.getById(id)
-        .map(accountMapper::toAccount);
-  }
+  ClientManagementApi clientManagementApi;
+  ClientMapper clientMapper;
 
   @Override
-  public Mono<Account> updateById(Integer id, Account account) {
-    return accountManagementApi.updateById(id, accountMapper.toAccountRequestDto(account))
-        .map(accountMapper::toAccount);
+  public Mono<Client> getById(Integer id) {
+    return clientManagementApi.getById(id)
+        .map(clientMapper::toClient);
   }
 }

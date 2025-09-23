@@ -1,9 +1,9 @@
 package com.challenge.report.application.output.port;
 
-import com.challenge.report.domain.Account;
+import com.challenge.report.domain.Movement;
 import reactor.core.publisher.Flux;
 
-public interface AccountOutputPort {
+public interface MovementOutputPort {
 
-  Flux<Account> getAll(Integer clientId);
+  Flux<Movement> getAll(Integer accountId);
 }
