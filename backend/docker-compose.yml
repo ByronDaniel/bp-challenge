@@ -1,0 +1,83 @@
+version: "3.9"
+
+services:
+  # SQL Server
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    container_name: sqlserver
+    environment:
+      SA_PASSWORD: "Holamundo11*"
+      ACCEPT_EULA: "Y"
+    ports:
+      - "1433:1433"
+    networks:
+      - app-network
+
+  # Contenedor temporal para inicializar la DB
+  db_init:
+    image: mcr.microsoft.com/mssql-tools
+    container_name: db_init
+    depends_on:
+      - sqlserver
+    networks:
+      - app-network
+    volumes:
+      - ./db-init:/db-init
+    entrypoint: /bin/bash
+    command: -c "
+      echo 'Esperando SQL Server...';
+      until /opt/mssql-tools/bin/sqlcmd -S sqlserver -U sa -P Holamundo11* -Q 'SELECT 1' > /dev/null 2>&1; do
+        sleep 5;
+      done;
+      echo 'Ejecutando script SQL...';
+      /opt/mssql-tools/bin/sqlcmd -S sqlserver -U sa -P Holamundo11* -i /db-init/basedatos.sql;
+      echo 'Script ejecutado';"
+
+  # Microservicios
+  msa-client:
+    build: ./msa-client
+    container_name: msa-client
+    ports:
+      - "8080:8080"
+    networks:
+      - app-network
+    depends_on:
+      - sqlserver
+      - db_init
+
+  msa-account:
+    build: ./msa-account
+    container_name: msa-account
+    ports:
+      - "8081:8080"
+    networks:
+      - app-network
+    depends_on:
+      - sqlserver
+      - db_init
+
+  msa-movement:
+    build: ./msa-movement
+    container_name: msa-movement
+    ports:
+      - "8082:8080"
+    networks:
+      - app-network
+    depends_on:
+      - sqlserver
+      - db_init
+
+  msa-report:
+    build: ./msa-report
+    container_name: msa-report
+    ports:
+      - "8083:8080"
+    networks:
+      - app-network
+    depends_on:
+      - sqlserver
+      - db_init
+
+networks:
+  app-network:
+    driver: bridge

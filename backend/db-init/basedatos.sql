@@ -1,14 +1,7 @@
-IF EXISTS (SELECT name FROM sys.databases WHERE name = N'challenge')
-BEGIN
-    DROP DATABASE challenge;
-END
-GO
-
 CREATE DATABASE challenge;
 GO
 
 USE challenge;
-GO
 
 CREATE TABLE persons (
     person_id INT IDENTITY(1,1) NOT NULL PRIMARY KEY,		
