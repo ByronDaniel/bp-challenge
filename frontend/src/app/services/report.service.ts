@@ -2,13 +2,13 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, catchError, retry, throwError } from 'rxjs';
 import { Report, ReportFilter } from '../types/report.type';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ReportService {
-  private readonly baseUrl =
-    'https://9e7043da-4f4b-431d-afdf-d300eafc5e90.mock.pstmn.io';
+  private readonly baseUrl = environment.apiUrl;
 
   constructor(private readonly http: HttpClient) {}
 

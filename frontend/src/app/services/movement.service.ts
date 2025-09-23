@@ -9,7 +9,7 @@ import { environment } from '../../environments/environment';
 })
 export class MovementService {
   private readonly endpoint = 'movimientos';
-  private readonly apiUrl = `https://9e7043da-4f4b-431d-afdf-d300eafc5e90.mock.pstmn.io/${this.endpoint}`;
+  private readonly apiUrl = `${environment.apiUrl}/${this.endpoint}`;
 
   constructor(private readonly http: HttpClient) {}
 
