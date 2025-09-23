@@ -37,9 +37,7 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/ReportResponseDto'
+                $ref: "#/components/schemas/ReportPdfResponseDto"
         "404":
           $ref: "#/components/responses/404"
         "500":
@@ -148,6 +146,14 @@ components:
           description: Balance
           nullable: false
           example: 350.35
+    ReportPdfResponseDto:
+      type: object
+      properties:
+        pdf:
+          type: string
+          description: pdf in base 64
+        report:
+          $ref: "#/components/schemas/ReportResponseDto"
     ErrorDto:
       type: object
       properties:
@@ -175,7 +181,7 @@ components:
         errors:
           type: array
           items:
-            $ref: '#/components/schemas/ErrorDto'
+            $ref: "#/components/schemas/ErrorDto"
         instance:
           type: string
           description: Error catalog code

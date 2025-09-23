@@ -1,30 +1,24 @@
 package com.challenge.report.infrastructure.input.adapter.rest.impl;
 
-import com.challenge.report.application.input.port.ReportInputPort;
-import com.challenge.report.infrastructure.input.adapter.rest.mapper.ReportDtoMapper;
+import com.challenge.report.application.usecase.ReportPdfService;
 import com.challenge.services.server.ReporteApi;
-import com.challenge.services.server.models.ReportResponseDto;
-import lombok.AccessLevel;
+import com.challenge.services.server.models.ReportPdfResponseDto;
 import lombok.RequiredArgsConstructor;
-import lombok.experimental.FieldDefaults;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ServerWebExchange;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @RestController
 @RequiredArgsConstructor
-@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class ReportController implements ReporteApi {
 
-  ReportInputPort reportInputPort;
-  ReportDtoMapper reportDtoMapper;
+  private final ReportPdfService reportPdfService;
 
   @Override
-  public Mono<ResponseEntity<Flux<ReportResponseDto>>> getReportByFilter(String date,
+  public Mono<ResponseEntity<ReportPdfResponseDto>> getReportByFilter(String date,
       Integer clientId, ServerWebExchange exchange) {
-    return Mono.just(ResponseEntity.ok(reportInputPort.getReportByFilter(date, clientId)
-        .map(reportDtoMapper::toReportResponseDto)));
+    return reportPdfService.getReportWithPdf(date, clientId)
+        .map(ResponseEntity::ok);
   }
 }
