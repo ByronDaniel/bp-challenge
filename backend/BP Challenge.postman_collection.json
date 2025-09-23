@@ -27,7 +27,53 @@
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "200",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/clientes",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"clientes"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "transfer-encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Method"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Headers"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"id\": 2,\n        \"password\": \"Holamundo11}\",\n        \"status\": true,\n        \"identification\": \"1751592013\",\n        \"name\": \"Byron Daniel Delgado Landa\",\n        \"gender\": \"Masculino\",\n        \"age\": 27,\n        \"address\": \"LA GASCA\",\n        \"phone\": \"0985359323\"\n    },\n    {\n        \"id\": 3,\n        \"password\": \"contrasena*22\",\n        \"status\": false,\n        \"identification\": \"1751592031\",\n        \"name\": \"Alis Eliz\",\n        \"gender\": \"Femenino\",\n        \"age\": 22,\n        \"address\": \"Sangolqui22\",\n        \"phone\": \"0985323422\"\n    }\n]"
+						}
+					]
 				},
 				{
 					"name": "getById",
@@ -47,7 +93,54 @@
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "200",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8080/clientes/2",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"clientes",
+										"2"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Method"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Headers"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "186"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": 2,\n    \"password\": \"Holamundo11}\",\n    \"status\": true,\n    \"identification\": \"1751592013\",\n    \"name\": \"Byron Daniel Delgado Landa\",\n    \"gender\": \"Masculino\",\n    \"age\": 27,\n    \"address\": \"LA GASCA\",\n    \"phone\": \"0985359323\"\n}"
+						}
+					]
 				},
 				{
 					"name": "create",
@@ -56,7 +149,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"identification\": \"1751592029\",\r\n    \"name\": \"Alis Eliz\",\r\n    \"gender\": \"Femenino\",\r\n    \"age\": 22,\r\n    \"phone\": \"0985323422\",\r\n    \"address\": \"Sangolqui22\",\r\n    \"password\": \"contrasena*22\",\r\n    \"status\": false\r\n}\r\n",
+							"raw": "{\r\n    \"identification\": \"1751592032\",\r\n    \"name\": \"Alis Eliz\",\r\n    \"gender\": \"Femenino\",\r\n    \"age\": 22,\r\n    \"phone\": \"0985323422\",\r\n    \"address\": \"Sangolqui22\",\r\n    \"password\": \"contrasena*22\",\r\n    \"status\": false\r\n}\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -75,16 +168,132 @@
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "400 Client already exists",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"identification\": \"1751592031\",\r\n    \"name\": \"Alis Eliz\",\r\n    \"gender\": \"Femenino\",\r\n    \"age\": 22,\r\n    \"phone\": \"0985323422\",\r\n    \"address\": \"Sangolqui22\",\r\n    \"password\": \"contrasena*22\",\r\n    \"status\": false\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/clientes",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"clientes"
+									]
+								}
+							},
+							"status": "Conflict",
+							"code": 409,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Method"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Headers"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "53"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"title\": \"Conflict\",\n    \"detail\": \"Client already exists\"\n}"
+						},
+						{
+							"name": "201 Created",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"identification\": \"1751592032\",\r\n    \"name\": \"Alis Eliz\",\r\n    \"gender\": \"Femenino\",\r\n    \"age\": 22,\r\n    \"phone\": \"0985323422\",\r\n    \"address\": \"Sangolqui22\",\r\n    \"password\": \"contrasena*22\",\r\n    \"status\": false\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/clientes",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"clientes"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Method"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Headers"
+								},
+								{
+									"key": "Location",
+									"value": "/clientes/4"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "173"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": 4,\n    \"password\": \"contrasena*22\",\n    \"status\": false,\n    \"identification\": \"1751592032\",\n    \"name\": \"Alis Eliz\",\n    \"gender\": \"Femenino\",\n    \"age\": 22,\n    \"address\": \"Sangolqui22\",\n    \"phone\": \"0985323422\"\n}"
+						}
+					]
 				},
 				{
 					"name": "update",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
 					"request": {
-						"method": "PUT",
+						"method": "GET",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"identification\": \"1751592024\",\r\n    \"name\": \"BYRON DANIEs\",\r\n    \"gender\": \"Femenino\",\r\n    \"age\": 21,\r\n    \"address\": \"E11A Y S813\",\r\n    \"phone\": \"0985350377\",\r\n    \"password\": \"Holamundo123*2\",\r\n    \"status\": true\r\n}",
+							"raw": "{\r\n    \"identification\": \"1751592032\",\r\n    \"name\": \"BYRON DANIEs\",\r\n    \"gender\": \"Femenino\",\r\n    \"age\": 21,\r\n    \"address\": \"E11A Y S813\",\r\n    \"phone\": \"0985350377\",\r\n    \"password\": \"Holamundo123*2\",\r\n    \"status\": true\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -92,7 +301,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/clientes/2",
+							"raw": "http://localhost:8080/clientes/3",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -100,11 +309,122 @@
 							"port": "8080",
 							"path": [
 								"clientes",
-								"2"
+								"3"
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "404 Not Found",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"identification\": \"1751592031\",\r\n    \"name\": \"BYRON DANIEs\",\r\n    \"gender\": \"Femenino\",\r\n    \"age\": 21,\r\n    \"address\": \"E11A Y S813\",\r\n    \"phone\": \"0985350377\",\r\n    \"password\": \"Holamundo123*2\",\r\n    \"status\": true\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/clientes/5",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"clientes",
+										"5"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Method"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Headers"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "49"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"title\": \"Not Found\",\n    \"detail\": \"Client not found\"\n}"
+						},
+						{
+							"name": "200 OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"identification\": \"1751592032\",\r\n    \"name\": \"BYRON DANIEs\",\r\n    \"gender\": \"Femenino\",\r\n    \"age\": 21,\r\n    \"address\": \"E11A Y S813\",\r\n    \"phone\": \"0985350377\",\r\n    \"password\": \"Holamundo123*2\",\r\n    \"status\": true\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/clientes/3",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"clientes",
+										"3"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Method"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Headers"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "173"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": 3,\n    \"password\": \"contrasena*22\",\n    \"status\": false,\n    \"identification\": \"1751592031\",\n    \"name\": \"Alis Eliz\",\n    \"gender\": \"Femenino\",\n    \"age\": 22,\n    \"address\": \"Sangolqui22\",\n    \"phone\": \"0985323422\"\n}"
+						}
+					]
 				},
 				{
 					"name": "delete",
@@ -121,7 +441,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/clientes/5",
+							"raw": "http://localhost:8080/clientes/4",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -129,11 +449,114 @@
 							"port": "8080",
 							"path": [
 								"clientes",
-								"5"
+								"4"
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "404 Not Found",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"identification\": \"1751d92033\",\r\n    \"name\": \"Bytitodelgad\",\r\n    \"gender\": \"fem\",\r\n    \"age\": 18,\r\n    \"address\": \"el recreo\",\r\n    \"phone\": \"098535031d\",\r\n    \"password\": \"holamsd2o\",\r\n    \"status\": true\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/clientes/5",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"clientes",
+										"5"
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Method"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Headers"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "49"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"title\": \"Not Found\",\n    \"detail\": \"Client not found\"\n}"
+						},
+						{
+							"name": "204 No Content",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"identification\": \"1751d92033\",\r\n    \"name\": \"Bytitodelgad\",\r\n    \"gender\": \"fem\",\r\n    \"age\": 18,\r\n    \"address\": \"el recreo\",\r\n    \"phone\": \"098535031d\",\r\n    \"password\": \"holamsd2o\",\r\n    \"status\": true\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/clientes/4",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"clientes",
+										"4"
+									]
+								}
+							},
+							"status": "No Content",
+							"code": 204,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Method"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Headers"
+								}
+							],
+							"cookie": [],
+							"body": null
+						}
+					]
 				}
 			]
 		},
@@ -157,7 +580,53 @@
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "200 OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8081/cuentas",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"cuentas"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "transfer-encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Method"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Headers"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"accountId\": 4,\n        \"number\": \"0846975169\",\n        \"type\": \"Corriente\",\n        \"balance\": 12.2,\n        \"status\": true,\n        \"clientId\": 3\n    }\n]"
+						}
+					]
 				},
 				{
 					"name": "getById",
@@ -165,7 +634,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8081/cuentas/2",
+							"raw": "http://localhost:8081/cuentas/4",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -173,11 +642,58 @@
 							"port": "8081",
 							"path": [
 								"cuentas",
-								"2"
+								"4"
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "200 OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8081/cuentas/4",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"cuentas",
+										"4"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Method"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Headers"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "98"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"accountId\": 4,\n    \"number\": \"0846975169\",\n    \"type\": \"Corriente\",\n    \"balance\": 12.2,\n    \"status\": true,\n    \"clientId\": 3\n}"
+						}
+					]
 				},
 				{
 					"name": "create",
@@ -186,7 +702,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"type\": \"Corriente\",\r\n    \"balance\": 12.2,\r\n    \"status\": true,\r\n    \"clientId\":1\r\n}",
+							"raw": "{\r\n    \"type\": \"Corriente\",\r\n    \"balance\": 12.2,\r\n    \"status\": true,\r\n    \"clientId\":3\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -205,7 +721,66 @@
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "201 Created",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"type\": \"Corriente\",\r\n    \"balance\": 12.2,\r\n    \"status\": true,\r\n    \"clientId\":3\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8081/cuentas",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"cuentas"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Method"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Headers"
+								},
+								{
+									"key": "Location",
+									"value": "/cuentas/3"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "98"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"accountId\": 3,\n    \"number\": \"0709254486\",\n    \"type\": \"Corriente\",\n    \"balance\": 12.2,\n    \"status\": true,\n    \"clientId\": 3\n}"
+						}
+					]
 				},
 				{
 					"name": "update",
@@ -222,7 +797,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8081/cuentas/6",
+							"raw": "http://localhost:8081/cuentas/3",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -230,11 +805,67 @@
 							"port": "8081",
 							"path": [
 								"cuentas",
-								"6"
+								"3"
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "200 OK",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"type\": \"Corriente\",\r\n    \"balance\": 12.22,\r\n    \"status\": false,\r\n    \"clientId\": 45\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8081/cuentas/3",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"cuentas",
+										"3"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Method"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Headers"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "100"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"accountId\": 3,\n    \"number\": \"0709254486\",\n    \"type\": \"Corriente\",\n    \"balance\": 12.22,\n    \"status\": false,\n    \"clientId\": 3\n}"
+						}
+					]
 				},
 				{
 					"name": "delete",
@@ -242,7 +873,7 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8081/cuentas/6",
+							"raw": "http://localhost:8081/cuentas/3",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -250,11 +881,50 @@
 							"port": "8081",
 							"path": [
 								"cuentas",
-								"6"
+								"3"
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "204 No Content",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8081/cuentas/3",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"cuentas",
+										"3"
+									]
+								}
+							},
+							"status": "No Content",
+							"code": 204,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Method"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Headers"
+								}
+							],
+							"cookie": [],
+							"body": null
+						}
+					]
 				}
 			]
 		},
@@ -285,7 +955,60 @@
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "200 OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8082/movimientos",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8082",
+									"path": [
+										"movimientos"
+									],
+									"query": [
+										{
+											"key": "accountId",
+											"value": "5",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "transfer-encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Method"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Headers"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"movementId\": 1,\n        \"date\": \"2025-09-23T03:29:46.947\",\n        \"type\": \"Credito\",\n        \"value\": 1.2,\n        \"balance\": 13.4,\n        \"accountId\": 4\n    },\n    {\n        \"movementId\": 2,\n        \"date\": \"2025-09-23T03:30:03.61\",\n        \"type\": \"Debito\",\n        \"value\": 1.2,\n        \"balance\": 12.2,\n        \"accountId\": 4\n    }\n]"
+						}
+					]
 				},
 				{
 					"name": "create",
@@ -294,7 +1017,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": " {\r\n    \"type\": \"Credito\",\r\n    \"value\": 1.2,\r\n    \"accountId\": 5\r\n}",
+							"raw": " {\r\n    \"type\": \"Debito\",\r\n    \"value\": 1.2,\r\n    \"accountId\": 4\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -313,7 +1036,124 @@
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "201 Created Credito",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": " {\r\n    \"type\": \"Credito\",\r\n    \"value\": 1.2,\r\n    \"accountId\": 4\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8082/movimientos",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8082",
+									"path": [
+										"movimientos"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Method"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Headers"
+								},
+								{
+									"key": "Location",
+									"value": "/movimiento/1"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "74"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"movementId\": 1,\n    \"type\": \"Credito\",\n    \"value\": 1.2,\n    \"balance\": 13.4,\n    \"accountId\": 4\n}"
+						},
+						{
+							"name": "201 Created Debito",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": " {\r\n    \"type\": \"Debito\",\r\n    \"value\": 1.2,\r\n    \"accountId\": 4\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8082/movimientos",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8082",
+									"path": [
+										"movimientos"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": null,
+							"header": [
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Method"
+								},
+								{
+									"key": "Vary",
+									"value": "Access-Control-Request-Headers"
+								},
+								{
+									"key": "Location",
+									"value": "/movimiento/2"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "73"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"movementId\": 2,\n    \"type\": \"Debito\",\n    \"value\": 1.2,\n    \"balance\": 12.2,\n    \"accountId\": 4\n}"
+						}
+					]
 				}
 			]
 		}
