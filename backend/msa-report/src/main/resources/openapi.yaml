@@ -19,7 +19,7 @@ paths:
       description: Returns the list of movements filter by date and client id.
       parameters:
         - in: query
-          name: fecha
+          name: date
           required: true
           description: "format date yyyy-MM-dd,yyyy-MM-dd"
           schema:
@@ -39,7 +39,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/MovementReportResponseDto'
+                  $ref: '#/components/schemas/ReportResponseDto'
         "404":
           $ref: "#/components/responses/404"
         "500":
@@ -97,7 +97,7 @@ components:
             instance: "504"
             type: /v1/name/pathSuffix
   schemas:
-    MovementReportResponseDto:
+    ReportResponseDto:
       type: object
       properties:
         date:
@@ -110,7 +110,7 @@ components:
           description: customer Name
           nullable: false
           example: "Byron Delgado"
-        numberAccount:
+        number:
           type: string
           description: NumberAccount
           nullable: false
@@ -120,7 +120,12 @@ components:
           description: Type Account
           nullable: false
           example: Ahorros
-        movementType:
+        status:
+          type: boolean
+          description: Account Status
+          nullable: false
+          example: true
+        type:
           type: string
           description: Movement Type
           nullable: false
@@ -143,11 +148,6 @@ components:
           description: Balance
           nullable: false
           example: 350.35
-        status:
-          type: boolean
-          description: Account Status
-          nullable: false
-          example: true
     ErrorDto:
       type: object
       properties:

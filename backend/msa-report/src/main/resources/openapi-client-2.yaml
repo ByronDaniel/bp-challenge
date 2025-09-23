@@ -1,8 +1,8 @@
 openapi: 3.0.0
 info:
   version: 1.0.1
-  title: Account Management Service
-  description: Service that performs account CRUD
+  title: Movement Service
+  description: Service that performs movement CRUD
   contact:
     name: Byron Delgado
     email: bydelgad@pichincha.com
@@ -11,17 +11,17 @@ servers:
     description: Localhost
 
 paths:
-  /cuentas:
+  /movimientos:
     get:
       tags:
-        - Account Management
-      summary: Obtain the list of accounts
-      description: Returns the list of accounts.
+        - Movements
+      summary: Obtain the movements
+      description: Returns the list of movements.
       parameters:
         - in: query
-          name: clientId
+          name: accountId
           required: false
-          description: client Id
+          description: account Id
           schema:
             type: integer
       operationId: getAll
@@ -33,119 +33,31 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/AccountResponseDto'
+                  $ref: '#/components/schemas/MovementResponseDto'
         "500":
           $ref: "#/components/responses/500"
         "504":
           $ref: "#/components/responses/504"
     post:
       tags:
-        - Account Management
-      summary: Create a new account
-      description: Returns the new account.
+        - Movements
+      summary: Create a new movement
+      description: Returns the new movement.
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/AccountRequestDto'
-      operationId: Save
+              $ref: '#/components/schemas/MovementRequestDto'
+      operationId: save
       responses:
         "201":
-          description: Created
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/AccountResponseDto'
-        "400":
-          $ref: "#/components/responses/400"
-        "500":
-          $ref: "#/components/responses/500"
-        "504":
-          $ref: "#/components/responses/504"
-  /cuentas/{id}:
-    get:
-      tags:
-        - Account Management
-      summary: Obtain a account by accountId
-      description: Returns a account.
-      parameters:
-        - name: id
-          in: path
-          description: account Id
-          required: true
-          schema:
-            type: integer
-            example: 1
-      operationId: getById
-      responses:
-        "200":
           description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AccountResponseDto'
-        "404":
-          $ref: "#/components/responses/404"
-        "500":
-          $ref: "#/components/responses/500"
-        "504":
-          $ref: "#/components/responses/504"
-    put:
-      tags:
-        - Account Management
-      summary: Update a account
-      description: Returns the updated account.
-      parameters:
-        - name: id
-          in: path
-          description: account Id
-          required: true
-          schema:
-            type: integer
-            example: 1
-      operationId: updateById
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/AccountRequestDto'
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/AccountResponseDto'
+                $ref: '#/components/schemas/MovementResponseDto'
         "400":
-          $ref: "#/components/responses/400"
-        "404":
-          $ref: "#/components/responses/400"
-        "500":
-          $ref: "#/components/responses/500"
-        "504":
-          $ref: "#/components/responses/504"
-    delete:
-      tags:
-        - Account Management
-      summary: Delete a account by Id
-      description: Returns a void
-      parameters:
-        - name: id
-          in: path
-          description: account Id
-          required: true
-          schema:
-            type: integer
-            example: 1
-      operationId: deleteById
-      responses:
-        "204":
-          description: No Content
-        "400":
-          $ref: "#/components/responses/400"
-        "404":
           $ref: "#/components/responses/400"
         "500":
           $ref: "#/components/responses/500"
@@ -202,76 +114,81 @@ components:
             instance: "504"
             type: /v1/name/pathSuffix
   schemas:
-    AccountResponseDto:
+    MovementResponseDto:
       type: object
       properties:
+        movementId:
+          type: integer
+          description: Movement Id
+          nullable: false
+          example: 1
+        date:
+          type: string
+          description: Date
+          nullable: false
+          example: "12/03/2024"
+        type:
+          type: string
+          description: Movement Type
+          nullable: false
+          enum:
+            - Credito
+            - Debito
+          example: Credito
+        value:
+          type: number
+          format: double
+          description: Value
+          nullable: false
+          example: 150.35
+        balance:
+          type: number
+          format: double
+          description: Balance
+          nullable: false
+          example: 350.35
         accountId:
           type: integer
           description: Account Id
           nullable: false
           example: 1
-        number:
-          type: string
-          description: Number Account
-          nullable: false
-          example: 11111111111
-        type:
-          type: string
-          description: Account Type
-          nullable: false
-          enum:
-            - Ahorros
-            - Corriente
-          example: Ahorros
-        balance:
-          type: number
-          format: double
-          description: Balance
-          minimum: 0
-          nullable: false
-          example: 0
-        status:
-          type: boolean
-          description: Status
-          nullable: false
-          example: true
-        clientId:
-          type: number
-          description: Client Id
-          nullable: false
-          example: 1
-    AccountRequestDto:
+    MovementRequestDto:
       type: object
       properties:
+        date:
+          type: string
+          description: Date of movement
+          nullable: false
+          example: "12/03/2024"
         type:
           type: string
-          description: AccountType
+          description: Movement Type
           nullable: false
           enum:
-            - Ahorros
-            - Corriente
-          example: "Ahorros"
+            - Credito
+            - Debito
+          example: Credito
+        value:
+          type: number
+          format: double
+          description: Value
+          nullable: false
+          example: 150.35
         balance:
           type: number
           format: double
           description: Balance
           nullable: false
-          example: 0
-        status:
-          type: boolean
-          description: Status
-          nullable: false
-          example: true
-        clientId:
+          example: 350.35
+        accountId:
           type: integer
-          description: Client Id
+          description: Account Id
           nullable: false
           example: 1
       required:
-        - type
-        - balance
-        - status
-        - clientId
+        - numberAccount
+        - value
+        - accountId
     ErrorDto:
       type: object
       properties:
@@ -300,7 +217,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ErrorDto'
-          nullable: true
         instance:
           type: string
           description: Error catalog code
