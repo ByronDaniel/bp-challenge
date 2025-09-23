@@ -1,0 +1,30 @@
+@startuml context_diagram
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Context.puml
+
+title Banking Microservices Platform - Context Diagram
+
+Person(customer, "Bank Customer", "Cliente que realiza operaciones bancarias (consultas, movimientos, reportes)")
+Person(admin, "Bank Admin", "Administrador del sistema bancario con permisos especiales")
+Person(support, "Support Agent", "Agente de soporte que ayuda a clientes")
+
+System(banking_system, "Banking Microservices Platform", "Sistema bancario moderno con arquitectura de microservicios para gestión de clientes, cuentas, movimientos y reportes")
+
+System_Ext(email_system, "Email System", "Sistema externo para envío de notificaciones por correo electrónico")
+System_Ext(sms_system, "SMS Gateway", "Gateway externo para envío de alertas y notificaciones por SMS")
+System_Ext(payment_network, "Payment Network", "Red de pagos interbancarios (ACH, SWIFT)")
+System_Ext(credit_bureau, "Credit Bureau", "Centrales de riesgo para consulta de historial crediticio")
+System_Ext(regulatory_system, "Regulatory Reporting", "Sistema de reportes regulatorios (Superintendencia)")
+
+' Relationships
+Rel(customer, banking_system, "Realiza operaciones bancarias", "HTTPS/REST API")
+Rel(admin, banking_system, "Administra sistema y configuraciones", "HTTPS/Admin Panel")
+Rel(support, banking_system, "Consulta información para soporte", "HTTPS/Support Portal")
+
+Rel(banking_system, email_system, "Envía notificaciones", "SMTP")
+Rel(banking_system, sms_system, "Envía alertas de seguridad", "HTTP/REST API")
+Rel(banking_system, payment_network, "Procesa transferencias", "ISO 8583/SWIFT")
+Rel(banking_system, credit_bureau, "Consulta historial crediticio", "HTTPS/SOAP")
+Rel(banking_system, regulatory_system, "Envía reportes de cumplimiento", "SFTP/API")
+
+SHOW_LEGEND()
+@enduml

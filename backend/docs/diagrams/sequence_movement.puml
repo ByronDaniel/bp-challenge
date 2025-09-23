@@ -1,0 +1,48 @@
+@startuml sequence_movement_processing
+title Procesamiento de Movimiento Bancario - Secuencia
+
+actor "Cliente" as customer
+participant "API Gateway" as gateway
+participant "Movement Service" as movement
+participant "Account Service" as account
+participant "Database" as db
+participant "Kafka" as kafka
+participant "Notification Service" as notification
+
+customer -> gateway: POST /movimientos\n{accountId: 123, type: "DEBITO", amount: 100.00}
+
+gateway -> gateway: Validar JWT token
+gateway -> movement: Crear movimiento
+
+movement -> movement: Validar datos de entrada
+movement -> account: GET /accounts/123
+account -> db: SELECT account WHERE id = 123
+db --> account: Account{id: 123, balance: 500.00}
+account --> movement: Account data
+
+alt Saldo suficiente
+    movement -> movement: account.debit(100.00)
+    movement -> movement: balance = 400.00
+    
+    movement -> db: BEGIN TRANSACTION
+    movement -> db: INSERT INTO movements\n(account_id, type, amount, balance_after)
+    movement -> account: PUT /accounts/123\n{balance: 400.00}
+    account -> db: UPDATE accounts SET balance = 400.00\nWHERE id = 123
+    movement -> db: COMMIT TRANSACTION
+    
+    movement -> kafka: Publish MovementCreatedEvent\n{accountId: 123, amount: 100.00, type: "DEBITO"}
+    
+    movement --> gateway: 201 Created\n{movementId: 456, balance: 400.00}
+    gateway --> customer: 201 Created
+
+    kafka -> notification: Consume MovementCreatedEvent
+    notification -> notification: Preparar notificación
+    notification -> customer: SMS: "Débito de $100.00\nSaldo: $400.00"
+
+else Saldo insuficiente
+    movement -> movement: Validation Error
+    movement --> gateway: 409 Conflict\n{"error": "Saldo insuficiente"}
+    gateway --> customer: 409 Conflict
+end
+
+@enduml

@@ -1,0 +1,73 @@
+@startuml component_client_service
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+
+title Client Service - Component Diagram (Hexagonal Architecture)
+
+Container_Boundary(client_service, "Client Service") {
+    
+    ' Infrastructure Layer - Input Adapters
+    Component(rest_controller, "REST Controller", "Spring WebFlux", "Expone endpoints HTTP para operaciones de clientes")
+    Component(graphql_controller, "GraphQL Controller", "Spring GraphQL", "API GraphQL para consultas complejas")
+    Component(message_handler, "Message Handler", "Kafka Consumer", "Procesa eventos externos relacionados con clientes")
+    
+    ' Application Layer
+    Component(client_facade, "Client Facade", "Application Service", "Coordina operaciones de casos de uso de cliente")
+    Component(validation_service, "Validation Service", "Bean Validation", "Valida reglas de negocio y formato de datos")
+    Component(mapper_service, "Mapper Service", "MapStruct", "Mapeo entre DTOs y entidades de dominio")
+    
+    ' Domain Layer
+    Component(client_domain, "Client Domain", "Domain Entity", "Entidad de dominio con lógica de negocio")
+    Component(person_domain, "Person Domain", "Domain Entity", "Entidad de dominio para datos personales")
+    Component(domain_services, "Domain Services", "Domain Logic", "Servicios de dominio y reglas de negocio complejas")
+    Component(domain_events, "Domain Events", "Event Publisher", "Eventos de dominio para integración")
+    
+    ' Application Ports
+    Component(input_port, "Client Input Port", "Interface", "Puerto de entrada para casos de uso")
+    Component(output_port, "Client Output Port", "Interface", "Puerto de salida para persistencia")
+    
+    ' Infrastructure Layer - Output Adapters  
+    Component(database_adapter, "Database Adapter", "R2DBC Repository", "Implementación de persistencia reactiva")
+    Component(cache_adapter, "Cache Adapter", "Redis Template", "Implementación de cache distribuido")
+    Component(event_publisher, "Event Publisher", "Kafka Producer", "Publicación de eventos de dominio")
+    Component(external_client, "External Service Client", "WebClient", "Cliente para servicios externos")
+}
+
+' External dependencies
+ContainerDb(database, "SQL Server", "Database")
+Container(cache, "Redis", "Cache")
+Container(kafka, "Apache Kafka", "Message Broker")
+System_Ext(credit_bureau, "Credit Bureau API")
+
+' Input flow
+Rel(rest_controller, client_facade, "Delega operaciones")
+Rel(graphql_controller, client_facade, "Ejecuta queries")
+Rel(message_handler, client_facade, "Procesa eventos")
+
+' Application layer interactions
+Rel(client_facade, validation_service, "Valida datos")
+Rel(client_facade, mapper_service, "Mapea DTOs")
+Rel(client_facade, input_port, "Ejecuta casos de uso")
+
+' Domain interactions
+Rel(input_port, client_domain, "Opera sobre entidades")
+Rel(input_port, person_domain, "Gestiona datos personales")
+Rel(input_port, domain_services, "Aplica reglas de negocio")
+Rel(input_port, output_port, "Persiste cambios")
+
+' Output adapters
+Rel(output_port, database_adapter, "Implementa persistencia")
+Rel(output_port, cache_adapter, "Implementa cache")
+Rel(domain_events, event_publisher, "Publica eventos")
+
+' External connections
+Rel(database_adapter, database, "R2DBC queries")
+Rel(cache_adapter, cache, "Redis operations")
+Rel(event_publisher, kafka, "Event streaming")
+Rel(external_client, credit_bureau, "Credit checks")
+
+' Domain event flow
+Rel(client_domain, domain_events, "Genera eventos")
+Rel(person_domain, domain_events, "Genera eventos")
+
+SHOW_LEGEND()
+@enduml

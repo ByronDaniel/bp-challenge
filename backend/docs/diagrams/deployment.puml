@@ -1,0 +1,122 @@
+@startuml deployment_diagram
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Deployment.puml
+
+title Banking Platform - Deployment Diagram
+
+Deployment_Node(loadbalancer, "Load Balancer", "NGINX/HAProxy") {
+    Container(lb, "Load Balancer", "NGINX", "Distribuye tráfico y SSL termination")
+}
+
+Deployment_Node(kubernetes, "Kubernetes Cluster", "AWS EKS / Azure AKS") {
+    
+    Deployment_Node(gateway_pods, "API Gateway Pods", "3 replicas") {
+        Container(gateway1, "API Gateway", "Spring Cloud Gateway", "Pod 1")
+        Container(gateway2, "API Gateway", "Spring Cloud Gateway", "Pod 2") 
+        Container(gateway3, "API Gateway", "Spring Cloud Gateway", "Pod 3")
+    }
+    
+    Deployment_Node(auth_pods, "Auth Service Pods", "2 replicas") {
+        Container(auth1, "Auth Service", "Spring Boot", "Pod 1")
+        Container(auth2, "Auth Service", "Spring Boot", "Pod 2")
+    }
+    
+    Deployment_Node(client_pods, "Client Service Pods", "3 replicas") {
+        Container(client1, "Client Service", "Spring Boot", "Pod 1")
+        Container(client2, "Client Service", "Spring Boot", "Pod 2")
+        Container(client3, "Client Service", "Spring Boot", "Pod 3")
+    }
+    
+    Deployment_Node(account_pods, "Account Service Pods", "3 replicas") {
+        Container(account1, "Account Service", "Spring Boot", "Pod 1")
+        Container(account2, "Account Service", "Spring Boot", "Pod 2")
+        Container(account3, "Account Service", "Spring Boot", "Pod 3")
+    }
+    
+    Deployment_Node(movement_pods, "Movement Service Pods", "5 replicas") {
+        Container(movement1, "Movement Service", "Spring Boot", "Pod 1")
+        Container(movement2, "Movement Service", "Spring Boot", "Pod 2")
+        Container(movement3, "Movement Service", "Spring Boot", "Pod 3")
+        Container(movement4, "Movement Service", "Spring Boot", "Pod 4")
+        Container(movement5, "Movement Service", "Spring Boot", "Pod 5")
+    }
+    
+    Deployment_Node(report_pods, "Report Service Pods", "2 replicas") {
+        Container(report1, "Report Service", "Spring Boot", "Pod 1")
+        Container(report2, "Report Service", "Spring Boot", "Pod 2")
+    }
+}
+
+Deployment_Node(data_tier, "Data Tier", "Managed Services") {
+    
+    Deployment_Node(database_cluster, "Database Cluster", "SQL Server Always On") {
+        ContainerDb(db_primary, "Primary DB", "SQL Server", "Read/Write")
+        ContainerDb(db_replica1, "Read Replica 1", "SQL Server", "Read Only")
+        ContainerDb(db_replica2, "Read Replica 2", "SQL Server", "Read Only")
+    }
+    
+    Deployment_Node(cache_cluster, "Redis Cluster", "AWS ElastiCache / Azure Cache") {
+        Container(redis1, "Redis Master", "Redis", "Primary")
+        Container(redis2, "Redis Replica 1", "Redis", "Replica")
+        Container(redis3, "Redis Replica 2", "Redis", "Replica")
+    }
+    
+    Deployment_Node(kafka_cluster, "Kafka Cluster", "Confluent Cloud / MSK") {
+        Container(kafka1, "Kafka Broker 1", "Apache Kafka", "Broker")
+        Container(kafka2, "Kafka Broker 2", "Apache Kafka", "Broker")
+        Container(kafka3, "Kafka Broker 3", "Apache Kafka", "Broker")
+    }
+}
+
+Deployment_Node(monitoring_tier, "Monitoring & Observability", "Dedicated Cluster") {
+    Container(prometheus, "Prometheus", "Metrics DB", "Time series database")
+    Container(grafana, "Grafana", "Visualization", "Dashboards and alerts")
+    Container(elasticsearch, "Elasticsearch", "Log Storage", "Centralized logging")
+    Container(kibana, "Kibana", "Log Visualization", "Log analysis")
+    Container(jaeger, "Jaeger", "Tracing", "Distributed tracing")
+}
+
+Deployment_Node(external_services, "External Services", "Third Party") {
+    System_Ext(email_service, "SendGrid", "Email Service")
+    System_Ext(sms_service, "Twilio", "SMS Service")
+    System_Ext(storage, "AWS S3", "File Storage")
+}
+
+' Traffic flow
+Rel(loadbalancer, gateway_pods, "HTTPS traffic", "443")
+Rel(gateway_pods, auth_pods, "Auth requests", "8080")
+Rel(gateway_pods, client_pods, "Client requests", "8080")
+Rel(gateway_pods, account_pods, "Account requests", "8080")
+Rel(gateway_pods, movement_pods, "Movement requests", "8080")
+Rel(gateway_pods, report_pods, "Report requests", "8080")
+
+' Service to database
+Rel(client_pods, database_cluster, "R2DBC", "1433")
+Rel(account_pods, database_cluster, "R2DBC", "1433")
+Rel(movement_pods, database_cluster, "R2DBC", "1433")
+Rel(auth_pods, database_cluster, "R2DBC", "1433")
+
+' Service to cache
+Rel(client_pods, cache_cluster, "Redis", "6379")
+Rel(account_pods, cache_cluster, "Redis", "6379")
+Rel(auth_pods, cache_cluster, "Redis", "6379")
+
+' Service to kafka
+Rel(movement_pods, kafka_cluster, "Event Publishing", "9092")
+Rel(report_pods, kafka_cluster, "Event Consuming", "9092")
+
+' Monitoring connections
+Rel(client_pods, prometheus, "Metrics", "8080/actuator")
+Rel(account_pods, prometheus, "Metrics", "8080/actuator")
+Rel(movement_pods, prometheus, "Metrics", "8080/actuator")
+Rel(prometheus, grafana, "Query", "9090")
+
+' Database replication
+Rel(db_primary, db_replica1, "Replication", "SQL")
+Rel(db_primary, db_replica2, "Replication", "SQL")
+
+' Redis replication
+Rel(redis1, redis2, "Replication", "Redis Protocol")
+Rel(redis1, redis3, "Replication", "Redis Protocol")
+
+SHOW_LEGEND()
+@enduml

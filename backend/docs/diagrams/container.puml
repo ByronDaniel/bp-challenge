@@ -1,0 +1,98 @@
+@startuml container_diagram
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+title Banking Microservices Platform - Container Diagram
+
+Person(customer, "Bank Customer")
+Person(admin, "Bank Admin")
+
+System_Boundary(banking_platform, "Banking Microservices Platform") {
+    Container(web_app, "Web Application", "React/Vue.js", "Aplicación web para clientes bancarios")
+    Container(admin_panel, "Admin Panel", "Angular", "Panel administrativo para gestión del sistema")
+    Container(mobile_app, "Mobile App", "React Native", "Aplicación móvil para clientes")
+    
+    Container(api_gateway, "API Gateway", "Spring Cloud Gateway", "Punto de entrada único, enrutamiento, autenticación y rate limiting")
+    
+    Container(auth_service, "Auth Service", "Spring Boot + OAuth2", "Servicio de autenticación y autorización")
+    
+    Container(client_service, "Client Service", "Spring Boot + WebFlux", "Gestión del ciclo de vida de clientes bancarios")
+    Container(account_service, "Account Service", "Spring Boot + WebFlux", "Administración de cuentas bancarias y productos")
+    Container(movement_service, "Movement Service", "Spring Boot + WebFlux", "Procesamiento de transacciones y movimientos")
+    Container(report_service, "Report Service", "Spring Boot + WebFlux", "Generación de reportes y analytics")
+    Container(notification_service, "Notification Service", "Spring Boot + WebFlux", "Gestión de notificaciones multicanal")
+    
+    ContainerDb(database, "Primary Database", "SQL Server 2019", "Base de datos principal con esquema bancario")
+    ContainerDb(cache, "Distributed Cache", "Redis Cluster", "Cache distribuido para alta performance")
+    Container(message_broker, "Message Broker", "Apache Kafka", "Mensajería asíncrona y event streaming")
+    Container(file_storage, "File Storage", "MinIO/S3", "Almacenamiento de documentos y reportes")
+    
+    Container(monitoring, "Monitoring Stack", "Prometheus + Grafana", "Monitoreo de métricas y alertas")
+    Container(logging, "Centralized Logging", "ELK Stack", "Agregación y análisis de logs")
+    Container(tracing, "Distributed Tracing", "Jaeger", "Trazabilidad de requests entre servicios")
+}
+
+System_Ext(email_system, "Email System")
+System_Ext(sms_gateway, "SMS Gateway")
+
+' User interactions
+Rel(customer, web_app, "Accede a banca online", "HTTPS")
+Rel(customer, mobile_app, "Utiliza app móvil", "HTTPS")
+Rel(admin, admin_panel, "Administra sistema", "HTTPS")
+
+' Frontend to Gateway
+Rel(web_app, api_gateway, "API calls", "HTTPS/REST")
+Rel(mobile_app, api_gateway, "API calls", "HTTPS/REST")
+Rel(admin_panel, api_gateway, "Admin API calls", "HTTPS/REST")
+
+' Gateway to Auth
+Rel(api_gateway, auth_service, "Valida tokens", "HTTP/JWT")
+
+' Gateway to Services
+Rel(api_gateway, client_service, "Enruta requests de clientes", "HTTP/REST")
+Rel(api_gateway, account_service, "Enruta requests de cuentas", "HTTP/REST")
+Rel(api_gateway, movement_service, "Enruta requests de movimientos", "HTTP/REST")
+Rel(api_gateway, report_service, "Enruta requests de reportes", "HTTP/REST")
+
+' Service to Service Communication
+Rel(movement_service, account_service, "Valida cuentas", "HTTP/REST")
+Rel(report_service, client_service, "Obtiene datos de cliente", "HTTP/REST")
+Rel(report_service, account_service, "Obtiene datos de cuenta", "HTTP/REST")
+Rel(report_service, movement_service, "Obtiene movimientos", "HTTP/REST")
+
+' Services to Database
+Rel(client_service, database, "CRUD operaciones", "R2DBC/SQL")
+Rel(account_service, database, "CRUD operaciones", "R2DBC/SQL")
+Rel(movement_service, database, "CRUD operaciones", "R2DBC/SQL")
+Rel(auth_service, database, "Gestiona usuarios", "R2DBC/SQL")
+
+' Services to Cache
+Rel(client_service, cache, "Cache de clientes", "Redis Protocol")
+Rel(account_service, cache, "Cache de saldos", "Redis Protocol")
+Rel(auth_service, cache, "Cache de sesiones", "Redis Protocol")
+
+' Event-driven communication
+Rel(movement_service, message_broker, "Publica eventos de transacción", "Kafka Protocol")
+Rel(notification_service, message_broker, "Consume eventos", "Kafka Protocol")
+Rel(report_service, message_broker, "Consume eventos para analytics", "Kafka Protocol")
+
+' Notification Service
+Rel(notification_service, email_system, "Envía emails", "SMTP")
+Rel(notification_service, sms_gateway, "Envía SMS", "HTTP/REST")
+
+' File Storage
+Rel(report_service, file_storage, "Almacena reportes", "S3 API")
+
+' Observability
+Rel(client_service, monitoring, "Métricas", "HTTP/Prometheus")
+Rel(account_service, monitoring, "Métricas", "HTTP/Prometheus")
+Rel(movement_service, monitoring, "Métricas", "HTTP/Prometheus")
+Rel(report_service, monitoring, "Métricas", "HTTP/Prometheus")
+
+Rel(client_service, logging, "Logs estructurados", "JSON/HTTP")
+Rel(account_service, logging, "Logs estructurados", "JSON/HTTP")
+Rel(movement_service, logging, "Logs estructurados", "JSON/HTTP")
+
+Rel(api_gateway, tracing, "Traza requests", "Jaeger Protocol")
+
+SHOW_LEGEND()
+@enduml
