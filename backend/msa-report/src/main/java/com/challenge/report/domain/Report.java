@@ -1,23 +1,21 @@
 package com.challenge.report.domain;
 
-import java.math.BigDecimal;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 
+
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@FieldDefaults(level = lombok.AccessLevel.PRIVATE)
-public class Movement {
+@FieldDefaults(level = AccessLevel.PRIVATE)
+public class Report {
 
-  Integer movementId;
-  String date;
-  String type;
-  BigDecimal value;
-  BigDecimal balance;
-  Integer accountId;
+  Account account;
+  Movement movement;
+  Client client;
 }

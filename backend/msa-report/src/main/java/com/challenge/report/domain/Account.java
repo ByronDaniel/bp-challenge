@@ -12,12 +12,12 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = lombok.AccessLevel.PRIVATE)
-public class Movement {
+public class Account {
 
-  Integer movementId;
-  String date;
+  Integer id;
+  String number;
   String type;
-  BigDecimal value;
   BigDecimal balance;
-  Integer accountId;
+  Boolean status;
+  Integer clientId;
 }
