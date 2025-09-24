@@ -10,7 +10,7 @@ spring:
     default-property-inclusion: non_null
 
   r2dbc:
-    url: ${DB_URL:r2dbc:pool:mssql://sqlserver:1433/challenge}
+    url: ${DB_URL:r2dbc:pool:mssql://localhost:1433/challenge}
     username: ${DB_USERNAME:sa}
     password: ${DB_PASSWORD:Holamundo11*}
 
