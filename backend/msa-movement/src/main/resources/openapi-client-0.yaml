@@ -24,6 +24,12 @@ paths:
           description: Account number
           schema:
             type: string
+        - in: query
+          name: clientIdentification
+          required: false
+          description: Client identification
+          schema:
+            type: string
       operationId: getAll
       responses:
         "200":

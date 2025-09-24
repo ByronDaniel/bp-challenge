@@ -20,7 +20,7 @@ public class AccountAdapter implements AccountOutputPort {
 
   @Override
   public Flux<Account> getByFilter(String accountNumber) {
-    return accountManagementApi.getAll(accountNumber)
+    return accountManagementApi.getAll(accountNumber, null)
         .map(accountMapper::toAccount);
   }
 

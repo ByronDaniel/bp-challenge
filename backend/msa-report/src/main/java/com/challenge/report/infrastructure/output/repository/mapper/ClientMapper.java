@@ -9,5 +9,6 @@ import task___buildSpringClient0__property__packageName_.clients0.client.models.
 public interface ClientMapper {
 
   @Mapping(target = "clientId", source = "id")
+  @Mapping(target = "status", ignore = true)
   Client toClient(ClientResponseDto clientResponseDto);
 }
