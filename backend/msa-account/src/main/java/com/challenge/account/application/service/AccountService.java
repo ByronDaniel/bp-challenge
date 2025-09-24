@@ -26,18 +26,27 @@ public class AccountService implements AccountInputPort {
 
   @Override
   public Flux<Account> getAllByFilter(String accountNumber, String clientIdentification) {
-    if (!Objects.isNull(accountNumber)) {
-      return accountOutputPort.findByNumber(accountNumber)
-          .switchIfEmpty(Mono.error(new NotFoundException(ACCOUNT_NOT_FOUND)))
-          .flux();
-    } else if (!Objects.isNull(clientIdentification)) {
-      return clientOutputPort.getAll(clientIdentification)
-          .switchIfEmpty(Mono.error(new NotFoundException(CLIENT_NOT_FOUND)))
-          .next()
-          .flatMapMany(client -> accountOutputPort.findAll()
-              .filter(account -> account.getClientId().equals(client.getId())));
+    if (Objects.nonNull(accountNumber)) {
+      return findAccountByNumber(accountNumber);
+    }
+    if (Objects.nonNull(clientIdentification)) {
+      return findAccountsByClientIdentification(clientIdentification);
     }
     return accountOutputPort.findAll();
+  }
+
+  private Flux<Account> findAccountByNumber(String accountNumber) {
+    return accountOutputPort.findByNumber(accountNumber)
+        .switchIfEmpty(Mono.error(new NotFoundException(ACCOUNT_NOT_FOUND)))
+        .flux();
+  }
+
+  private Flux<Account> findAccountsByClientIdentification(String clientIdentification) {
+    return clientOutputPort.getAll(clientIdentification)
+        .switchIfEmpty(Mono.error(new NotFoundException(CLIENT_NOT_FOUND)))
+        .next()
+        .flatMapMany(client -> accountOutputPort.findAll()
+            .filter(account -> account.getClientId().equals(client.getId())));
   }
 
   @Override

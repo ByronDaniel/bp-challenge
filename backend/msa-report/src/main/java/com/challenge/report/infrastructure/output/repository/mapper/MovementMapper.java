@@ -8,6 +8,5 @@ import task___buildSpringClient2__property__packageName_.clients2.client.models.
 @Mapper
 public interface MovementMapper {
 
-  @Mapping(target = "accountId", ignore = true)
   Movement toMovement(MovementResponseDto movementResponseDto);
 }

@@ -28,12 +28,16 @@ public class ClientService implements ClientInputPort {
 
   @Override
   public Flux<Client> getAll(String identification) {
-    if (!Objects.isNull(identification)) {
-      return clientOutputPort.findByIdentification(identification)
-          .switchIfEmpty(Mono.error(new NotFoundException(CLIENT_NOT_FOUND)))
-          .flux();
+    if (Objects.nonNull(identification)) {
+      return findClientByIdentification(identification);
     }
     return clientOutputPort.findAll();
+  }
+
+  private Flux<Client> findClientByIdentification(String identification) {
+    return clientOutputPort.findByIdentification(identification)
+        .switchIfEmpty(Mono.error(new NotFoundException(CLIENT_NOT_FOUND)))
+        .flux();
   }
 
   @Override
@@ -54,35 +58,44 @@ public class ClientService implements ClientInputPort {
   public Mono<Client> update(Client client) {
     return clientOutputPort.findByIdentification(client.getIdentification())
         .switchIfEmpty(Mono.error(new NotFoundException(CLIENT_NOT_FOUND)))
-        .flatMap(existingClient -> Mono.defer(() -> {
-          if (existingClient.getStatus().equals(false)) {
-            return Mono.error(new ConflictException(CLIENT_NOT_ACTIVE));
-          }
-          existingClient.setPassword(client.getPassword());
-          existingClient.setName(client.getName());
-          existingClient.setGender(client.getGender());
-          existingClient.setAge(client.getAge());
-          existingClient.setAddress(client.getAddress());
-          existingClient.setPhone(client.getPhone());
-          return clientOutputPort.savePerson(existingClient)
-              .flatMap(personSaved -> clientOutputPort.saveClient(existingClient));
-        })).as(transactionalOperator::transactional);
+        .flatMap(existingClient -> validateClientIsActive(existingClient)
+            .then(Mono.defer(() -> {
+              updateClientData(existingClient, client);
+              return saveUpdatedClient(existingClient);
+            }))
+        ).as(transactionalOperator::transactional);
+  }
+
+  private Mono<Void> validateClientIsActive(Client client) {
+    if (Boolean.FALSE.equals(client.getStatus())) {
+      return Mono.error(new ConflictException(CLIENT_NOT_ACTIVE));
+    }
+    return Mono.empty();
+  }
+
+  private void updateClientData(Client existingClient, Client newClientData) {
+    existingClient.setPassword(newClientData.getPassword());
+    existingClient.setName(newClientData.getName());
+    existingClient.setGender(newClientData.getGender());
+    existingClient.setAge(newClientData.getAge());
+    existingClient.setAddress(newClientData.getAddress());
+    existingClient.setPhone(newClientData.getPhone());
+  }
+
+  private Mono<Client> saveUpdatedClient(Client client) {
+    return clientOutputPort.savePerson(client)
+        .flatMap(personSaved -> clientOutputPort.saveClient(client));
   }
 
   @Override
   public Mono<Void> deleteByIdentification(String identification) {
     return clientOutputPort.findByIdentification(identification)
         .switchIfEmpty(Mono.error(new NotFoundException(CLIENT_NOT_FOUND)))
-        .flatMap(client -> Mono.defer(() ->
-            {
-              if (client.getStatus().equals(false)) {
-                return Mono.error(new ConflictException(CLIENT_NOT_ACTIVE));
-              }
+        .flatMap(client -> validateClientIsActive(client)
+            .then(Mono.defer(() -> {
               client.setStatus(false);
-              return clientOutputPort.saveClient(client)
-                  .then();
-            }
-        ).as(transactionalOperator::transactional));
-
+              return clientOutputPort.saveClient(client).then();
+            }))
+        ).as(transactionalOperator::transactional);
   }
 }

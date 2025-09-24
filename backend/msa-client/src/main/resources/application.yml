@@ -10,6 +10,12 @@ spring:
     default-property-inclusion: non_null
 
   r2dbc:
-    url: r2dbc:pool:mssql://sqlserver:1433/challenge
-    username: sa
-    password: Holamundo11*
+    url: ${DB_URL:r2dbc:pool:mssql://sqlserver:1433/challenge}
+    username: ${DB_USERNAME:sa}
+    password: ${DB_PASSWORD:Holamundo11*}
+
+webclient:
+  timeout:
+    connect: ${WEBCLIENT_CONNECT_TIMEOUT:5000}
+    read: ${WEBCLIENT_READ_TIMEOUT:10000}
+    write: ${WEBCLIENT_WRITE_TIMEOUT:10000}

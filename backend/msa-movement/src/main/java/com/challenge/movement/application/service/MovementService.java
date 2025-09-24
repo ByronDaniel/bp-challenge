@@ -28,23 +28,30 @@ public class MovementService implements MovementInputPort {
 
   @Override
   public Flux<Movement> getAllByOptionalFilter(String numberAccount) {
-    if (!Objects.isNull(numberAccount)) {
-      return accountOutputPort.getByFilter(numberAccount)
-          .switchIfEmpty(Mono.error(new NotFoundException(ACCOUNT_NOT_FOUND)))
-          .flatMap(account -> movementOutputPort.findByAccountId(account.getAccountId()))
-          .flatMap(movement -> accountOutputPort.getById(movement.getAccountId())
-              .map(account -> {
-                movement.setNumberAccount(account.getNumber());
-                return movement;
-              }));
-    } else {
-      return movementOutputPort.findAll()
-          .flatMap(movement -> accountOutputPort.getById(movement.getAccountId())
-              .map(account -> {
-                movement.setNumberAccount(account.getNumber());
-                return movement;
-              }));
+    if (Objects.nonNull(numberAccount)) {
+      return getMovementsByAccountNumber(numberAccount);
     }
+    return getAllMovementsWithAccountInfo();
+  }
+
+  private Flux<Movement> getMovementsByAccountNumber(String numberAccount) {
+    return accountOutputPort.getByFilter(numberAccount)
+        .switchIfEmpty(Mono.error(new NotFoundException(ACCOUNT_NOT_FOUND)))
+        .flatMap(account -> movementOutputPort.findByAccountId(account.getAccountId()))
+        .flatMap(this::enrichMovementWithAccountInfo);
+  }
+
+  private Flux<Movement> getAllMovementsWithAccountInfo() {
+    return movementOutputPort.findAll()
+        .flatMap(this::enrichMovementWithAccountInfo);
+  }
+
+  private Mono<Movement> enrichMovementWithAccountInfo(Movement movement) {
+    return accountOutputPort.getById(movement.getAccountId())
+        .map(account -> {
+          movement.setNumberAccount(account.getNumber());
+          return movement;
+        });
   }
 
   @Override

@@ -9,7 +9,6 @@ import task___buildSpringClient0__property__packageName_.clients0.client.models.
 @Mapper
 public interface AccountMapper {
 
-  @Mapping(target = "clientId", ignore = true)
   Account toAccount(AccountResponseDto accountResponseDto);
 
   AccountRequestPutDto toAccountRequestPutDto(Account account);

@@ -19,8 +19,6 @@ public class Account {
   String number;
   String type;
   BigDecimal balance;
-  Boolean status;
-  Integer clientId;
 
   public BigDecimal credit(BigDecimal amount) {
     this.balance = this.balance.add(amount);

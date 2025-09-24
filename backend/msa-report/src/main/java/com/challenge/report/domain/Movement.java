@@ -14,10 +14,8 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = lombok.AccessLevel.PRIVATE)
 public class Movement {
 
-  Integer movementId;
   String date;
   String type;
   BigDecimal value;
   BigDecimal balance;
-  Integer accountId;
 }

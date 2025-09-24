@@ -19,5 +19,4 @@ public class Account {
   String type;
   BigDecimal balance;
   Boolean status;
-  Integer clientId;
 }

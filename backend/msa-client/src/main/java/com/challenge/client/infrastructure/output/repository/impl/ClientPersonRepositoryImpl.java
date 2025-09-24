@@ -25,6 +25,8 @@ public class ClientPersonRepositoryImpl implements ClientPersonRepository {
       JOIN persons p ON c.person_id = p.person_id
       WHERE c.status = 1
       """;
+  
+  private static final String FIND_BY_IDENTIFICATION_QUERY = BASE_SELECT + " AND p.identification = :identification";
 
   private final DatabaseClient client;
 
@@ -37,18 +39,30 @@ public class ClientPersonRepositoryImpl implements ClientPersonRepository {
 
   @Override
   public Mono<Tuple2<ClientEntity, PersonEntity>> findByIdentification(String identification) {
-    return client.sql(BASE_SELECT + " AND p.identification = :identification")
+    return client.sql(FIND_BY_IDENTIFICATION_QUERY)
         .bind("identification", identification)
         .map(this::mapRow)
         .one();
   }
 
   private Tuple2<ClientEntity, PersonEntity> mapRow(Row row, RowMetadata meta) {
+    ClientEntity clientEntity = mapClientEntity(row);
+    PersonEntity personEntity = mapPersonEntity(row);
+    
+    clientEntity.setPersonId(personEntity.getPersonId());
+    
+    return Tuples.of(clientEntity, personEntity);
+  }
+
+  private ClientEntity mapClientEntity(Row row) {
     ClientEntity clientEntity = new ClientEntity();
     clientEntity.setClientId(row.get("client_id", Integer.class));
     clientEntity.setPassword(row.get("password", String.class));
     clientEntity.setStatus(row.get("status", Boolean.class));
+    return clientEntity;
+  }
 
+  private PersonEntity mapPersonEntity(Row row) {
     PersonEntity personEntity = new PersonEntity();
     personEntity.setPersonId(row.get("person_id", Integer.class));
     personEntity.setName(row.get("name", String.class));
@@ -57,9 +71,6 @@ public class ClientPersonRepositoryImpl implements ClientPersonRepository {
     personEntity.setIdentification(row.get("identification", String.class));
     personEntity.setAddress(row.get("address", String.class));
     personEntity.setPhone(row.get("phone", String.class));
-
-    clientEntity.setPersonId(personEntity.getPersonId());
-
-    return Tuples.of(clientEntity, personEntity);
+    return personEntity;
   }
 }
