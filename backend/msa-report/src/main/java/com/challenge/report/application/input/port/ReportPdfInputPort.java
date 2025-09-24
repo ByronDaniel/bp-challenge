@@ -1,9 +1,9 @@
 package com.challenge.report.application.input.port;
 
-import com.challenge.services.server.models.ReportPdfResponseDto;
+import com.challenge.report.domain.ReportPdf;
 import reactor.core.publisher.Mono;
 
 public interface ReportPdfInputPort {
 
-    Mono<ReportPdfResponseDto> getReportWithPdf(String date, Integer clientId);
+  Mono<ReportPdf> getReportWithPdf(String date, Integer clientId);
 }

@@ -1,5 +1,14 @@
-<form class="form" [formGroup]="accountForm" (ngSubmit)="onSave()">
+<form class="form" [formGroup]="form" (ngSubmit)="onSave()">
   <div class="form__grid">
+    <div class="form__field" *ngIf="!isEditing">
+      <label class="form__label">Identificación del Cliente *</label>
+      <input class="form__input" formControlName="clientIdentification"
+        placeholder="Ingresa la identificación del cliente" />
+      <span class="form__error" *ngIf="getFieldError('clientIdentification')">
+        {{ getFieldError("clientIdentification") }}
+      </span>
+    </div>
+
     <div class="form__field">
       <label class="form__label">Tipo de Cuenta *</label>
       <select class="form__input" formControlName="type">
@@ -14,34 +23,14 @@
 
     <div class="form__field">
       <label class="form__label">Saldo Inicial *</label>
-      <input
-        class="form__input"
-        type="number"
-        formControlName="balance"
-        min="0"
-        step="0.01"
-        placeholder="Ingresa el saldo inicial"
-      />
+      <input class="form__input" type="number" formControlName="balance" min="0" step="0.01"
+        placeholder="Ingresa el saldo inicial" />
       <span class="form__error" *ngIf="getFieldError('balance')">
         {{ getFieldError("balance") }}
       </span>
     </div>
-
-    <div class="form__field">
-      <label class="form__label">Cliente ID *</label>
-      <input
-        class="form__input"
-        type="number"
-        formControlName="clientId"
-        min="1"
-        placeholder="Ingresa el ID del cliente"
-      />
-      <span class="form__error" *ngIf="getFieldError('clientId')">
-        {{ getFieldError("clientId") }}
-      </span>
-    </div>
-
-    <div class="form__field">
+    
+    <div class="form__field" *ngIf="isEditing">
       <label class="form__checkbox">
         <input type="checkbox" formControlName="status" />
         Cuenta activa
@@ -49,16 +38,12 @@
     </div>
   </div>
 
-  <div class="form__actions">
-    <button class="btn btn--cancel" type="button" (click)="onCancel()">
-      Cancelar
-    </button>
-    <button
-      class="btn btn--save"
-      type="submit"
-      [disabled]="accountForm.invalid"
-    >
-      {{ isEditing ? "Actualizar" : "Crear" }}
-    </button>
-  </div>
+    <div class="form__actions">
+      <button class="btn btn--cancel" type="button" (click)="onCancel()">
+        Cancelar
+      </button>
+      <button class="btn btn--save" type="submit" [disabled]="form.invalid">
+        {{ isEditing ? "Actualizar" : "Crear" }}
+      </button>
+    </div>
 </form>

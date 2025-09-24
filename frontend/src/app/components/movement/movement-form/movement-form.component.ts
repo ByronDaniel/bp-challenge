@@ -17,6 +17,7 @@ import { Router } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
 import { MovementService } from '../../../services/movement.service';
 import { AlertService } from '../../../services/alert.service';
+import { BaseFormComponent } from '../../base/base-form.component';
 
 interface ValidationError {
   type: 'required' | 'min';
@@ -31,14 +32,12 @@ interface ValidationError {
   styleUrl: './movement-form.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MovementFormComponent implements OnInit, OnDestroy {
-  private readonly fb = inject(FormBuilder);
-  private readonly router = inject(Router);
+export class MovementFormComponent extends BaseFormComponent implements OnInit, OnDestroy {
   private readonly movementService = inject(MovementService);
   private readonly alertService = inject(AlertService);
-  private readonly destroy$ = new Subject<void>();
 
   protected readonly movementForm = this.initForm();
+  protected form = this.initForm();
 
   private readonly validationMessages: Record<string, ValidationError[]> = {
     type: [{ type: 'required', message: 'El tipo de movimiento es requerido' }],
@@ -54,11 +53,6 @@ export class MovementFormComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     // Los movimientos solo se crean, no se editan
-  }
-
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
   }
 
   protected onSave(): void {
@@ -89,7 +83,7 @@ export class MovementFormComponent implements OnInit, OnDestroy {
     return this.fb.group({
       type: ['', Validators.required],
       value: [null, [Validators.required, Validators.min(0.01)]],
-      accountId: [null, [Validators.required, Validators.min(1)]],
+      numberAccount: ['', [Validators.required]],
     });
   }
 
@@ -114,17 +108,9 @@ export class MovementFormComponent implements OnInit, OnDestroy {
       .create(movementData)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
-        next: () => this.handleSaveSuccess(),
+        next: () => this.handleSuccess('Movimiento creado exitosamente','/movimientos'),
         error: (error) =>
-          this.alertService.error(
-            'Error',
-            `${error.error?.detail || 'Error al crear el movimiento'}`,
-          ),
+          this.handleError(error)
       });
-  }
-
-  private handleSaveSuccess(): void {
-    this.alertService.success('Éxito', 'Movimiento creado exitosamente');
-    this.router.navigate(['/movimientos']);
   }
 }

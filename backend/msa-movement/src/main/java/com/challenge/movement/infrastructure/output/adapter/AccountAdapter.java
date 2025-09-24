@@ -6,6 +6,7 @@ import com.challenge.movement.infrastructure.output.repository.mapper.AccountMap
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Component;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import task___buildSpringClient0__property__packageName_.clients0.client.AccountManagementApi;
 
@@ -18,6 +19,12 @@ public class AccountAdapter implements AccountOutputPort {
   AccountMapper accountMapper;
 
   @Override
+  public Flux<Account> getByFilter(String accountNumber) {
+    return accountManagementApi.getAll(accountNumber)
+        .map(accountMapper::toAccount);
+  }
+
+  @Override
   public Mono<Account> getById(Integer id) {
     return accountManagementApi.getById(id)
         .map(accountMapper::toAccount);
@@ -25,7 +32,7 @@ public class AccountAdapter implements AccountOutputPort {
 
   @Override
   public Mono<Account> updateById(Integer id, Account account) {
-    return accountManagementApi.updateById(id, accountMapper.toAccountRequestDto(account))
+    return accountManagementApi.updateById(id, accountMapper.toAccountRequestPutDto((account)))
         .map(accountMapper::toAccount);
   }
 }

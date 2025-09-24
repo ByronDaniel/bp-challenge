@@ -23,9 +23,9 @@ public class MovementController implements MovimientosApi {
   MovementDtoMapper movementDtoMapper;
 
   @Override
-  public Mono<ResponseEntity<Flux<MovementResponseDto>>> getAll(Integer accountId,
+  public Mono<ResponseEntity<Flux<MovementResponseDto>>> getAll(String numberAccount,
       ServerWebExchange exchange) {
-    return Mono.just(ResponseEntity.ok(movementInputPort.getAllByOptionalFilter(accountId)
+    return Mono.just(ResponseEntity.ok(movementInputPort.getAllByOptionalFilter(numberAccount)
         .map(movementDtoMapper::toMovementResponseDto)));
   }
 

@@ -38,7 +38,7 @@ export class ClientsViewComponent extends BaseComponent implements OnInit {
     if (!confirmed) return;
 
     this.clientService
-      .delete(client.id)
+      .delete(client.identification)
       .pipe(
         takeUntil(this.destroy$),
         finalize(() => this.cdr.markForCheck()),

@@ -6,7 +6,7 @@ import reactor.core.publisher.Mono;
 
 public interface MovementInputPort {
 
-  Flux<Movement> getAllByOptionalFilter(Integer accountId);
-  
+  Flux<Movement> getAllByOptionalFilter(String numberAccount);
+
   Mono<Movement> save(Movement movement);
 }

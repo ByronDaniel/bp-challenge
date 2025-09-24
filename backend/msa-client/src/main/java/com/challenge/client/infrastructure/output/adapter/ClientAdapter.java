@@ -25,46 +25,26 @@ public class ClientAdapter implements ClientOutputPort {
   PersonRepository personRepository;
 
   @Override
-  public Flux<Client> findAllClientsWithPerson() {
-    return clientPersonRepository.findAllWithPerson()
+  public Flux<Client> findAll() {
+    return clientPersonRepository.findAll()
         .map(tuple2 -> clientEntityMapper.toClient(tuple2.getT1(), tuple2.getT2()));
   }
 
   @Override
-  public Mono<Client> findClientByIdWithPerson(Integer id) {
-    return clientPersonRepository.findByIdWithPerson(id)
+  public Mono<Client> findByIdentification(String identification) {
+    return clientPersonRepository.findByIdentification(identification)
         .map(tuple2 -> clientEntityMapper.toClient(tuple2.getT1(), tuple2.getT2()));
-  }
-
-  @Override
-  public Mono<Client> findClientById(Integer id) {
-    return clientRepository.findById(id)
-        .map(clientEntityMapper::toClient);
-  }
-
-  @Override
-  public Mono<Person> findPersonByIdentification(String identification) {
-    return personRepository.findByIdentification(identification)
-        .map(clientEntityMapper::toPerson);
   }
 
   @Override
   public Mono<Client> saveClient(Client client) {
     return clientRepository.save(clientEntityMapper.toClientEntity(client))
-        .map(client1 -> {
-          client.setClientId(client1.getClientId());
-          return client;
-        });
+        .map(client1 -> client);
   }
 
   @Override
   public Mono<Person> savePerson(Person person) {
     return personRepository.save(clientEntityMapper.toPersonEntity(person))
         .map(clientEntityMapper::toPerson);
-  }
-
-  @Override
-  public Mono<Void> deletePersonById(Integer id) {
-    return personRepository.deleteById(id);
   }
 }

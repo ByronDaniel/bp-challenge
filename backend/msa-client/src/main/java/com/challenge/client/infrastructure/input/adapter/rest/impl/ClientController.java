@@ -24,17 +24,10 @@ public class ClientController implements ClientesApi {
   ClientDtoMapper clientDtoMapper;
 
   @Override
-  public Mono<ResponseEntity<Flux<ClientResponseDto>>> getAll(ServerWebExchange exchange) {
-    return Mono.just(ResponseEntity.ok(clientInputPort.getAll()
-        .map(clientDtoMapper::toClientResponseDto)));
-  }
-
-  @Override
-  public Mono<ResponseEntity<ClientResponseDto>> getById(Integer id,
+  public Mono<ResponseEntity<Flux<ClientResponseDto>>> getAll(String identification,
       ServerWebExchange exchange) {
-    return clientInputPort.getById(id)
-        .map(clientDtoMapper::toClientResponseDto)
-        .map(ResponseEntity::ok);
+    return Mono.just(ResponseEntity.ok(clientInputPort.getAll(identification)
+        .map(clientDtoMapper::toClientResponseDto)));
   }
 
   @Override
@@ -48,17 +41,17 @@ public class ClientController implements ClientesApi {
   }
 
   @Override
-  public Mono<ResponseEntity<ClientResponseDto>> updateById(Integer id,
-      ClientRequestDto clientRequestDto,
+  public Mono<ResponseEntity<ClientResponseDto>> update(ClientRequestDto clientRequestDto,
       ServerWebExchange exchange) {
-    return clientInputPort.updateById(id, clientDtoMapper.toClient(clientRequestDto))
+    return clientInputPort.update(clientDtoMapper.toClient(clientRequestDto))
         .map(clientDtoMapper::toClientResponseDto)
         .map(ResponseEntity::ok);
   }
 
   @Override
-  public Mono<ResponseEntity<Void>> deleteById(Integer id, ServerWebExchange exchange) {
-    return clientInputPort.deleteById(id)
+  public Mono<ResponseEntity<Void>> deleteByIdentification(String identification,
+      ServerWebExchange exchange) {
+    return clientInputPort.deleteByIdentification(identification)
         .thenReturn(ResponseEntity.noContent().build());
   }
 }

@@ -15,8 +15,9 @@ public interface ClientDtoMapper {
   @Mapping(target = "gender", source = "gender", qualifiedByName = "mapGenderEnum")
   ClientResponseDto toClientResponseDto(Client client);
 
-  @Mapping(target = "clientId", ignore = true)
   @Mapping(target = "personId", ignore = true)
+  @Mapping(target = "clientId", ignore = true)
+  @Mapping(target = "status", ignore = true)
   @Mapping(target = "gender", source = "gender", qualifiedByName = "mapGender")
   Client toClient(ClientRequestDto clientRequestDto);
 

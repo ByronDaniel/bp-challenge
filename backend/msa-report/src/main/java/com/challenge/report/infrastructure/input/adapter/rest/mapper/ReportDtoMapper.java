@@ -1,6 +1,8 @@
 package com.challenge.report.infrastructure.input.adapter.rest.mapper;
 
 import com.challenge.report.domain.Report;
+import com.challenge.report.domain.ReportPdf;
+import com.challenge.services.server.models.ReportPdfResponseDto;
 import com.challenge.services.server.models.ReportResponseDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -18,4 +20,8 @@ public interface ReportDtoMapper {
   @Mapping(target = "value", source = "movement.value")
   @Mapping(target = "balance", source = "movement.balance")
   ReportResponseDto toReportResponseDto(Report report);
+
+  @Mapping(target = "report", source = "report")
+  @Mapping(target = "pdf", source = "pdf")
+  ReportPdfResponseDto toReportResponseDto(ReportPdf reportPdf);
 }

@@ -23,21 +23,22 @@ public class ClientPersonRepositoryImpl implements ClientPersonRepository {
              p.identification, p.address, p.phone
       FROM clients c
       JOIN persons p ON c.person_id = p.person_id
+      WHERE c.status = 1
       """;
 
   private final DatabaseClient client;
 
   @Override
-  public Flux<Tuple2<ClientEntity, PersonEntity>> findAllWithPerson() {
+  public Flux<Tuple2<ClientEntity, PersonEntity>> findAll() {
     return client.sql(BASE_SELECT)
         .map(this::mapRow)
         .all();
   }
 
   @Override
-  public Mono<Tuple2<ClientEntity, PersonEntity>> findByIdWithPerson(Integer id) {
-    return client.sql(BASE_SELECT + " WHERE c.client_id = :id")
-        .bind("id", id)
+  public Mono<Tuple2<ClientEntity, PersonEntity>> findByIdentification(String identification) {
+    return client.sql(BASE_SELECT + " AND p.identification = :identification")
+        .bind("identification", identification)
         .map(this::mapRow)
         .one();
   }
@@ -47,7 +48,6 @@ public class ClientPersonRepositoryImpl implements ClientPersonRepository {
     clientEntity.setClientId(row.get("client_id", Integer.class));
     clientEntity.setPassword(row.get("password", String.class));
     clientEntity.setStatus(row.get("status", Boolean.class));
-    clientEntity.setPersonId(row.get("person_id", Integer.class));
 
     PersonEntity personEntity = new PersonEntity();
     personEntity.setPersonId(row.get("person_id", Integer.class));
@@ -57,6 +57,8 @@ public class ClientPersonRepositoryImpl implements ClientPersonRepository {
     personEntity.setIdentification(row.get("identification", String.class));
     personEntity.setAddress(row.get("address", String.class));
     personEntity.setPhone(row.get("phone", String.class));
+
+    clientEntity.setPersonId(personEntity.getPersonId());
 
     return Tuples.of(clientEntity, personEntity);
   }

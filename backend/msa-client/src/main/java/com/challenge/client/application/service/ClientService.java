@@ -1,6 +1,7 @@
 package com.challenge.client.application.service;
 
 import static com.challenge.client.application.service.utils.Constants.CLIENT_ALREADY_EXISTS;
+import static com.challenge.client.application.service.utils.Constants.CLIENT_NOT_ACTIVE;
 import static com.challenge.client.application.service.utils.Constants.CLIENT_NOT_FOUND;
 
 import com.challenge.client.application.input.port.ClientInputPort;
@@ -8,6 +9,7 @@ import com.challenge.client.application.output.port.ClientOutputPort;
 import com.challenge.client.domain.Client;
 import com.challenge.client.infrastructure.exception.ConflictException;
 import com.challenge.client.infrastructure.exception.NotFoundException;
+import java.util.Objects;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -25,48 +27,62 @@ public class ClientService implements ClientInputPort {
   TransactionalOperator transactionalOperator;
 
   @Override
-  public Flux<Client> getAll() {
-    return clientOutputPort.findAllClientsWithPerson();
-  }
-
-  @Override
-  public Mono<Client> getById(Integer id) {
-    return clientOutputPort.findClientByIdWithPerson(id)
-        .switchIfEmpty(Mono.error(new NotFoundException(CLIENT_NOT_FOUND)));
+  public Flux<Client> getAll(String identification) {
+    if (!Objects.isNull(identification)) {
+      return clientOutputPort.findByIdentification(identification)
+          .switchIfEmpty(Mono.error(new NotFoundException(CLIENT_NOT_FOUND)))
+          .flux();
+    }
+    return clientOutputPort.findAll();
   }
 
   @Override
   public Mono<Client> save(Client client) {
-    return clientOutputPort.findPersonByIdentification(client.getIdentification())
+    return clientOutputPort.findByIdentification(client.getIdentification())
         .flatMap(existingPerson -> Mono.<Client>error(new ConflictException(CLIENT_ALREADY_EXISTS)))
         .switchIfEmpty(Mono.defer(() ->
             clientOutputPort.savePerson(client)
                 .flatMap(personSaved -> {
                   client.setPersonId(personSaved.getPersonId());
+                  client.setStatus(true);
                   return clientOutputPort.saveClient(client);
                 }))
         ).as(transactionalOperator::transactional);
   }
 
   @Override
-  public Mono<Client> updateById(Integer id, Client client) {
-    return clientOutputPort.findClientByIdWithPerson(id)
+  public Mono<Client> update(Client client) {
+    return clientOutputPort.findByIdentification(client.getIdentification())
         .switchIfEmpty(Mono.error(new NotFoundException(CLIENT_NOT_FOUND)))
         .flatMap(existingClient -> Mono.defer(() -> {
-          client.setClientId(existingClient.getClientId());
-          client.setPersonId(existingClient.getPersonId());
-          client.setIdentification(existingClient.getIdentification());
-          return clientOutputPort.savePerson(client)
-              .flatMap(personSaved -> clientOutputPort.saveClient(client));
+          if (existingClient.getStatus().equals(false)) {
+            return Mono.error(new ConflictException(CLIENT_NOT_ACTIVE));
+          }
+          existingClient.setPassword(client.getPassword());
+          existingClient.setName(client.getName());
+          existingClient.setGender(client.getGender());
+          existingClient.setAge(client.getAge());
+          existingClient.setAddress(client.getAddress());
+          existingClient.setPhone(client.getPhone());
+          return clientOutputPort.savePerson(existingClient)
+              .flatMap(personSaved -> clientOutputPort.saveClient(existingClient));
         })).as(transactionalOperator::transactional);
   }
 
   @Override
-  public Mono<Void> deleteById(Integer id) {
-    return clientOutputPort.findClientById(id)
+  public Mono<Void> deleteByIdentification(String identification) {
+    return clientOutputPort.findByIdentification(identification)
         .switchIfEmpty(Mono.error(new NotFoundException(CLIENT_NOT_FOUND)))
         .flatMap(client -> Mono.defer(() ->
-            clientOutputPort.deletePersonById(client.getPersonId()))
-        ).as(transactionalOperator::transactional);
+            {
+              if (client.getStatus().equals(false)) {
+                return Mono.error(new ConflictException(CLIENT_NOT_ACTIVE));
+              }
+              client.setStatus(false);
+              return clientOutputPort.saveClient(client)
+                  .then();
+            }
+        ).as(transactionalOperator::transactional));
+
   }
 }

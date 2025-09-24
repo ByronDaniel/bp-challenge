@@ -1,7 +1,9 @@
 // Colores básicos
-$color-primary: #0ea5e9;
-$color-secondary: #3b82f6;
+
 $color-success: #10b981;
+$color-primary: #ffd100;
+$color-secondary: #0f265c;
+$color-primary-medium: #ffc500;
 $color-danger: #ef4444;
 $color-warning: #f59e0b;
 
@@ -9,8 +11,7 @@ $color-white: #ffffff;
 $color-gray-light: #f9fafb;
 $color-gray-medium: #6b7280;
 $color-gray-dark: #374151;
-$color-border: #e5e7eb;
-
+$color-border: #e5e7eb;$blue200: #9fa8be;
 // Espaciado básico
 $spacing-small: 8px;
 $spacing-medium: 16px;
@@ -19,9 +20,9 @@ $spacing-xlarge: 32px;
 
 // Tipografía básica
 $font-size-small: 14px;
-$font-size-medium: 16px;
-$font-size-large: 18px;
-$font-size-xlarge: 24px;
+$font-size-medium: 15px;
+$font-size-large: 17px;
+$font-size-xlarge: 19px;
 
 $font-weight-normal: 400;
 $font-weight-bold: 600;
@@ -29,3 +30,55 @@ $font-weight-bold: 600;
 // Bordes y sombras
 $border-radius: 6px;
 $box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+
+$primary-color: var(--yellow500);
+$secondary-color: var(--blue500);
+$text: var(--darkGrey500);
+$blue-link: #007bff;
+$blue-hover: #0056b3;
+$strongBlue300: #88b7e3;
+$strongBlue500: #2f7abf;
+$strongBlue700: #003f7f;
+$moderateCyan300: #8eddd8;
+$moderateCyan500: #54d2b4;
+$moderateCyan700: #00af89;
+$grayishRed300: #e1bbb0;
+$grayishRed500: #c89696;
+$grayishRed700: #896464;
+$yellow50: #fffbe5;
+$yellow100: #fff8cc;
+$yellow200: #fff199;
+$yellow300: #ffeb66;
+$yellow400: #ffe433;
+$yellow500: #ffdd00;
+$yellow600: #ffd700;
+$yellow700: #ffd100;
+$yellow800: #ffcb00;
+$yellow900: #ffc500;
+$blue50: #e7e9ee;
+$blue100: #cfd4de;
+$blue200: #9fa8be;
+$blue300: #6f7d9d;
+$blue400: #3f517d;
+$blue500: #0f265c;
+$blue600: #0c1f50;
+$blue700: #091944;
+$blue800: #061239;
+$blue900: #030c2d;
+$yellowGold50: #fffcf2;
+$yellowGold100: #fff3cd;
+$yellowGold200: #ffe69c;
+$yellowGold300: #ffda6a;
+$yellowGold400: #ffcd39;
+$yellowGold500: #ffc108;
+$yellowGold600: #ffb705;
+$yellowGold700: #ffae02;
+$yellowGold800: #ffa400;
+$yellowGold900: #ff9b00;
+$darkCyan50: #f2f9f9;
+$darkCyan100: #e5f4f3;
+$darkCyan200: #99d5cf;
+$darkCyan300: #66c0b8;
+$darkCyan400: #33aba0;
+$darkCyan500: #009688;

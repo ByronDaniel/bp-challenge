@@ -19,12 +19,19 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.support.WebExchangeBindException;
+import org.springframework.web.reactive.function.client.WebClientResponseException;
 import org.springframework.web.server.ServerWebInputException;
 
 @Slf4j
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
+  @ExceptionHandler(WebClientResponseException.class)
+  public ResponseEntity<ErrorsDto> handleWebClientResponseException(WebClientResponseException ex) {
+    ErrorsDto errorsDto = ex.getResponseBodyAs(ErrorsDto.class);
+    return ResponseEntity.status(ex.getStatusCode()).body(errorsDto);
+  }
+  
   @ExceptionHandler(ServerWebInputException.class)
   public ResponseEntity<ErrorsDto> handleServerWebInputException(ServerWebInputException ex) {
     List<ErrorDto> errorDtos = List.of(

@@ -39,7 +39,7 @@ export class ClientFormComponent extends BaseFormComponent implements OnInit {
 
     const client = this.form.getRawValue();
     const request = this.isEditing 
-      ? this.clientService.update(Number(this.clientId), client)
+      ? this.clientService.update(client)
       : this.clientService.create(client);
 
     request.pipe(takeUntil(this.destroy$)).subscribe({
@@ -75,8 +75,7 @@ export class ClientFormComponent extends BaseFormComponent implements OnInit {
       age: [null, [Validators.required, Validators.min(18), Validators.max(100)]],
       phone: ['', Validators.required],
       address: ['', Validators.required],
-      password: ['', [Validators.required, Validators.minLength(6)]],
-      status: [true]
+      password: ['', [Validators.required, Validators.minLength(6)]]
     });
   }
 

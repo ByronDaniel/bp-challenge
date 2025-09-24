@@ -12,9 +12,13 @@ import org.mapstruct.Named;
 public interface MovementDtoMapper {
 
   @Mapping(target = "type", source = "type", qualifiedByName = "mapTypeEnum")
+  @Mapping(target = "numberAccount", source = "numberAccount")
   MovementResponseDto toMovementResponseDto(Movement movement);
 
   @Mapping(target = "movementId", ignore = true)
+  @Mapping(target = "date", ignore = true)
+  @Mapping(target = "balance", ignore = true)
+  @Mapping(target = "accountId", ignore = true)
   @Mapping(target = "type", source = "type", qualifiedByName = "mapType")
   Movement toMovement(MovementRequestDto movementRequestDto);
 

@@ -1,6 +1,5 @@
 @import "../../styles/variables";
 
-/* Componente Sidebar usando BEM */
 .sidebar {
   background-color: $color-white;
   border-right: 1px solid $color-border;
@@ -24,29 +23,22 @@
   gap: $spacing-medium;
   padding: $spacing-medium;
   font-size: $font-size-small;
-  color: $color-gray-medium;
+  color: $color-secondary;
   text-decoration: none;
   border-radius: $border-radius;
   line-height: 1;
 }
 
 .sidebar__link:hover {
-  background-color: $color-gray-light;
-  color: $color-primary;
+  background-color: $darkCyan50;
 }
 
 .sidebar__link--active {
-  background-color: $color-primary;
-  color: $color-white;
   font-weight: $font-weight-bold;
+  background-color: $darkCyan50;
 }
 
-.sidebar__icon {
-  width: 20px;
-  font-size: $font-size-medium;
-  text-align: center;
-}
-
-.sidebar__text {
-  font-weight: $font-weight-normal;
-}
+.sidebar__icon--active{
+    font-size: $font-size-large;
+    transition: font-size 0.4s ease;
+  }

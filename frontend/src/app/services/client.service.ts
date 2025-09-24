@@ -9,7 +9,7 @@ import { environment } from '../../environments/environment';
 })
 export class ClientService {
   private readonly endpoint = 'clientes';
-  private readonly apiUrl = `${environment.apiUrl}/${this.endpoint}`;
+  private readonly apiUrl = `${environment.apiUrlClient}/${this.endpoint}`;
 
   constructor(private readonly http: HttpClient) {}
 
@@ -35,11 +35,11 @@ export class ClientService {
     return this.http.post<Client>(this.apiUrl, client);
   }
 
-  update(id: number, client: Partial<Client>): Observable<Client> {
-    return this.http.put<Client>(`${this.apiUrl}/${id}`, client);
+  update(client: Partial<Client>): Observable<Client> {
+    return this.http.put<Client>(`${this.apiUrl}`, client);
   }
 
-  delete(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  delete(identification: string): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${identification}`);
   }
 }

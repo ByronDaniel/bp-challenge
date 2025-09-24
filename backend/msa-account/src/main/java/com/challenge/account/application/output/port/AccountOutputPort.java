@@ -8,7 +8,7 @@ public interface AccountOutputPort {
 
   Flux<Account> findAll();
 
-  Flux<Account> findByClientId(Integer clientId);
+  Mono<Account> findByNumber(String number);
 
   Mono<Account> findById(Integer id);
 

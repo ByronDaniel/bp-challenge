@@ -19,6 +19,7 @@ import { Subject, takeUntil } from 'rxjs';
 import { Account } from '../../../types/account.type';
 import { AccountService } from '../../../services/account.service';
 import { AlertService } from '../../../services/alert.service';
+import { BaseFormComponent } from '../../base/base-form.component';
 
 @Component({
   selector: 'app-account-form',
@@ -28,29 +29,21 @@ import { AlertService } from '../../../services/alert.service';
   styleUrl: './account-form.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AccountFormComponent implements OnInit, OnDestroy {
-  private readonly fb = inject(FormBuilder);
-  private readonly router = inject(Router);
+export class AccountFormComponent extends BaseFormComponent implements OnInit, OnDestroy {
   private readonly route = inject(ActivatedRoute);
   private readonly accountService = inject(AccountService);
   private readonly alertService = inject(AlertService);
-  private readonly destroy$ = new Subject<void>();
 
-  protected readonly accountForm = this.initForm();
   protected isEditing = false;
   protected accountId: string | null = null;
+  protected form: FormGroup = null as any;
 
   ngOnInit(): void {
     this.setupEditMode();
   }
 
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
-  }
-
   protected onSave(): void {
-    if (this.accountForm.invalid) {
+    if (this.form.invalid) {
       this.handleInvalidForm();
       return;
     }
@@ -63,28 +56,34 @@ export class AccountFormComponent implements OnInit, OnDestroy {
   }
 
   protected getFieldError(fieldName: string): string {
-    const control = this.accountForm.get(fieldName);
+    const control = this.form.get(fieldName);
     if (!control?.touched || !control?.errors) return '';
-    
+
     const errors = control.errors;
     if (errors['required']) return 'Este campo es requerido';
     if (errors['min']) return 'Valor demasiado pequeño';
     return 'Campo inválido';
   }
 
-  private initForm(): FormGroup {
-    return this.fb.group({
-      type: ['', Validators.required],
-      balance: [0, [Validators.required, Validators.min(0)]],
-      clientId: [null, [Validators.required, Validators.min(1)]],
-      status: [true],
-    });
+  private createForm(): FormGroup {
+    const form = this.fb.group({}) as FormGroup;
+
+    form.addControl('type', this.fb.control('', Validators.required));
+    form.addControl('balance', this.fb.control(0, [Validators.required, Validators.min(0)]));
+
+    if (this.isEditing) {
+      form.addControl('status', this.fb.control(true));
+    } else {
+      form.addControl('clientIdentification', this.fb.control('', Validators.required));
+    }
+    
+    return form;
   }
 
   private setupEditMode(): void {
     this.accountId = this.route.snapshot.paramMap.get('id');
     this.isEditing = Boolean(this.accountId);
-
+    this.form = this.createForm();
     if (this.isEditing) {
       this.handleEditMode();
     }
@@ -102,16 +101,16 @@ export class AccountFormComponent implements OnInit, OnDestroy {
   }
 
   private populateForm(account: Account): void {
-    this.accountForm.patchValue({
+    this.form.patchValue({
       type: account.type,
-      balance: account.balance,
-      clientId: account.clientId,
       status: account.status,
+      balance: account.balance
     });
+
   }
 
   private handleInvalidForm(): void {
-    this.markFormGroupTouched(this.accountForm);
+    this.markFormGroupTouched(this.form);
     this.alertService.warning(
       'Formulario inválido',
       'Completa todos los campos requeridos',
@@ -125,24 +124,17 @@ export class AccountFormComponent implements OnInit, OnDestroy {
   }
 
   private saveAccount(): void {
-    const accountData = this.accountForm.getRawValue();
+    const accountData = this.form.getRawValue();
     const operation = this.isEditing
       ? this.accountService.update(Number(this.accountId), accountData)
       : this.accountService.create(accountData);
 
     operation.pipe(takeUntil(this.destroy$)).subscribe({
-      next: () => this.handleSaveSuccess(),
-      error: (error) =>
-        this.alertService.error(
-          'Error',
-          `${error.error?.detail || 'Error al procesar la cuenta'}`,
-        ),
+      next: () => this.handleSuccess(
+        `Cuentas ${this.isEditing ? 'actualizado' : 'creado'} exitosamente`,
+        '/cuentas'
+      ),
+      error: (error) => this.handleError(error)
     });
-  }
-
-  private handleSaveSuccess(): void {
-    const action = this.isEditing ? 'actualizada' : 'creada';
-    this.alertService.success('Éxito', `Cuenta ${action}`);
-    this.router.navigate(['/cuentas']);
   }
 }

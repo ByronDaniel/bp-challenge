@@ -10,6 +10,7 @@ import com.challenge.movement.domain.Account;
 import com.challenge.movement.domain.Movement;
 import com.challenge.movement.infrastructure.exception.NotFoundException;
 import java.math.BigDecimal;
+import java.util.Objects;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -26,16 +27,31 @@ public class MovementService implements MovementInputPort {
   AccountOutputPort accountOutputPort;
 
   @Override
-  public Flux<Movement> getAllByOptionalFilter(Integer accountId) {
-    return (accountId == null)
-        ? movementOutputPort.findAll()
-        : movementOutputPort.findByAccountId(accountId);
+  public Flux<Movement> getAllByOptionalFilter(String numberAccount) {
+    if (!Objects.isNull(numberAccount)) {
+      return accountOutputPort.getByFilter(numberAccount)
+          .switchIfEmpty(Mono.error(new NotFoundException(ACCOUNT_NOT_FOUND)))
+          .flatMap(account -> movementOutputPort.findByAccountId(account.getAccountId()))
+          .flatMap(movement -> accountOutputPort.getById(movement.getAccountId())
+              .map(account -> {
+                movement.setNumberAccount(account.getNumber());
+                return movement;
+              }));
+    } else {
+      return movementOutputPort.findAll()
+          .flatMap(movement -> accountOutputPort.getById(movement.getAccountId())
+              .map(account -> {
+                movement.setNumberAccount(account.getNumber());
+                return movement;
+              }));
+    }
   }
 
   @Override
   public Mono<Movement> save(Movement movement) {
-    return accountOutputPort.getById(movement.getAccountId())
+    return accountOutputPort.getByFilter(movement.getNumberAccount())
         .switchIfEmpty(Mono.error(new NotFoundException(ACCOUNT_NOT_FOUND)))
+        .next()
         .flatMap(account -> {
           BigDecimal newBalance = movement.getType().equals(CREDITO)
               ? account.credit(movement.getValue())
@@ -50,7 +66,7 @@ public class MovementService implements MovementInputPort {
 
     movement.setBalance(newBalance);
     account.setBalance(newBalance);
-
+    movement.setAccountId(account.getAccountId());
     return movementOutputPort.save(movement)
         .flatMap(savedMovement ->
             accountOutputPort.updateById(account.getAccountId(), account)

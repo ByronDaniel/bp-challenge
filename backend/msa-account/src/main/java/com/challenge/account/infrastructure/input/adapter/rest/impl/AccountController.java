@@ -4,6 +4,7 @@ import com.challenge.account.application.input.port.AccountInputPort;
 import com.challenge.account.infrastructure.input.adapter.rest.mapper.AccountDtoMapper;
 import com.challenge.services.server.CuentasApi;
 import com.challenge.services.server.models.AccountRequestDto;
+import com.challenge.services.server.models.AccountRequestPutDto;
 import com.challenge.services.server.models.AccountResponseDto;
 import java.net.URI;
 import lombok.RequiredArgsConstructor;
@@ -21,13 +22,6 @@ public class AccountController implements CuentasApi {
 
   AccountInputPort accountInputPort;
   AccountDtoMapper accountDtoMapper;
-
-  @Override
-  public Mono<ResponseEntity<Flux<AccountResponseDto>>> getAll(Integer clientId,
-      ServerWebExchange exchange) {
-    return Mono.just(ResponseEntity.ok(accountInputPort.getAll(clientId)
-        .map(accountDtoMapper::toAccountResponseDto)));
-  }
 
   @Override
   public Mono<ResponseEntity<AccountResponseDto>> getById(Integer id,
@@ -49,9 +43,8 @@ public class AccountController implements CuentasApi {
 
   @Override
   public Mono<ResponseEntity<AccountResponseDto>> updateById(Integer id,
-      AccountRequestDto accountRequestDto,
-      ServerWebExchange exchange) {
-    return accountInputPort.updateById(id, accountDtoMapper.toAccount(accountRequestDto))
+      AccountRequestPutDto accountRequestPutDto, ServerWebExchange exchange) {
+    return accountInputPort.updateById(id, accountDtoMapper.toAccount(accountRequestPutDto))
         .map(accountDtoMapper::toAccountResponseDto)
         .map(ResponseEntity::ok);
   }
@@ -60,5 +53,12 @@ public class AccountController implements CuentasApi {
   public Mono<ResponseEntity<Void>> deleteById(Integer id, ServerWebExchange exchange) {
     return accountInputPort.deleteById(id)
         .thenReturn(ResponseEntity.noContent().build());
+  }
+
+  @Override
+  public Mono<ResponseEntity<Flux<AccountResponseDto>>> getAll(String accountNumber,
+      ServerWebExchange exchange) {
+    return Mono.just(ResponseEntity.ok(accountInputPort.getAll(accountNumber)
+        .map(accountDtoMapper::toAccountResponseDto)));
   }
 }

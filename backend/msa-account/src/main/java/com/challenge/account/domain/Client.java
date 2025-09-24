@@ -1,6 +1,5 @@
-package com.challenge.movement.domain;
+package com.challenge.account.domain;
 
-import java.math.BigDecimal;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,13 +12,8 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = lombok.AccessLevel.PRIVATE)
-public class Movement {
+public class Client {
 
-  Integer movementId;
-  String date;
-  String type;
-  BigDecimal value;
-  BigDecimal balance;
-  Integer accountId;
-  String numberAccount;
+  Integer id;
+  String identification;
 }

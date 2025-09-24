@@ -6,13 +6,11 @@ import reactor.core.publisher.Mono;
 
 public interface ClientInputPort {
 
-  Flux<Client> getAll();
-
-  Mono<Client> getById(Integer id);
+  Flux<Client> getAll(String identification);
 
   Mono<Client> save(Client client);
 
-  Mono<Client> updateById(Integer id, Client client);
+  Mono<Client> update(Client client);
 
-  Mono<Void> deleteById(Integer id);
+  Mono<Void> deleteByIdentification(String identification);
 }

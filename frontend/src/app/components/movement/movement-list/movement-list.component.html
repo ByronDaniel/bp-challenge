@@ -1,16 +1,19 @@
 <div class="movement-list" *ngIf="movements.length > 0">
   <div class="movement-list__header">
+    <div class="movement-list__col">Cuenta</div>
     <div class="movement-list__col">Fecha</div>
     <div class="movement-list__col">Tipo</div>
     <div class="movement-list__col">Valor</div>
     <div class="movement-list__col">Saldo</div>
-    <div class="movement-list__col">Cuenta ID</div>
   </div>
 
   <div
     class="movement-list__row"
     *ngFor="let movement of movements; trackBy: trackById"
   >
+   <div class="movement-list__col">
+      {{ movement.numberAccount}}
+    </div>
     <div class="movement-list__col">
       {{ movement.date | date: "dd/MM/yyyy HH:mm" }}
     </div>
@@ -29,6 +32,5 @@
     <div class="movement-list__col">
       ${{ movement.balance | number: "1.2-2" }}
     </div>
-    <div class="movement-list__col">{{ movement.accountId }}</div>
   </div>
 </div>

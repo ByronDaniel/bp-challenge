@@ -4,7 +4,6 @@
     <div class="account-list__col">Tipo</div>
     <div class="account-list__col">Saldo</div>
     <div class="account-list__col">Estado</div>
-    <div class="account-list__col">Cliente ID</div>
     <div class="account-list__col">Acciones</div>
   </div>
 
@@ -25,17 +24,16 @@
         {{ account.status ? "Activa" : "Inactiva" }}
       </span>
     </div>
-    <div class="account-list__col">{{ account.clientId }}</div>
     <div class="account-list__col">
       <a
-        class="account-list__btn account-list__btn--edit"
+        class="btn btn--edit"
         [routerLink]="['/cuentas/editar', account.accountId]"
         [state]="{ account: account }"
       >
         <i class="fa-solid fa-edit"></i>
       </a>
       <button
-        class="account-list__btn account-list__btn--delete"
+        class="btn btn--delete"
         (click)="deleteAccount.emit(account)"
       >
         <i class="fa-solid fa-trash"></i>

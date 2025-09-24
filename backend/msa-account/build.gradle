@@ -1,3 +1,5 @@
+import org.openapitools.generator.gradle.plugin.tasks.GenerateTask
+
 buildscript {
     repositories {
         mavenCentral()
@@ -80,7 +82,26 @@ task buildSpringServer(type: org.openapitools.generator.gradle.plugin.tasks.Gene
     ]
 }
 
-compileJava.dependsOn buildSpringServer
+tasks.register('buildSpringClient0', GenerateTask) {
+    inputSpec = "$rootDir/src/main/resources/openapi-client-0.yaml".toString()
+    generatorName = "java"
+    templateDir = "$rootDir/src/main/resources/openapi-templates/client"
+    apiPackage = "${packageName}.clients0.client"
+    modelPackage = "${packageName}.clients0.client.models"
+    outputDir = "$buildDir/generated".toString()
+
+    library = "webclient"
+    configOptions = [
+            useSpringBoot3 : "true",
+            useJakartaEe   : "true",
+            openApiNullable: "false",
+            sourceFolder   : "src/main/java",
+            configPackage  : "${packageName}.clients0.config"
+    ]
+
+}
+
+compileJava.dependsOn buildSpringServer, buildSpringClient0
 
 compileJava {
     options.compilerArgs += [

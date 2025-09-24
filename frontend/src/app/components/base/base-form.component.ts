@@ -38,6 +38,7 @@ export abstract class BaseFormComponent extends BaseComponent {
   }
 
   protected handleError(error: any): void {
-    this.alert.toast(error?.message || 'Error inesperado', 'error');
+    console.error(error);
+    this.alert.toast(error?.error?.detail || 'Error inesperado', 'error');
   }
 }

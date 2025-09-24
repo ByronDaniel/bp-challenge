@@ -4,5 +4,5 @@ export type Movement = {
   type: string;
   value: number;
   balance: number;
-  accountId: number;
+  numberAccount: string;
 };

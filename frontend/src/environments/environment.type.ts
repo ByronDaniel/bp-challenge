@@ -1,4 +1,7 @@
 export interface Environment {
   production: boolean;
-  apiUrl: string;
+  apiUrlClient: string;
+  apiUrlAccount: string;
+  apiUrlMovement: string;
+  apiUrlReport: string;
 }

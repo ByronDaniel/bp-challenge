@@ -1,10 +1,12 @@
 package com.challenge.account.application.service;
 
 import static com.challenge.account.application.service.utils.Constants.ACCOUNT_NOT_FOUND;
+import static com.challenge.account.application.service.utils.Constants.CLIENT_NOT_FOUND;
 import static com.challenge.account.domain.Account.generateNumberAccount;
 
 import com.challenge.account.application.input.port.AccountInputPort;
 import com.challenge.account.application.output.port.AccountOutputPort;
+import com.challenge.account.application.output.port.ClientOutputPort;
 import com.challenge.account.domain.Account;
 import com.challenge.account.infrastructure.exception.NotFoundException;
 import java.util.Objects;
@@ -20,11 +22,14 @@ import reactor.core.publisher.Mono;
 public class AccountService implements AccountInputPort {
 
   AccountOutputPort accountOutputPort;
+  ClientOutputPort clientOutputPort;
 
   @Override
-  public Flux<Account> getAll(Integer clientId) {
-    if (!Objects.isNull(clientId)) {
-      return accountOutputPort.findByClientId(clientId);
+  public Flux<Account> getAll(String accountNumber) {
+    if (!Objects.isNull(accountNumber)) {
+      return accountOutputPort.findByNumber(accountNumber)
+          .switchIfEmpty(Mono.error(new NotFoundException(ACCOUNT_NOT_FOUND)))
+          .flux();
     }
     return accountOutputPort.findAll();
   }
@@ -37,8 +42,17 @@ public class AccountService implements AccountInputPort {
 
   @Override
   public Mono<Account> save(Account account) {
-    account.setNumber(generateNumberAccount());
-    return accountOutputPort.save(account);
+    return clientOutputPort.getAll(account.getClientIdentification())
+        .switchIfEmpty(Mono.error(new NotFoundException(CLIENT_NOT_FOUND)))
+        .next()
+        .flatMap(
+            client -> {
+              account.setNumber(generateNumberAccount());
+              account.setClientId(client.getId());
+              account.setStatus(true);
+              return accountOutputPort.save(account);
+            }
+        );
   }
 
   @Override
@@ -48,6 +62,7 @@ public class AccountService implements AccountInputPort {
         .flatMap(existingAccount -> Mono.defer(() -> {
           existingAccount.setBalance(account.getBalance());
           existingAccount.setStatus(account.getStatus());
+          existingAccount.setType(account.getType());
           return accountOutputPort.save(existingAccount);
         }));
   }

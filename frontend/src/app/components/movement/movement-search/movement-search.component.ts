@@ -51,9 +51,9 @@ export class MovementSearchComponent extends BaseComponent implements OnInit {
           }
 
           // Si es un número, buscar por accountId
-          const accountId = Number(trimmedTerm);
-          if (!isNaN(accountId) && accountId > 0) {
-            return this.movementService.getByAccountId(accountId);
+          const numberAccount = trimmedTerm;
+          if (numberAccount !== '') {
+            return this.movementService.getByNumberAccount(numberAccount);
           }
 
           // Si no es un número válido, retornar array vacío

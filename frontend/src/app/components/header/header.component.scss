@@ -1,22 +1,16 @@
 @import "../../styles/variables";
 
-/* Componente Header usando BEM */
 .header {
   background-color: $color-white;
   border-bottom: 1px solid $color-border;
-  padding: $spacing-medium $spacing-large;
+  padding: $spacing-small $spacing-large;
   box-shadow: $box-shadow;
 }
 
 .header__title {
   margin: 0;
-  font-size: $font-size-xlarge;
+  font-size: $font-size-medium;
   font-weight: $font-weight-bold;
-  color: $color-primary;
-  text-align: left;
-}
-
-.header__icon {
-  margin-right: $spacing-small;
-  color: $color-primary;
+  color: $color-secondary;
+  text-align: center;
 }

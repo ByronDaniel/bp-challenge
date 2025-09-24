@@ -7,17 +7,12 @@ import reactor.core.publisher.Mono;
 
 public interface ClientOutputPort {
 
-  Flux<Client> findAllClientsWithPerson();
+  Flux<Client> findAll();
 
-  Mono<Client> findClientByIdWithPerson(Integer id);
-
-  Mono<Client> findClientById(Integer id);
-
-  Mono<Person> findPersonByIdentification(String identification);
-
+  Mono<Client> findByIdentification(String identification);
+  
   Mono<Client> saveClient(Client client);
 
   Mono<Person> savePerson(Person person);
 
-  Mono<Void> deletePersonById(Integer id);
 }

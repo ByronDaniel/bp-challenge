@@ -9,6 +9,7 @@ import { ReportService } from '../../services/report.service';
 import { AlertService } from '../../services/alert.service';
 
 import { finalize, takeUntil } from 'rxjs';
+import { ReportPdf } from '../../types/report-pdf';
 
 @Component({
   selector: 'app-reports-view',
@@ -23,7 +24,7 @@ export class ReportsViewComponent extends BaseComponent {
   private readonly alertService = inject(AlertService);
 
   protected reports: Report[] = [];
-
+  protected pdfBase64: string = '';
   protected onGenerateReport(filter: ReportFilter): void {
     this.setLoading(true);
 
@@ -34,8 +35,10 @@ export class ReportsViewComponent extends BaseComponent {
         finalize(() => this.setLoading(false)),
       )
       .subscribe({
-        next: (reports: Report[]) => {
-          this.reports = reports;
+        next: (reports: ReportPdf) => {
+          this.reports = reports.report;
+          this.pdfBase64 = reports.pdf;
+          this.onDownloadPDF();
           this.alertService.toast('Reporte generado exitosamente');
         },
         error: (error: any) =>
@@ -48,8 +51,21 @@ export class ReportsViewComponent extends BaseComponent {
 
   protected onDownloadPDF(): void {
     // PDF download logic would be implemented here
-    this.alertService.toast(
-      'Funcionalidad de descarga PDF pendiente de implementación',
-    );
-  }
+
+      const byteCharacters = atob(this.pdfBase64);
+      const byteNumbers = new Array(byteCharacters.length);
+      for (let i = 0; i < byteCharacters.length; i++) {
+        byteNumbers[i] = byteCharacters.charCodeAt(i);
+      }
+      const byteArray = new Uint8Array(byteNumbers);
+      const blob = new Blob([byteArray], { type: 'application/pdf' });
+
+      const link = document.createElement('a');
+      link.href = window.URL.createObjectURL(blob);
+      link.download = 'reporte.pdf';
+      link.click();
+
+      window.URL.revokeObjectURL(link.href);
+  
+    }
 }

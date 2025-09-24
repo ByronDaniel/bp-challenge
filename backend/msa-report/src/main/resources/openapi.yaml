@@ -153,7 +153,9 @@ components:
           type: string
           description: pdf in base 64
         report:
-          $ref: "#/components/schemas/ReportResponseDto"
+          type: array
+          items:
+            $ref: "#/components/schemas/ReportResponseDto"
     ErrorDto:
       type: object
       properties:

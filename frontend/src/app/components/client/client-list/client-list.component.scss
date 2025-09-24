@@ -4,13 +4,12 @@
 .client-list {
   background-color: $color-white;
   border: 1px solid $color-border;
-  border-radius: $border-radius;
   box-shadow: $box-shadow;
 }
 
 .client-list__header {
   display: grid;
-  grid-template-columns: 1.5fr 2.5fr 1fr 1fr 1fr 2fr 2fr 1fr 120px;
+  grid-template-columns: 1.5fr 2.5fr 1fr 1fr 1fr 2fr 120px;
   gap: $spacing-medium;
   padding: $spacing-medium;
   background-color: $color-gray-light;
@@ -20,7 +19,7 @@
 
 .client-list__row {
   display: grid;
-  grid-template-columns: 1.5fr 2.5fr 1fr 1fr 1fr 2fr 2fr 1fr 120px;
+  grid-template-columns: 1.5fr 2.5fr 1fr 1fr 1fr 2fr 120px;
   gap: $spacing-medium;
   padding: $spacing-medium;
   border-bottom: 1px solid $color-border;

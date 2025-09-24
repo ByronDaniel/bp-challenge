@@ -1,56 +1,41 @@
 <form class="form" [formGroup]="movementForm" (ngSubmit)="onSave()">
   <div class="form__grid">
-    <div class="form__field">
-      <label class="form__label">Tipo de Movimiento *</label>
-      <select class="form__input" formControlName="type">
-        <option value="">Seleccionar tipo</option>
-        <option value="Credito">Crédito</option>
-        <option value="Debito">Débito</option>
-      </select>
-      <span class="form__error" *ngIf="getFieldError('type')">
-        {{ getFieldError("type") }}
-      </span>
-    </div>
-
-    <div class="form__field">
-      <label class="form__label">Valor *</label>
-      <input
-        class="form__input"
-        type="number"
-        formControlName="value"
-        min="0.01"
-        step="0.01"
-        placeholder="Ingresa el valor del movimiento"
-      />
-      <span class="form__error" *ngIf="getFieldError('value')">
-        {{ getFieldError("value") }}
-      </span>
-    </div>
-
     <div class="form__field form__field--full">
-      <label class="form__label">ID de la Cuenta *</label>
-      <input
-        class="form__input"
-        type="number"
-        formControlName="accountId"
-        min="1"
-        placeholder="Ingresa el ID de la cuenta"
-      />
-      <span class="form__error" *ngIf="getFieldError('accountId')">
-        {{ getFieldError("accountId") }}
+      <label class="form__label">Numero de Cuenta *</label>
+      <input class="form__input" formControlName="numberAccount" min="1" placeholder="Ingresa el número de cuenta" />
+      <span class="form__error" *ngIf="getFieldError('numberAccount')">
+        {{ getFieldError("numberAccount") }}
       </span>
     </div>
+  </div>
+
+
+  <div class="form__field">
+    <label class="form__label">Tipo de Movimiento *</label>
+    <select class="form__input" formControlName="type">
+      <option value="">Seleccionar tipo</option>
+      <option value="Credito">Crédito</option>
+      <option value="Debito">Débito</option>
+    </select>
+    <span class="form__error" *ngIf="getFieldError('type')">
+      {{ getFieldError("type") }}
+    </span>
+  </div>
+
+  <div class="form__field">
+    <label class="form__label">Valor *</label>
+    <input class="form__input" type="number" formControlName="value" min="0.01" step="0.01"
+      placeholder="Ingresa el valor del movimiento" />
+    <span class="form__error" *ngIf="getFieldError('value')">
+      {{ getFieldError("value") }}
+    </span>
   </div>
 
   <div class="form__actions">
     <button class="btn btn--cancel" type="button" (click)="onCancel()">
       Cancelar
     </button>
-    <button
-      class="btn btn--save"
-      type="submit"
-      [disabled]="movementForm.invalid"
-    >
+    <button class="btn btn--save" type="submit" [disabled]="movementForm.invalid">
       Crear Movimiento
     </button>
   </div>

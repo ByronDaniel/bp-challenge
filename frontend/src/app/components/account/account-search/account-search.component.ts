@@ -54,7 +54,7 @@ export class AccountSearchComponent extends BaseComponent implements OnInit {
   }
 
   private matchesSearchCriteria(account: Account, term: string): boolean {
-    return [account.number, account.type, account.clientId.toString()]
+    return [account.number, account.type, account.number.toString()]
       .map((value) => value.toLowerCase())
       .some((value) => value.includes(term));
   }

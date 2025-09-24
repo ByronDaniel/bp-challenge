@@ -4,13 +4,15 @@ import static com.challenge.report.application.service.utils.Constants.CLIENT_NO
 import static com.challenge.report.application.service.utils.Utils.isWithinRange;
 import static com.challenge.report.application.service.utils.Utils.parseDateRange;
 
-import com.challenge.report.application.input.port.ReportInputPort;
+import com.challenge.report.application.input.port.ReportPdfInputPort;
 import com.challenge.report.application.output.port.AccountOutputPort;
 import com.challenge.report.application.output.port.ClientOutputPort;
 import com.challenge.report.application.output.port.MovementOutputPort;
+import com.challenge.report.application.output.port.PdfGeneratorOutputPort;
 import com.challenge.report.application.service.utils.ReportMapper;
 import com.challenge.report.domain.DateRange;
 import com.challenge.report.domain.Report;
+import com.challenge.report.domain.ReportPdf;
 import com.challenge.report.infrastructure.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -21,15 +23,25 @@ import reactor.core.publisher.Mono;
 @Service
 @RequiredArgsConstructor
 @FieldDefaults(level = lombok.AccessLevel.PRIVATE, makeFinal = true)
-public class ReportService implements ReportInputPort {
+public class ReportPdfService implements ReportPdfInputPort {
 
   ClientOutputPort clientOutputPort;
   AccountOutputPort accountOutputPort;
   MovementOutputPort movementOutputPort;
   ReportMapper reportMapper;
+  PdfGeneratorOutputPort pdfGeneratorOutputPort;
 
-  @Override
-  public Flux<Report> getReportByFilter(String date, Integer clientId) {
+  public Mono<ReportPdf> getReportWithPdf(String date, Integer clientId) {
+    return getReportByFilter(date, clientId)
+        .collectList()
+        .flatMap(reports -> pdfGeneratorOutputPort.generatePdfFromReports(reports)
+            .flatMap(pdfString -> {
+              ReportPdf reportPdf = new ReportPdf(reports, pdfString);
+              return Mono.just(reportPdf);
+            }));
+  }
+
+  private Flux<Report> getReportByFilter(String date, Integer clientId) {
     DateRange dateRange = parseDateRange(date);
     return clientOutputPort.getById(clientId)
         .switchIfEmpty(Mono.error(new NotFoundException(CLIENT_NOT_FOUND)))

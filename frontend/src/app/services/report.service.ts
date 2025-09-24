@@ -3,20 +3,21 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, catchError, retry, throwError } from 'rxjs';
 import { Report, ReportFilter } from '../types/report.type';
 import { environment } from '../../environments/environment';
+import { ReportPdf } from '../types/report-pdf';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ReportService {
-  private readonly baseUrl = environment.apiUrl;
+  private readonly baseUrl = environment.apiUrlReport;
 
   constructor(private readonly http: HttpClient) {}
 
-  generateReport(filter: ReportFilter): Observable<Report[]> {
+  generateReport(filter: ReportFilter): Observable<ReportPdf> {
     const url = `${this.baseUrl}/reporte?date=${filter.startDate},${filter.endDate}&clientId=${filter.clientId}`;
 
     return this.http
-      .get<Report[]>(url)
+      .get<ReportPdf>(url)
       .pipe(retry(2), catchError(this.handleError));
   }
 

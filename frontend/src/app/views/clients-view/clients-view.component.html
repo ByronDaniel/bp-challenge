@@ -2,14 +2,9 @@
   <header class="view__header">
     <app-client-search
       [clients]="clients"
-      (filteredClientsChange)="onFilteredClientsChange($event)"
-    />
-    <a class="btn btn--primary" routerLink="/clientes/crear">
-      <i class="fa-solid fa-plus"></i>
-      Nuevo Cliente
-    </a>
+      (filteredClientsChange)="onFilteredClientsChange($event)"/>
+    <a class="btn btn--primary" routerLink="/clientes/crear"><i class="fa-solid fa-user-plus"></i> Crear Cliente</a>
   </header>
-
   <main class="view__content">
     <app-client-list
       [clients]="filteredClients"

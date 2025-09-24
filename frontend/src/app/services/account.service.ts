@@ -9,7 +9,7 @@ import { environment } from '../../environments/environment';
 })
 export class AccountService {
   private readonly endpoint = 'cuentas';
-  private readonly apiUrl = `${environment.apiUrl}/${this.endpoint}`;
+  private readonly apiUrl = `${environment.apiUrlAccount}/${this.endpoint}`;
 
   constructor(private readonly http: HttpClient) {}
 

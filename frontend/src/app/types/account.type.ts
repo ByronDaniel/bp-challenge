@@ -5,4 +5,5 @@ export type Account = {
   balance: number;
   status: boolean;
   clientId: number;
+  clientIdentification: string;
 };

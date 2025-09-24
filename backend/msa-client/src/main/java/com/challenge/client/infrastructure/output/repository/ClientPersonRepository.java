@@ -8,7 +8,7 @@ import reactor.util.function.Tuple2;
 
 public interface ClientPersonRepository {
 
-  Flux<Tuple2<ClientEntity, PersonEntity>> findAllWithPerson();
+  Flux<Tuple2<ClientEntity, PersonEntity>> findAll();
 
-  Mono<Tuple2<ClientEntity, PersonEntity>> findByIdWithPerson(Integer id);
+  Mono<Tuple2<ClientEntity, PersonEntity>> findByIdentification(String identification);
 }

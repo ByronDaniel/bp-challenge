@@ -9,7 +9,7 @@ import { environment } from '../../environments/environment';
 })
 export class MovementService {
   private readonly endpoint = 'movimientos';
-  private readonly apiUrl = `${environment.apiUrl}/${this.endpoint}`;
+  private readonly apiUrl = `${environment.apiUrlMovement}/${this.endpoint}`;
 
   constructor(private readonly http: HttpClient) {}
 
@@ -19,9 +19,9 @@ export class MovementService {
       .pipe(retry(2), catchError(this.handleError));
   }
 
-  getByAccountId(accountId: number): Observable<Movement[]> {
+  getByNumberAccount(numberAccount: string): Observable<Movement[]> {
     return this.http
-      .get<Movement[]>(`${this.apiUrl}?accountId=${accountId}`)
+      .get<Movement[]>(`${this.apiUrl}?numberAccount=${numberAccount}`)
       .pipe(retry(2), catchError(this.handleError));
   }
 

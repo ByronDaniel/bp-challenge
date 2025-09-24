@@ -20,6 +20,7 @@ public class Account {
   String type;
   Double balance;
   Boolean status;
+  String clientIdentification;
   Integer clientId;
 
   public static String generateNumberAccount() {
