@@ -15,4 +15,4 @@ spring:
 
   services:
     msa-account:
-      url: http://msa-account:8081
+      url: http://msa-account:8080
