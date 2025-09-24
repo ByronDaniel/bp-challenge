@@ -1,16 +1,4 @@
-## BP Challenge – Backend
-
-### Tecnologías
-
-- Java 21
-- Spring WebFlux (reactivo)
-- Spring Data R2DBC
-- Spring Validation
-- OpenAPI Generator
-- MapStruct
-- Lombok
-- Docker & Docker Compose
-- Microsoft SQL Server 2019
+## BP Challenge
 
 ### Levantar todo (desde `backend/`)
 
@@ -33,7 +21,3 @@ docker rm -f msa-client msa-account msa-movement msa-report sqlserver db_init
 ### Colección Postman
 
 `backend/BP Challenge.postman_collection.json` (importar y probar).
-
----
-
-## BP Challenge – Frontend
