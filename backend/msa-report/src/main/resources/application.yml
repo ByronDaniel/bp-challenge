@@ -1,0 +1,18 @@
+logging:
+  level:
+    org.springframework.data.r2dbc: DEBUG
+
+spring:
+  application:
+    name: msa-report
+
+  jackson:
+    default-property-inclusion: non_null
+
+  services:
+    msa-client:
+      url: http://msa-client:8080
+    msa-account:
+      url: http://msa-account:8080
+    msa-movement:
+      url: http://msa-movement:8080

@@ -1,0 +1,26 @@
+@import "styles/variables";
+
+.app {
+  min-height: 100vh;
+  display: grid;
+  grid-template:
+    "header header" auto
+    "sidebar content" 1fr
+    / 250px 1fr;
+
+  &__header {
+    grid-area: header;
+  }
+
+  &__sidebar {
+    grid-area: sidebar;
+    overflow-y: auto;
+  }
+
+  &__content {
+    grid-area: content;
+    overflow-y: auto;
+    padding: spacing(xxl);
+    background: linear-gradient(135deg, color(gray-50) 0%, color(white) 100%);
+  }
+}

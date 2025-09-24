@@ -1,0 +1,88 @@
+@import "variables";
+
+// Botón básico
+/* Botones básicos */
+.btn {
+  padding: $spacing-small $spacing-small;
+  border: none;
+  border-radius: $border-radius;
+  font-size: $font-size-small;
+  cursor: pointer;
+  background-color: $color-primary;
+  color: $color-secondary;
+  line-height: 1;
+  text-decoration: none;
+}
+
+.btn:hover {
+  background-color: $color-primary-medium;
+}
+
+.btn--secondary {
+  background-color: $color-white;
+  color: $color-primary;
+  border: 1px solid $color-border;
+}
+
+.btn--secondary:hover {
+  background-color: $color-gray-light;
+}
+
+.btn--edit {
+  background-color: transparent;
+}
+
+.btn--delete {
+  background-color: transparent;
+}
+
+// Campo de formulario básico
+.form-field {
+  margin-bottom: $spacing-medium;
+}
+
+.form-field__label {
+  display: block;
+  margin-bottom: $spacing-small;
+  font-weight: $font-weight-bold;
+  color: $color-gray-dark;
+}
+
+.form-field__input {
+  width: 100%;
+  padding: $spacing-small;
+  border: 1px solid $color-border;
+  border-radius: $border-radius;
+  font-size: $font-size-medium;
+  background-color: $color-white;
+  color: $color-gray-dark;
+}
+
+.form-field__input:focus {
+  border-color: $color-primary;
+  outline: none;
+}
+
+// Tabla básica
+.table {
+  width: 100%;
+  background-color: $color-white;
+  border: 1px solid $color-border;
+  border-radius: $border-radius;
+}
+
+.table__header {
+  background-color: $color-gray-light;
+  padding: $spacing-medium;
+  font-weight: $font-weight-bold;
+  border-bottom: 1px solid $color-border;
+}
+
+.table__row {
+  padding: $spacing-medium;
+  border-bottom: 1px solid $color-border;
+}
+
+.table__row:hover {
+  background-color: $color-gray-light;
+}

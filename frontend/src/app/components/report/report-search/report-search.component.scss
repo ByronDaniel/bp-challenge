@@ -1,0 +1,45 @@
+@import "../../../styles/variables";
+
+.search {
+  position: relative;
+  max-width: 320px;
+}
+
+.search__input {
+  width: 100%;
+  padding: $spacing-small $spacing-xlarge $spacing-small 40px;
+  border: 1px solid $color-border;
+  border-radius: $border-radius;
+  font-size: $font-size-small;
+  background-color: $color-white;
+}
+
+.search__input:focus {
+  border-color: $color-primary;
+  outline: none;
+}
+
+.search__icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: $color-gray-medium;
+  width: 16px;
+  height: 16px;
+}
+
+.search__clear {
+  position: absolute;
+  right: $spacing-small;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: $color-gray-medium;
+  cursor: pointer;
+}
+
+.search__clear:hover {
+  color: $color-danger;
+}

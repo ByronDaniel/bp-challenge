@@ -1,0 +1,16 @@
+<div class="view">
+  <header class="view__header">
+    <app-movement-search
+      (filteredMovementsChange)="onFilteredMovementsChange($event)"
+      (searchError)="onSearchError($event)"
+    />
+    <a class="btn btn--primary" routerLink="/movimientos/crear">
+      <i class="fa-solid fa-money-bill-transfer"></i>
+      Ejecutar Movimiento
+    </a>
+  </header>
+
+  <main class="view__content">
+    <app-movement-list [movements]="filteredMovements" />
+  </main>
+</div>

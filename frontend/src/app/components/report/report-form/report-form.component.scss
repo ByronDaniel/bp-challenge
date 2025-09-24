@@ -1,0 +1,67 @@
+@import "../../../styles/variables";
+
+.report-form {
+  background-color: $color-white;
+  border-radius: $border-radius;
+  padding: $spacing-xlarge;
+  box-shadow: $box-shadow;
+  border: 1px solid $color-border;
+  max-width: 800px;
+  margin: 0 auto $spacing-xlarge auto;
+}
+
+.report-form h3 {
+  margin: 0 0 $spacing-xlarge 0;
+  color: $color-primary;
+  font-size: $font-size-xlarge;
+  font-weight: $font-weight-bold;
+  text-align: center;
+  padding-bottom: $spacing-medium;
+  border-bottom: 2px solid $color-border;
+}
+
+.report-form__fields {
+  gap: $spacing-large;
+  margin-bottom: $spacing-xlarge;
+}
+
+.report-form__field {
+  margin-bottom: $spacing-medium;
+}
+
+.report-form__field label {
+  display: block;
+  margin-bottom: $spacing-small;
+  font-weight: $font-weight-bold;
+  color: $color-gray-dark;
+}
+
+.report-form__field input {
+  width: 100%;
+  padding: $spacing-small;
+  border: 1px solid $color-border;
+  border-radius: $border-radius;
+  font-size: $font-size-medium;
+  background-color: $color-white;
+  color: $color-gray-dark;
+}
+
+.report-form__field input:focus {
+  border-color: $color-primary;
+  outline: none;
+}
+
+.report-form__actions {
+  display: flex;
+  gap: $spacing-medium;
+  justify-content: center;
+  padding-top: $spacing-large;
+  border-top: 1px solid $color-border;
+  margin-top: $spacing-large;
+}
+
+.error-message {
+  color: $color-danger;
+  font-size: $font-size-small;
+  margin-top: $spacing-small;
+}

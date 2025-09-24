@@ -1,0 +1,18 @@
+logging:
+  level:
+    org.springframework.data.r2dbc: DEBUG
+spring:
+  application:
+    name: msa-movement
+
+  jackson:
+    default-property-inclusion: non_null
+
+  r2dbc:
+    url: r2dbc:pool:mssql://sqlserver:1433/challenge
+    username: sa
+    password: Holamundo11*
+
+  services:
+    msa-account:
+      url: http://msa-account:8080

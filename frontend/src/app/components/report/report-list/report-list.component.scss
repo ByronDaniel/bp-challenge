@@ -1,0 +1,61 @@
+@import "../../../styles/variables";
+
+.report-list {
+  background-color: $color-white;
+  border: 1px solid $color-border;
+  border-radius: $border-radius;
+  box-shadow: $box-shadow;
+}
+
+.report-list__header {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  gap: $spacing-medium;
+  padding: $spacing-medium;
+  background-color: $color-gray-light;
+  font-weight: $font-weight-bold;
+  border-bottom: 1px solid $color-border;
+}
+
+.report-list__row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  gap: $spacing-medium;
+  padding: $spacing-medium;
+  border-bottom: 1px solid $color-border;
+}
+
+.report-list__row:hover {
+  background-color: $color-gray-light;
+}
+
+.report-list__type {
+  padding: 4px $spacing-small;
+  border-radius: $border-radius;
+  font-size: 12px;
+  font-weight: $font-weight-bold;
+  text-transform: uppercase;
+  background-color: $color-gray-medium;
+  color: $color-white;
+}
+
+.report-list__type--credit {
+  background-color: $color-success;
+}
+
+.report-list__type--debit {
+  background-color: $color-danger;
+}
+
+.report-list__btn {
+  font-size: 12px;
+  padding: 4px $spacing-small;
+}
+
+.report-list__btn--view {
+  color: $color-primary;
+}
+
+.report-list__btn--view:hover {
+  color: $color-secondary;
+}

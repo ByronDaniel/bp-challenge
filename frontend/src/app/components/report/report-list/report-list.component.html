@@ -1,0 +1,47 @@
+<div class="report-list" *ngIf="reports.length > 0">
+  <div class="report-list__header">
+    <div class="report-list__col">Fecha</div>
+    <div class="report-list__col">Cliente</div>
+    <div class="report-list__col">Número Cuenta</div>
+    <div class="report-list__col">Tipo Cuenta</div>
+    <div class="report-list__col">Estado</div>
+    <div class="report-list__col">Tipo Movimiento</div>
+    <div class="report-list__col">Saldo Inicial</div>
+    <div class="report-list__col">Valor</div>
+    <div class="report-list__col">Saldo Final</div>
+  </div>
+
+  <div
+    class="report-list__row"
+    *ngFor="let report of reports; trackBy: trackById"
+  >
+    <div class="report-list__col">{{ formatDate(report.date) }}</div>
+    <div class="report-list__col">{{ report.name }}</div>
+    <div class="report-list__col">{{ report.number }}</div>
+    <div class="report-list__col">{{ report.typeAccount }}</div>
+    <div class="report-list__col">
+      <span
+        [class]="
+          'status-badge ' +
+          (report.status ? 'status-active' : 'status-inactive')
+        "
+      >
+        {{ report.status ? "Activo" : "Inactivo" }}
+      </span>
+    </div>
+    <div class="report-list__col">
+      <span
+        [class]="
+          'movement-type ' + (report.type === 'CREDITO' ? 'credit' : 'debit')
+        "
+      >
+        {{ report.type }}
+      </span>
+    </div>
+    <div class="report-list__col">
+      ${{ report.initialBalance | number: "1.2-2" }}
+    </div>
+    <div class="report-list__col">${{ report.value | number: "1.2-2" }}</div>
+    <div class="report-list__col">${{ report.balance | number: "1.2-2" }}</div>
+  </div>
+</div>

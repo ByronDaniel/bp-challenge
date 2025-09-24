@@ -1,0 +1,18 @@
+<div class="search">
+  <i class="fa-solid fa-search search__icon"></i>
+  <input
+    class="search__input"
+    type="text"
+    placeholder="Buscar por Número de cuenta"
+    [formControl]="searchControl"
+    autocomplete="off"
+  />
+  <button
+    class="search__clear"
+    *ngIf="searchControl.value"
+    (click)="onClear()"
+    aria-label="Limpiar búsqueda"
+  >
+    <i class="fa-solid fa-times"></i>
+  </button>
+</div>

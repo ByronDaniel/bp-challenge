@@ -1,0 +1,21 @@
+@import "../../styles/variables";
+
+.view {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: $spacing-large;
+}
+
+.view__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: $spacing-xlarge;
+  gap: $spacing-medium;
+}
+
+.view__content {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-xlarge;
+}

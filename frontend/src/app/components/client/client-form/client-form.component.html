@@ -1,0 +1,103 @@
+<form class="form" [formGroup]="form" (ngSubmit)="onSubmit()">
+  <div class="form__grid">
+    <div class="form__field">
+      <label class="form__label">Identificación *</label>
+      <input
+        class="form__input"
+        type="text"
+        formControlName="identification"
+        placeholder="Ingresa la identificación"
+      />
+      <span class="form__error" *ngIf="getFieldError('identification')">
+        {{ getFieldError("identification") }}
+      </span>
+    </div>
+
+    <div class="form__field">
+      <label class="form__label">Nombre *</label>
+      <input
+        class="form__input"
+        type="text"
+        formControlName="name"
+        placeholder="Ingresa el nombre completo"
+      />
+      <span class="form__error" *ngIf="getFieldError('name')">
+        {{ getFieldError("name") }}
+      </span>
+    </div>
+
+    <div class="form__field">
+      <label class="form__label">Género *</label>
+      <select class="form__input" formControlName="gender">
+        <option value="">Seleccionar género</option>
+        <option value="Masculino">Masculino</option>
+        <option value="Femenino">Femenino</option>
+      </select>
+      <span class="form__error" *ngIf="getFieldError('gender')">
+        {{ getFieldError("gender") }}
+      </span>
+    </div>
+
+    <div class="form__field">
+      <label class="form__label">Edad *</label>
+      <input
+        class="form__input"
+        type="number"
+        formControlName="age"
+        min="1"
+        max="120"
+        placeholder="Ingresa la edad"
+      />
+      <span class="form__error" *ngIf="getFieldError('age')">
+        {{ getFieldError("age") }}
+      </span>
+    </div>
+
+    <div class="form__field">
+      <label class="form__label">Teléfono *</label>
+      <input
+        class="form__input"
+        type="tel"
+        formControlName="phone"
+        placeholder="Ingresa el teléfono"
+      />
+      <span class="form__error" *ngIf="getFieldError('phone')">
+        {{ getFieldError("phone") }}
+      </span>
+    </div>
+
+    <div class="form__field form__field--full">
+      <label class="form__label">Dirección *</label>
+      <input
+        class="form__input"
+        type="text"
+        formControlName="address"
+        placeholder="Ingresa la dirección completa"
+      />
+      <span class="form__error" *ngIf="getFieldError('address')">
+        {{ getFieldError("address") }}
+      </span>
+    </div>
+
+    <div class="form__field">
+      <label class="form__label">Contraseña *</label>
+      <input
+        class="form__input"
+        type="password"
+        formControlName="password"
+        placeholder="Mínimo 6 caracteres"
+      />
+      <span class="form__error" *ngIf="getFieldError('password')">
+        {{ getFieldError("password") }}
+      </span>
+    </div>
+    </div>
+  <div class="form__actions">
+    <button class="btn btn--cancel" type="button" (click)="onCancel()">
+      Cancelar
+    </button>
+    <button class="btn btn--save" type="submit" [disabled]="form.invalid">
+      {{ isEditing ? "Actualizar" : "Crear" }}
+    </button>
+  </div>
+</form>

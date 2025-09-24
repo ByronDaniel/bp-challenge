@@ -1,0 +1,49 @@
+<form class="form" [formGroup]="form" (ngSubmit)="onSave()">
+  <div class="form__grid">
+    <div class="form__field" *ngIf="!isEditing">
+      <label class="form__label">Identificación del Cliente *</label>
+      <input class="form__input" formControlName="clientIdentification"
+        placeholder="Ingresa la identificación del cliente" />
+      <span class="form__error" *ngIf="getFieldError('clientIdentification')">
+        {{ getFieldError("clientIdentification") }}
+      </span>
+    </div>
+
+    <div class="form__field">
+      <label class="form__label">Tipo de Cuenta *</label>
+      <select class="form__input" formControlName="type">
+        <option value="">Seleccionar tipo</option>
+        <option value="Corriente">Corriente</option>
+        <option value="Ahorros">Ahorros</option>
+      </select>
+      <span class="form__error" *ngIf="getFieldError('type')">
+        {{ getFieldError("type") }}
+      </span>
+    </div>
+
+    <div class="form__field">
+      <label class="form__label">Saldo Inicial *</label>
+      <input class="form__input" type="number" formControlName="balance" min="0" step="0.01"
+        placeholder="Ingresa el saldo inicial" />
+      <span class="form__error" *ngIf="getFieldError('balance')">
+        {{ getFieldError("balance") }}
+      </span>
+    </div>
+    
+    <div class="form__field" *ngIf="isEditing">
+      <label class="form__checkbox">
+        <input type="checkbox" formControlName="status" />
+        Cuenta activa
+      </label>
+    </div>
+  </div>
+
+    <div class="form__actions">
+      <button class="btn btn--cancel" type="button" (click)="onCancel()">
+        Cancelar
+      </button>
+      <button class="btn btn--save" type="submit" [disabled]="form.invalid">
+        {{ isEditing ? "Actualizar" : "Crear" }}
+      </button>
+    </div>
+</form>

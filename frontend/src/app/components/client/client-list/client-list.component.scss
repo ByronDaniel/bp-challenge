@@ -1,0 +1,36 @@
+@import "../../../styles/variables";
+
+/* Lista de clientes usando BEM */
+.client-list {
+  background-color: $color-white;
+  border: 1px solid $color-border;
+  box-shadow: $box-shadow;
+}
+
+.client-list__header {
+  display: grid;
+  grid-template-columns: 1.5fr 2.5fr 1fr 1fr 1fr 2fr 120px;
+  gap: $spacing-medium;
+  padding: $spacing-medium;
+  background-color: $color-gray-light;
+  font-weight: $font-weight-bold;
+  border-bottom: 1px solid $color-border;
+}
+
+.client-list__row {
+  display: grid;
+  grid-template-columns: 1.5fr 2.5fr 1fr 1fr 1fr 2fr 120px;
+  gap: $spacing-medium;
+  padding: $spacing-medium;
+  border-bottom: 1px solid $color-border;
+}
+
+.client-list__row:hover {
+  background-color: $color-gray-light;
+}
+
+.client-list__actions {
+  display: flex;
+  gap: $spacing-small;
+  justify-content: center;
+}

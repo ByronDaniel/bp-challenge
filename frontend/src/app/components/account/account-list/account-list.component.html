@@ -1,0 +1,43 @@
+<div class="account-list" *ngIf="accounts.length > 0">
+  <div class="account-list__header">
+    <div class="account-list__col">Número</div>
+    <div class="account-list__col">Tipo</div>
+    <div class="account-list__col">Saldo</div>
+    <div class="account-list__col">Estado</div>
+    <div class="account-list__col">Acciones</div>
+  </div>
+
+  <div
+    class="account-list__row"
+    *ngFor="let account of accounts; trackBy: trackById"
+  >
+    <div class="account-list__col">{{ account.number }}</div>
+    <div class="account-list__col">{{ account.type }}</div>
+    <div class="account-list__col">
+      ${{ account.balance | number: "1.2-2" }}
+    </div>
+    <div class="account-list__col">
+      <span
+        class="account-list__status"
+        [class.account-list__status--active]="account.status"
+      >
+        {{ account.status ? "Activa" : "Inactiva" }}
+      </span>
+    </div>
+    <div class="account-list__col">
+      <a
+        class="btn btn--edit"
+        [routerLink]="['/cuentas/editar', account.accountId]"
+        [state]="{ account: account }"
+      >
+        <i class="fa-solid fa-edit"></i>
+      </a>
+      <button
+        class="btn btn--delete"
+        (click)="deleteAccount.emit(account)"
+      >
+        <i class="fa-solid fa-trash"></i>
+      </button>
+    </div>
+  </div>
+</div>

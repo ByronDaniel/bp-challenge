@@ -1,0 +1,40 @@
+@import "app/styles/variables";
+@import "app/styles/mixins";
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Roboto", sans-serif;
+  color: $color-gray-dark;
+  line-height: 1.5;
+  margin: 0;
+  padding: 0;
+  background-color: $color-gray-light;
+}
+
+/* Utilidades simples */
+.text-primary {
+  color: $color-primary;
+}
+
+.text-secondary {
+  color: $color-gray-medium;
+}
+
+.bg-white {
+  background-color: $color-white;
+}
+
+.shadow {
+  box-shadow: $box-shadow;
+}
+
+.border {
+  border: 1px solid $color-border;
+}
+
+.rounded {
+  border-radius: $border-radius;
+}
