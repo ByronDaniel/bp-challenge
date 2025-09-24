@@ -5,5 +5,5 @@ import reactor.core.publisher.Flux;
 
 public interface MovementOutputPort {
 
-  Flux<Movement> getAll(Integer accountId);
+  Flux<Movement> getAll(String accountNumber);
 }

@@ -1,20 +1,17 @@
 <form [formGroup]="reportForm" (ngSubmit)="onSubmit()" class="report-form">
-  <h3>Generar Reporte</h3>
-
   <div class="report-form__fields">
     <div class="report-form__field">
-      <label for="clientId">ID del Cliente:</label>
+      <label for="clientIdentification">Identificación del Cliente:</label>
       <input
-        type="number"
-        id="clientId"
-        formControlName="clientId"
-        placeholder="Ingrese el ID del cliente"
+        id="clientIdentification"
+        formControlName="clientIdentification"
+        placeholder="Ingrese la identificación del cliente"
         min="1"
       />
       <small
         *ngIf="
-          reportForm.get('clientId')?.invalid &&
-          reportForm.get('clientId')?.touched
+          reportForm.get('clientIdentification')?.invalid &&
+          reportForm.get('clientIdentification')?.touched
         "
         class="error-message"
       >

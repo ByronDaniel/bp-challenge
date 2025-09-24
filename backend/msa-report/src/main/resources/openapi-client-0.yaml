@@ -17,6 +17,13 @@ paths:
         - Client Management
       summary: Obtain the list of clients
       description: Returns the list of clients.
+      parameters:
+        - in: query
+          name: identification
+          required: false
+          description: "1751592013"
+          schema:
+            type: string
       operationId: getAll
       responses:
         "200":
@@ -56,27 +63,18 @@ paths:
           $ref: "#/components/responses/500"
         "504":
           $ref: "#/components/responses/504"
-  /clientes/{id}:
     put:
       tags:
         - Client Management
       summary: Update a client
       description: Returns the updated client.
-      parameters:
-        - name: id
-          in: path
-          description: Client Id
-          required: true
-          schema:
-            type: integer
-            example: 1
       requestBody:
         required: true
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/ClientRequestDto'
-      operationId: updateById
+      operationId: update
       responses:
         "200":
           description: OK
@@ -92,47 +90,21 @@ paths:
           $ref: "#/components/responses/500"
         "504":
           $ref: "#/components/responses/504"
-    get:
-      tags:
-        - Client Management
-      summary: Obtain a client by Id
-      description: Returns a client.
-      parameters:
-        - name: id
-          in: path
-          description: Client Identification
-          required: true
-          schema:
-            type: integer
-            example: 1
-      operationId: getById
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ClientResponseDto'
-        "404":
-          $ref: "#/components/responses/404"
-        "500":
-          $ref: "#/components/responses/500"
-        "504":
-          $ref: "#/components/responses/504"
+  /clientes/{identification}:
     delete:
       tags:
         - Client Management
       summary: Delete a client by Id
       description: Returns a void
       parameters:
-        - name: id
+        - name: identification
           in: path
           description: Client Id
           required: true
           schema:
-            type: integer
-            example: 1
-      operationId: DeleteById
+            type: string
+            example: "1751592013"
+      operationId: deleteByIdentification
       responses:
         "204":
           description: No Content
@@ -208,11 +180,6 @@ components:
           description: Password
           nullable: false
           example: helloworld123*
-        status:
-          type: boolean
-          description: Status
-          nullable: false
-          example: true
         identification:
           type: string
           description: Identification number
@@ -298,11 +265,6 @@ components:
           maxLength: 20
           nullable: false
           example: helloworld123*
-        status:
-          type: boolean
-          description: Status
-          nullable: false
-          example: true
       required:
         - identification
         - name
@@ -311,7 +273,6 @@ components:
         - address
         - phone
         - password
-        - status
     ErrorDto:
       type: object
       properties:

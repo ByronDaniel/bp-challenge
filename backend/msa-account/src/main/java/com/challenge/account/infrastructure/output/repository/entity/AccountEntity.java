@@ -12,11 +12,16 @@ import org.springframework.data.relational.core.mapping.Table;
 public class AccountEntity {
 
   @Id
+  @Column("account_id")
   Integer accountId;
+  @Column("client_id")
   Integer clientId;
   @Column("number")
   String number;
+  @Column("type")
   String type;
+  @Column("balance")
   Double balance;
+  @Column("status")
   Boolean status;
 }

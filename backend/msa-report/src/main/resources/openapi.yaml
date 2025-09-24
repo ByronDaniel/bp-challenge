@@ -16,7 +16,7 @@ paths:
       tags:
         - Reports
       summary: Obtain a report of movements filter by date and client id
-      description: Returns the list of movements filter by date and client id.
+      description: Returns the list of movements filter by date and client identification.
       parameters:
         - in: query
           name: date
@@ -25,11 +25,11 @@ paths:
           schema:
             type: string
         - in: query
-          name: clientId
+          name: clientIdentification
           required: true
-          description: client Id
+          description: client Identification
           schema:
-            type: integer
+            type: string
       operationId: getReportByFilter
       responses:
         "200":

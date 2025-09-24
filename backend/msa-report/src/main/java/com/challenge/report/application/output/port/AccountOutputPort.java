@@ -5,5 +5,5 @@ import reactor.core.publisher.Flux;
 
 public interface AccountOutputPort {
 
-  Flux<Account> getAll(Integer clientId);
+  Flux<Account> getAll(String clientIdentification);
 }

@@ -11,7 +11,7 @@ export type Report = {
 };
 
 export type ReportFilter = {
-  clientId: number;
+  clientIdentification: string;
   startDate: string;
   endDate: string;
 };

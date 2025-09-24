@@ -19,8 +19,8 @@ public class MovementAdapter implements MovementOutputPort {
   MovementMapper movementMapper;
 
   @Override
-  public Flux<Movement> getAll(Integer accountId) {
-    return movementsApi.getAll(accountId)
+  public Flux<Movement> getAll(String accountNumber) {
+    return movementsApi.getAll(accountNumber)
         .map(movementMapper::toMovement);
   }
 }

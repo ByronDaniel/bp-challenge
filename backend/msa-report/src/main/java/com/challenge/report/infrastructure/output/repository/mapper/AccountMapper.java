@@ -9,6 +9,7 @@ import task___buildSpringClient1__property__packageName_.clients1.client.models.
 public interface AccountMapper {
 
   @Mapping(target = "id", source = "accountId")
+  @Mapping(target = "clientId", ignore = true)
   Account toAccount(AccountResponseDto accountResponseDto);
 
 }

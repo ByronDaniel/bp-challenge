@@ -2,6 +2,7 @@ package com.challenge.account.infrastructure.output.adapter;
 
 import com.challenge.account.application.output.port.AccountOutputPort;
 import com.challenge.account.domain.Account;
+import com.challenge.account.infrastructure.output.repository.AccountCustomRepository;
 import com.challenge.account.infrastructure.output.repository.AccountRepository;
 import com.challenge.account.infrastructure.output.repository.mapper.AccountEntityMapper;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +18,7 @@ public class AccountAdapter implements AccountOutputPort {
 
   AccountEntityMapper accountEntityMapper;
   AccountRepository accountRepository;
+  AccountCustomRepository accountCustomRepository;
 
   @Override
   public Flux<Account> findAll() {
@@ -26,7 +28,7 @@ public class AccountAdapter implements AccountOutputPort {
 
   @Override
   public Mono<Account> findByNumber(String number) {
-    return accountRepository.findByNumber(number)
+    return accountCustomRepository.findByNumber(number)
         .map(accountEntityMapper::toAccount);
   }
 

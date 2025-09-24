@@ -14,7 +14,7 @@ export class ReportService {
   constructor(private readonly http: HttpClient) {}
 
   generateReport(filter: ReportFilter): Observable<ReportPdf> {
-    const url = `${this.baseUrl}/reporte?date=${filter.startDate},${filter.endDate}&clientId=${filter.clientId}`;
+    const url = `${this.baseUrl}/reporte?date=${filter.startDate},${filter.endDate}&clientIdentification=${filter.clientIdentification}`;
 
     return this.http
       .get<ReportPdf>(url)

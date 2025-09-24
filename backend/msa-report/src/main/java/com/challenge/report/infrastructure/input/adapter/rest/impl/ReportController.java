@@ -21,8 +21,8 @@ public class ReportController implements ReporteApi {
 
   @Override
   public Mono<ResponseEntity<ReportPdfResponseDto>> getReportByFilter(String date,
-      Integer clientId, ServerWebExchange exchange) {
-    return reportPdfInputPort.getReportWithPdf(date, clientId)
+      String clientIdentification, ServerWebExchange exchange) {
+    return reportPdfInputPort.getReportWithPdf(date, clientIdentification)
         .map(reportDtoMapper::toReportResponseDto)
         .map(ResponseEntity::ok);
   }

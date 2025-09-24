@@ -19,11 +19,17 @@ paths:
       description: Returns the list of accounts.
       parameters:
         - in: query
-          name: clientId
+          name: accountNumber
           required: false
-          description: client Id
+          description: Account number
           schema:
-            type: integer
+            type: string
+        - in: query
+          name: clientIdentification
+          required: false
+          description: Client identification
+          schema:
+            type: string
       operationId: getAll
       responses:
         "200":
@@ -110,7 +116,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/AccountRequestDto'
+              $ref: '#/components/schemas/AccountRequestPutDto'
       responses:
         "200":
           description: OK
@@ -235,12 +241,33 @@ components:
           description: Status
           nullable: false
           example: true
-        clientId:
-          type: number
-          description: Client Id
-          nullable: false
-          example: 1
     AccountRequestDto:
+      type: object
+      properties:
+        type:
+          type: string
+          description: AccountType
+          nullable: false
+          enum:
+            - Ahorros
+            - Corriente
+          example: "Ahorros"
+        balance:
+          type: number
+          format: double
+          description: Balance
+          nullable: false
+          example: 0
+        clientIdentification:
+          type: string
+          description: Client Identification
+          nullable: false
+          example: "1751592013"
+      required:
+        - type
+        - balance
+        - clientIdentification
+    AccountRequestPutDto:
       type: object
       properties:
         type:
@@ -262,16 +289,10 @@ components:
           description: Status
           nullable: false
           example: true
-        clientId:
-          type: integer
-          description: Client Id
-          nullable: false
-          example: 1
       required:
         - type
         - balance
         - status
-        - clientId
     ErrorDto:
       type: object
       properties:

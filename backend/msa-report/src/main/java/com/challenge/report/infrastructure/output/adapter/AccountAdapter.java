@@ -19,8 +19,8 @@ public class AccountAdapter implements AccountOutputPort {
   AccountMapper accountMapper;
 
   @Override
-  public Flux<Account> getAll(Integer clientId) {
-    return accountManagementApi.getAll(clientId)
+  public Flux<Account> getAll(String clientIdentification) {
+    return accountManagementApi.getAll(null, clientIdentification)
         .map(accountMapper::toAccount);
   }
 

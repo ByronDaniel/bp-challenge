@@ -39,7 +39,7 @@ export class ReportFormComponent extends BaseComponent {
 
     const formValue = this.reportForm.value;
     this.generateReport.emit({
-      clientId: formValue.clientId,
+      clientIdentification: formValue.clientIdentification,
       startDate: formValue.startDate,
       endDate: formValue.endDate,
     });
@@ -61,7 +61,7 @@ export class ReportFormComponent extends BaseComponent {
 
   private initForm(): FormGroup {
     return this.fb.group({
-      clientId: [null, [Validators.required, Validators.min(1)]],
+      clientIdentification: [null, [Validators.required, Validators.min(1)]],
       startDate: ['', [Validators.required]],
       endDate: ['', [Validators.required]],
     });

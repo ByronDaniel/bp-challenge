@@ -7,7 +7,7 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Component;
-import reactor.core.publisher.Mono;
+import reactor.core.publisher.Flux;
 import task___buildSpringClient0__property__packageName_.clients0.client.ClientManagementApi;
 
 @Component
@@ -19,8 +19,8 @@ public class ClientAdapter implements ClientOutputPort {
   ClientMapper clientMapper;
 
   @Override
-  public Mono<Client> getById(Integer id) {
-    return clientManagementApi.getById(id)
+  public Flux<Client> getAll(String identification) {
+    return clientManagementApi.getAll(identification)
         .map(clientMapper::toClient);
   }
 }
