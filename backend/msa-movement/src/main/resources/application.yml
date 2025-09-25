@@ -1,3 +1,5 @@
+server:
+  port: ${SERVER_PORT:8082}
 logging:
   level:
     org.springframework.data.r2dbc: DEBUG
@@ -9,13 +11,13 @@ spring:
     default-property-inclusion: non_null
 
   r2dbc:
-    url: ${DB_URL:r2dbc:pool:mssql://sqlserver:1433/challenge}
+    url: ${DB_URL:r2dbc:pool:mssql://localhost:1433/challenge}
     username: ${DB_USERNAME:sa}
     password: ${DB_PASSWORD:Holamundo11*}
 
   services:
     msa-account:
-      url: ${MSA_ACCOUNT_URL:http://msa-account:8080}
+      url: ${MSA_ACCOUNT_URL:http://localhost:8081}
 
 webclient:
   timeout:

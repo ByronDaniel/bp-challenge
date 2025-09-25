@@ -11,5 +11,6 @@ public interface AccountMapper {
 
   Account toAccount(AccountResponseDto accountResponseDto);
 
+  @Mapping(target = "status", source = "status")
   AccountRequestPutDto toAccountRequestPutDto(Account account);
 }

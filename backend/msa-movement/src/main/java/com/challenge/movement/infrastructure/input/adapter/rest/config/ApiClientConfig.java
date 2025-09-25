@@ -45,7 +45,6 @@ public class ApiClientConfig {
   public AccountManagementApi accountManagementApi() {
     final var accountManagementApi = new AccountManagementApi();
     accountManagementApi.getApiClient()
-        .setWebClient(webClient())
         .setBasePath(msaAccountUrl);
     return accountManagementApi;
   }
