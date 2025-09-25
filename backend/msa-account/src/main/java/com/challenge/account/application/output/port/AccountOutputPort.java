@@ -7,9 +7,7 @@ import reactor.core.publisher.Mono;
 public interface AccountOutputPort {
 
   Flux<Account> findAll();
-
-  Mono<Account> findByNumber(String number);
-
+  
   Mono<Account> findById(Integer id);
 
   Mono<Account> save(Account account);

@@ -26,21 +26,16 @@ public class AccountService implements AccountInputPort {
 
   @Override
   public Flux<Account> getAllByFilter(String accountNumber, String clientIdentification) {
+    Flux<Account> accountFlux = accountOutputPort.findAll();
     if (Objects.nonNull(accountNumber)) {
-      return findAccountByNumber(accountNumber);
+      accountFlux = accountFlux.filter(account -> account.getNumber().equals(accountNumber));
     }
     if (Objects.nonNull(clientIdentification)) {
-      return findAccountsByClientIdentification(clientIdentification);
+      accountFlux = findAccountsByClientIdentification(clientIdentification);
     }
-    return accountOutputPort.findAll();
+    return accountFlux;
   }
-
-  private Flux<Account> findAccountByNumber(String accountNumber) {
-    return accountOutputPort.findByNumber(accountNumber)
-        .switchIfEmpty(Mono.error(new NotFoundException(ACCOUNT_NOT_FOUND)))
-        .flux();
-  }
-
+  
   private Flux<Account> findAccountsByClientIdentification(String clientIdentification) {
     return clientOutputPort.getAll(clientIdentification)
         .switchIfEmpty(Mono.error(new NotFoundException(CLIENT_NOT_FOUND)))
