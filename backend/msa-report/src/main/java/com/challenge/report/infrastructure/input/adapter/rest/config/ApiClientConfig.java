@@ -53,7 +53,6 @@ public class ApiClientConfig {
   public AccountManagementApi accountManagementApi() {
     final var accountManagementApi = new AccountManagementApi();
     accountManagementApi.getApiClient()
-        .setWebClient(webClient())
         .setBasePath(msaAccountUrl);
     return accountManagementApi;
   }
@@ -63,7 +62,6 @@ public class ApiClientConfig {
   public MovementsApi movementsApi() {
     final var movementsApi = new MovementsApi();
     movementsApi.getApiClient()
-        .setWebClient(webClient())
         .setBasePath(msaMovementUrl);
     return movementsApi;
   }
@@ -73,7 +71,6 @@ public class ApiClientConfig {
   public ClientManagementApi clientManagementApi() {
     final var clientManagementApi = new ClientManagementApi();
     clientManagementApi.getApiClient()
-        .setWebClient(webClient())
         .setBasePath(msaClientUrl);
     return clientManagementApi;
   }

@@ -1,3 +1,6 @@
+server:
+  port: ${SERVER_PORT:8083}
+
 logging:
   level:
     org.springframework.data.r2dbc: DEBUG
@@ -11,11 +14,11 @@ spring:
 
   services:
     msa-client:
-      url: ${MSA_CLIENT_URL:http://msa-client:8080}
+      url: ${MSA_CLIENT_URL:http://localhost:8080}
     msa-account:
-      url: ${MSA_ACCOUNT_URL:http://msa-account:8080}
+      url: ${MSA_ACCOUNT_URL:http://localhost:8081}
     msa-movement:
-      url: ${MSA_MOVEMENT_URL:http://msa-movement:8080}
+      url: ${MSA_MOVEMENT_URL:http://localhost:8082}
 
 webclient:
   timeout:
