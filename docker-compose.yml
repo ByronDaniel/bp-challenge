@@ -86,9 +86,9 @@ services:
       - sqlserver
       - db_init
 
-  angular-app:
+  bp-challenge:
     build: ./frontend
-    container_name: angular-app
+    container_name: bp-challenge
     ports:
       - "4200:80"
     networks:
