@@ -11,12 +11,12 @@
 			"name": "clientes",
 			"item": [
 				{
-					"name": "consultar clientes",
+					"name": "getAll",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/clientes?identification=1751592013",
+							"raw": "http://localhost:8080/clientes?identification=1751592052",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -28,7 +28,7 @@
 							"query": [
 								{
 									"key": "identification",
-									"value": "1751592013"
+									"value": "1751592052"
 								}
 							]
 						}
@@ -36,13 +36,13 @@
 					"response": []
 				},
 				{
-					"name": "crear cliente",
+					"name": "create",
 					"request": {
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"identification\": \"1751592051\",\r\n    \"name\": \"Alis Eliz\",\r\n    \"gender\": \"Femenino\",\r\n    \"age\": 22,\r\n    \"phone\": \"0985323422\",\r\n    \"address\": \"Sangolqui22\",\r\n    \"password\": \"contrasena*22\"\r\n}\r\n",
+							"raw": "{\r\n    \"identification\": \"1751592052\",\r\n    \"name\": \"Alis Eliz\",\r\n    \"gender\": \"Femenino\",\r\n    \"age\": 22,\r\n    \"phone\": \"0985323422\",\r\n    \"address\": \"Sangolqui22\",\r\n    \"password\": \"contrasena*22\"\r\n}\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -64,7 +64,7 @@
 					"response": []
 				},
 				{
-					"name": "actualizar cliente",
+					"name": "update",
 					"request": {
 						"method": "PUT",
 						"header": [],
@@ -92,7 +92,7 @@
 					"response": []
 				},
 				{
-					"name": "eliminar cliente",
+					"name": "delete",
 					"request": {
 						"method": "DELETE",
 						"header": [],
@@ -131,7 +131,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8081/cuentas?clientIdentification=1751592013",
+							"raw": "http://localhost:8081/cuentas?clientIdentification=1751592052",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -142,13 +142,8 @@
 							],
 							"query": [
 								{
-									"key": "accountNumber",
-									"value": "1539045441",
-									"disabled": true
-								},
-								{
 									"key": "clientIdentification",
-									"value": "1751592013"
+									"value": "1751592052"
 								}
 							]
 						}
@@ -182,7 +177,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"clientIdentification\":\"1751592050\",\r\n    \"type\": \"Ahorros\",\r\n    \"balance\": 0\r\n}",
+							"raw": "{\r\n    \"clientIdentification\":\"1751592052\",\r\n    \"type\": \"Ahorros\",\r\n    \"balance\": 0\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -210,7 +205,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"type\": \"Ahorros\",\r\n    \"balance\": 10.22,\r\n    \"status\": true,\r\n    \"clientId\": 45\r\n}",
+							"raw": "{\r\n    \"type\": \"Ahorros\",\r\n    \"balance\": 10.23,\r\n    \"status\": true,\r\n    \"clientId\": 45\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -218,7 +213,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8081/cuentas/7",
+							"raw": "http://localhost:8081/cuentas/2",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -226,7 +221,7 @@
 							"port": "8081",
 							"path": [
 								"cuentas",
-								"7"
+								"2"
 							]
 						}
 					},
@@ -238,7 +233,7 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8081/cuentas/7",
+							"raw": "http://localhost:8081/cuentas/3",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -246,7 +241,7 @@
 							"port": "8081",
 							"path": [
 								"cuentas",
-								"7"
+								"3"
 							]
 						}
 					},
@@ -263,7 +258,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8082/movimientos?numberAccount=0445508558",
+							"raw": "http://localhost:8082/movimientos?numberAccount=1652281769",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -275,7 +270,7 @@
 							"query": [
 								{
 									"key": "numberAccount",
-									"value": "0445508558"
+									"value": "1652281769"
 								}
 							]
 						}
@@ -289,7 +284,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": " {\r\n    \"type\": \"Debito\",\r\n    \"value\": 10,\r\n    \"numberAccount\": \"1690890726\"\r\n}",
+							"raw": " {\r\n    \"type\": \"Credito\",\r\n    \"value\": 2000,\r\n    \"numberAccount\": \"1652281769\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -321,7 +316,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8083/reporte?date=2025-08-02,2025-09-28&clientIdentification=1751592013",
+							"raw": "http://localhost:8083/reporte?date=2025-08-02,2025-09-28&clientIdentification=1751592051",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -337,7 +332,7 @@
 								},
 								{
 									"key": "clientIdentification",
-									"value": "1751592013"
+									"value": "1751592051"
 								}
 							]
 						}

@@ -1,6 +1,6 @@
 ## BP Challenge
 
-### Levantar todo (desde `backend/`)
+### Levantar todo Frontend y Backend(desde `raiz`)
 
 ```bash
 docker compose up --build -d

@@ -22,7 +22,7 @@ services:
     networks:
       - app-network
     volumes:
-      - ./db-init:/db-init
+      - ./backend/db-init:/db-init
     entrypoint: /bin/bash
     command: -c "
       echo 'Esperando SQL Server...';
@@ -35,12 +35,12 @@ services:
 
   # Microservicios
   msa-client:
-    build: ./msa-client
+    build: ./backend/msa-client
     container_name: msa-client
     ports:
       - "8080:8080"
     env_file:
-      - ./msa-client/.env
+      - ./backend/msa-client/.env
     networks:
       - app-network
     depends_on:
@@ -48,12 +48,12 @@ services:
       - db_init
 
   msa-account:
-    build: ./msa-account
+    build: ./backend/msa-account
     container_name: msa-account
     ports:
       - "8081:8080"
     env_file:
-      - ./msa-account/.env
+      - ./backend/msa-account/.env
     networks:
       - app-network
     depends_on:
@@ -61,12 +61,12 @@ services:
       - db_init
 
   msa-movement:
-    build: ./msa-movement
+    build: ./backend/msa-movement
     container_name: msa-movement
     ports:
       - "8082:8080"
     env_file:
-      - ./msa-movement/.env
+      - ./backend/msa-movement/.env
     networks:
       - app-network
     depends_on:
@@ -74,18 +74,31 @@ services:
       - db_init
 
   msa-report:
-    build: ./msa-report
+    build: ./backend/msa-report
     container_name: msa-report
     ports:
       - "8083:8080"
     env_file:
-      - ./msa-report/.env
+      - ./backend/msa-report/.env
     networks:
       - app-network
     depends_on:
       - sqlserver
       - db_init
 
+  angular-app:
+    build: ./frontend
+    container_name: angular-app
+    ports:
+      - "4200:80"
+    networks:
+      - app-network
+    depends_on:
+      - msa-client
+      - msa-account
+      - msa-movement
+      - msa-report
+      
 networks:
   app-network:
     driver: bridge
